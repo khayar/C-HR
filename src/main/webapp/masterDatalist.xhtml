@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Master Data List</title>
+		<link href="/C-HR/resources/css/style.css" rel="stylesheet"	type="text/css" />
+		<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	<ui:include src="/menu.xhtml" />
+	<br />
+	<br />
+	<h:form id="form1">
+	<p:commandButton value="NEW" action="masterDataDetail.xhtml" style="margin-left: 943px;"></p:commandButton>
+	
+		<p:dataTable value="#{masterDataController.getList()}" var="p"
+			paginator="true" rows="10" styleClass="tableCenter"
+			headerClass="order-table-header"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowClasses="order-table-odd-row,order-table-even-row"
+			paginatorPosition="bottom">
+			
+			<f:facet name="header">
+        		Master Data List
+    		</f:facet>
+    		
+			<p:column sortBy="#{p.masterDataId}" filterBy="#{p.masterDataId}"
+				filterMatchMode="contains">
+				<f:facet name="header">Master data Id</f:facet>
+				<h:outputText value="#{p.masterDataId}" />
+			</p:column>
+			
+	
+			<p:column sortBy="#{p.employeeName}" filterBy="#{p.employeeName}"
+				filterMatchMode="contains">
+				<f:facet name="header">Employee Name</f:facet>
+				<h:outputText value="#{p.employeeName}" />
+			</p:column>
+
+			<p:column sortBy="#{p.employeeCode}" filterBy="#{p.employeeCode}"
+				filterMatchMode="contains">
+				<f:facet name="header">Employee Code</f:facet>
+				<h:outputText value="#{p.employeeCode}" />
+			</p:column>
+
+			<p:column sortBy="#{p.employeeDesig}" filterBy="#{p.employeeDesig}"
+				filterMatchMode="contains">
+				<f:facet name="header">Designation</f:facet>
+				<h:outputText value="#{p.employeeDesig}" />
+			</p:column>
+
+			<p:column sortBy="#{p.employeeDob}" filterBy="#{p.employeeDob}"
+				filterMatchMode="contains">
+				<f:facet name="header">DOB</f:facet>
+				<h:outputText value="#{p.employeeDob}" />
+			</p:column>
+
+			<p:column sortBy="#{p.dateOfJoining}" filterBy="#{p.dateOfJoining}"
+				filterMatchMode="contains">
+				<f:facet name="header">Date of Joining</f:facet>
+				<h:outputText value="#{p.dateOfJoining}" />
+			</p:column>
+			
+			<p:column sortBy="#{p.passportNo}" filterBy="#{p.passportNo}"
+				filterMatchMode="contains">
+				<f:facet name="header">Passport No</f:facet>
+				<h:outputText value="#{p.passportNo}" />
+			</p:column>
+			
+			<p:column sortBy="#{p.labourCardNo}" filterBy="#{p.labourCardNo}"
+				filterMatchMode="contains">
+				<f:facet name="header">Labour Card No</f:facet>
+				<h:outputText value="#{p.labourCardNo}" />
+			</p:column>
+			
+			<p:column sortBy="#{p.loan}" filterBy="#{p.loan}"
+				filterMatchMode="contains">
+				<f:facet name="header">Loan</f:facet>
+				<h:outputText value="#{p.loan}" />
+			</p:column>
+			
+			<p:column sortBy="#{p.otType}" filterBy="#{p.otType}"
+				filterMatchMode="contains">
+				<f:facet name="header">OT Type</f:facet>
+				<h:outputText value="#{p.otType}" />
+			</p:column>
+			
+			<p:column sortBy="#{p.otRate}" filterBy="#{p.otRate}"
+				filterMatchMode="contains">
+				<f:facet name="header">OT Rate</f:facet>
+				<h:outputText value="#{p.otRate}" />
+			</p:column>
+			
+			
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

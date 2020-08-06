@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>C-HR</title>
+	<link href="/C-HR/resources/loginPageCss/loginstyle.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<h:body>
+	  <h:panelGroup id="growl">
+                <p:growl id="growl-error" life="10000" rendered="#{facesContext.maximumSeverity.ordinal eq 2}" redisplay="false" sticky="true"/> 
+                <p:growl id="growl-success" life="10000" rendered="#{facesContext.maximumSeverity.ordinal eq 0}" redisplay="false" sticky="true"/> 
+       </h:panelGroup>
+	<div id="back">
+		<div class="backRight"></div>
+		<div class="backLeft"></div>
+	</div>
+
+	<div id="slideBox">
+		<div class="topLayer">
+			<div class="left">
+				<div class="content">
+					<h2>Sign Up</h2>
+					<form method="post" onsubmit="return false;">
+						<div class="form-group">
+							<input type="text" placeholder="username" />
+						</div>
+						<div class="form-group"></div>
+						<div class="form-group"></div>
+						<div class="form-group"></div>
+					</form>
+					<button id="goLeft" class="off">Login</button>
+					<button>Sign up</button>
+				</div>
+			</div>
+			<div class="right">
+				<div class="content">
+					<h2>Login</h2>
+					<h:form id="login" prependId="false">
+						<div class="form-group">
+							<label for="username" class="form-label">Username</label>
+							<br /> 
+							
+							<p:inputText value="#{login.username}" autocomplete="off"/>
+							<br /><br /><br />
+							
+							<label for="password" class="form-label">Password</label><br /> 
+							
+							<p:password value="#{login.password}" autocomplete="off" /> 
+						</div>
+						<!-- <button id="goRight" class="off">Sign Up</button> -->
+						<p:commandButton  value="Login" action="#{login.submit()}" update="@form,:growl"/>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</div>
+</h:body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>C-HS</title>
+</h:head>
+<h:body>
+	<div id="layout-menubar" class="Unselectable fontRegular">
+
+		<a href="index.xhtml" class="btn">Home</a> 
+		<a href="masterDatalist.xhtml" class="btn">Employee Master Data</a> 
+		<a href="#" class="btn">Attandence Register</a> 
+		<a href="#" class="btn">Process Salary</a>
+		<a href="#" class="btn">Approve Salary</a>
+	</div>
+	<h:panelGroup id="growl">
+		<h:panelGroup id="growl-success-container">
+			<p:growl id="growl-success" life="4000"
+				rendered="#{not facesContext.validationFailed}" redisplay="false">
+				<script type="text/javascript">
+                        hideGrowl();
+                    </script>
+			</p:growl>
+		</h:panelGroup>
+		<h:panelGroup id="growl-error-container">
+			<p:growl id="growl-error" life="4000"
+				rendered="#{facesContext.validationFailed}" redisplay="false">
+				<script type="text/javascript">
+                        hideGrowl();
+                    </script>
+			</p:growl>
+		</h:panelGroup>
+	</h:panelGroup>
+
+	<link href="/C-HR/resources/loginPageCss/loginstyle.css"
+		rel="stylesheet" type="text/css" />
+	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />
+</h:body>
+</html>

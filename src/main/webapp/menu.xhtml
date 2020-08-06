@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:body>
+	<h:form>
+		<div>
+			<div class="topbar">
+				<span>#{util.getUserFullName()}</span>
+			</div>
+
+		</div>
+	</h:form>
+	<div>
+		<h:form>
+			<h:commandLink action="index.xhtml" value="Home" styleClass="btn" />
+			<h:commandLink action="masterDatalist.xhtml" class="btn"
+				value=" Employee Master Data" />
+			<h:commandLink action="attandenceRegisterList.xhtml" class="btn" value="Attandence Register" />
+			<h:commandLink action="#" class="btn" value="Process Salary" />
+			<h:commandLink action="#" class="btn" value="Approve Salary" />
+			<h:commandLink action="#{util.getLogout()}" class="btn" value="Logout" />
+		</h:form>
+	</div>
+</h:body>
+</html>
