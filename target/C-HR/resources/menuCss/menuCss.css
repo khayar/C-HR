@@ -66,6 +66,7 @@ h1{
   text-decoration:none;
   letter-spacing:2px;
   text-transform:uppercase;
+  margin-left:2px;
 }
 
 .btn:hover{
@@ -88,4 +89,9 @@ h1{
   width:210px;
   margin:auto;
   margin-top:400px;
+}
+
+.topbar{
+	margin-top: -80px;
+	margin-bottom: 50px;
 }

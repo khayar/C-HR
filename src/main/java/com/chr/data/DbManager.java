@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.primefaces.context.RequestContext;
+//import org.primefaces.context.RequestContext;
 
 public class DbManager {
 
@@ -41,10 +41,10 @@ public class DbManager {
 			session.beginTransaction();
 			session.update(entity);
 			session.getTransaction().commit();
-			// FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,
-			// "Update Information",
-			// "Data hase been updated");
-			// RequestContext.getCurrentInstance().showMessageInDialog(msg);
+			FacesMessage msg = new FacesMessage("Master data has been updated");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
+	        
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class  update()---------");
 			e.printStackTrace();
@@ -64,11 +64,11 @@ public class DbManager {
 			session.beginTransaction();
 			session.save(entity);
 			session.getTransaction().commit();
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Save Information", "New data has been saved");
-			RequestContext.getCurrentInstance().showMessageInDialog(msg);
-			
-			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("masterDataController", "");
-			
+			FacesMessage msg = new FacesMessage("New data has been saved");
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+	        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
+	        
+	    			
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class create()---------");
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class DbManager {
 		Transaction transcation = null;
 		List<T> entityList = null;
 		try {
-			Query query = session.createQuery("SELECT m.masterDataId.employeeCode,m.masterDataId.employeeName,m.attandenceTimeIn,m.attandenceTimeOut FROM AttandenceRegisterEntity m");
+			Query query = session.createQuery("SELECT m FROM AttandenceRegisterEntity m");
 			entityList = query.list();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class getAttandenceRegisterList()---------");
@@ -127,9 +127,9 @@ public class DbManager {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			trns = session.beginTransaction();
-			String queryString = "from User where id = :id";
+			String queryString = "from MasterDataEntity where masterDataId = :id";
 			Query query = session.createQuery(queryString);
-			query.setInteger("id", Integer.valueOf(entityId));
+			query.setString("id", entityId);
 			entity = (T) query.uniqueResult();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,5 +139,27 @@ public class DbManager {
 		}
 		return entity;
 	}
+	
+	
+	public <T> T getMasterDataByEmployeeCode(String entityId) {
+		T entity = null;
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			String queryString = "from MasterDataEntity where employeeCode = :id";
+			Query query = session.createQuery(queryString);
+			//query.setInteger ("id", Integer.valueOf(entityId));
+			query.setString("id", entityId);
+			entity = (T) query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entity;
+	}
+	
 
 }

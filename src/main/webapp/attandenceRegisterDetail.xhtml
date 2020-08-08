@@ -17,44 +17,133 @@
 	<ui:include src="/menu.xhtml" />
 	<br />
 	<br />
+
 	<h:form id="form1" prependId="false">
+		<p:commandButton value="Add" style="margin-left: 943px;">
+		<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}" update="form2 secondPpanel"></p:ajax>
+		</p:commandButton>
+		
 		<p:panel id="panel" header="New Data">
 
 			<p:messages id="msgs" />
 
 			<p:panelGrid columns="4" styleClass="detailWidth">
+
+				<p:outputLabel value="Attandence Date" for="attandenceDate" />
+				<p:calendar id="attandenceDate" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{attandenceRegisterController.selectedEntity.attandenceDate}"
+					required="true" />
+
 				<p:outputLabel value="Employee Code" for="empCode" />
 				<p:inputText id="empCode"
 					value="#{attandenceRegisterController.selectedEntity.employeeCode}"
-					required="true"
-					valueChangeListener="#{attandenceRegisterController.getEmployeeName}">
-					<p:ajax update="empName" />
+					required="true">
+					<p:ajax event="blur" update="empName"
+						listener="#{attandenceRegisterController.getEmployeeName(attandenceRegisterController.selectedEntity.employeeCode)}" />
 				</p:inputText>
 
 				<p:outputLabel value="Employee Name" for="empName" />
 				<p:inputText id="empName"
 					value="#{attandenceRegisterController.selectedEntity.employeeName}"
-					required="true" />
+					required="true" readonly="true" />
 
 
 				<p:outputLabel value="Time In" for="timeIn" />
-				<p:calendar id="timeIn" style="width:250px;"
+				<p:datePicker id="timeIn" required="true"
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeIn}"
-					required="true" />
+					timeOnly="true" pattern="HH:mm" />
 
 				<p:outputLabel value="Time Out" for="timeOut" />
-				<p:calendar id="timeOut" style="width:250px;"
+				<p:datePicker id="timeOut" required="true"
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeOut}"
-					required="true" />
+					timeOnly="true" pattern="HH:mm" />
+
 
 				<p:outputLabel />
 				<p:outputLabel />
-				
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+
 				<p:commandButton value="Submit"
 					actionListener="#{attandenceRegisterController.saveAttandenceRegisterDetail(attandenceRegisterController.selectedEntity)}"
-					update="panel"></p:commandButton>
+					update="panel msgs"></p:commandButton>
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
+	
+	<p:panel id="secondPpanel" header="Second New Data" visible="#{attandenceRegisterController.isRender}">
+	<h:form id="form2" prependId="false" >	
+		<p:messages id="secondMsgs" />
+			<p:panelGrid columns="4" styleClass="detailWidth">
+				
+				<p:outputLabel value="Attandence Date" for="attandenceDate" />
+				<p:calendar id="secondAttandenceDate" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{attandenceRegisterController.selectedEntity.attandenceDate}"
+					required="true" />
+
+				<p:outputLabel value="Employee Code" for="secondEmpCode" />
+				<p:inputText id="secondEmpCode"
+					value="#{attandenceRegisterController.selectedEntity.employeeCode}"
+					required="true">
+					<p:ajax event="blur" update="secondEmpName"
+						listener="#{attandenceRegisterController.getEmployeeName(attandenceRegisterController.selectedEntity.employeeCode)}" />
+				</p:inputText>
+
+				<p:outputLabel value="Employee Name" for="secondEmpName" />
+				<p:inputText id="secondEmpName"
+					value="#{attandenceRegisterController.selectedEntity.employeeName}"
+					required="true" readonly="true" />
+
+
+				<p:outputLabel value="Time In" for="secondTimeIn" />
+				<p:datePicker id="secondTimeIn" required="true"
+					value="#{attandenceRegisterController.selectedEntity.attandenceTimeIn}"
+					timeOnly="true" pattern="HH:mm" />
+
+				<p:outputLabel value="Time Out" for="secondTimeOut" />
+				<p:datePicker id="secondTimeOut" required="true"
+					value="#{attandenceRegisterController.selectedEntity.attandenceTimeOut}"
+					timeOnly="true" pattern="HH:mm" />
+
+
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+
+				<p:commandButton value="Submit"
+					actionListener="#{attandenceRegisterController.saveAttandenceRegisterDetail(attandenceRegisterController.selectedEntity)}"
+					update="secondPpanel secondMsgs"></p:commandButton>
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+			</p:panelGrid>
+	</h:form>	
+	</p:panel>
 </h:body>
 </html>

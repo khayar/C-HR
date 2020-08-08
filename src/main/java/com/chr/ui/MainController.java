@@ -17,7 +17,7 @@ public class MainController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private List<MasterDataEntity> masterEntityList = null;
-	private List<AttandenceRegisterEntity> attandenceRegisterList = null;
+	
 	
 	private MasterDataEntity selectedMasterEntity;
 
@@ -35,16 +35,19 @@ public class MainController implements Serializable {
 
 	public void saveMasterDataDetail(MasterDataEntity masterDataEntity) {
 		masterDataBussinee.saveMasterDataDetail(masterDataEntity);
-
 	}
 	
-	public List<AttandenceRegisterEntity> getAttandenceList() {
-		attandenceRegisterList = masterDataBussinee.getAttandenceRegisterList();
-		return attandenceRegisterList;
+	public void editMasterDataDetail(MasterDataEntity masterDataEntity) {
+		masterDataBussinee.editMasterDataDetail(masterDataEntity);
+	}
+	
+	public MasterDataEntity getMasterDataById() {
+		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("masterDataId");
+		selectedMasterEntity = masterDataBussinee.getMasterDataById(id);
+		return selectedMasterEntity;
 	}
 
 	
-
 	public MasterDataEntity getSelectedMasterEntity() {
 		return selectedMasterEntity;
 	}

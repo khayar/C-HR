@@ -18,12 +18,26 @@ public class MasterDataBusiness {
 		dbManager.addEntity(masterDataEntity);
 	}
 	
+	public void editMasterDataDetail(MasterDataEntity masterDataEntity){
+		dbManager.updateEntity(masterDataEntity);
+	}
+	
+	public MasterDataEntity getMasterDataById(String id){
+		MasterDataEntity masterEntity = dbManager.getEntityById(id);
+		return masterEntity;
+	}
+	
 	public List<AttandenceRegisterEntity> getAttandenceRegisterList() {
 		return dbManager.getAttandenceRegisterList();
 	}
 
 	public void saveAttandenceRegisterDetail(AttandenceRegisterEntity attandenceRegisterEntity){
 		dbManager.addEntity(attandenceRegisterEntity);
+	}
+	
+	public String getEmployeeName(String empCode){
+		MasterDataEntity masterEntity = dbManager.getMasterDataByEmployeeCode(empCode);
+		return masterEntity.getEmployeeName();
 	}
 	
 }

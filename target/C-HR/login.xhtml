@@ -51,7 +51,7 @@
 							<p:password value="#{login.password}" autocomplete="off" /> 
 						</div>
 						<!-- <button id="goRight" class="off">Sign Up</button> -->
-						<p:commandButton  value="Login" action="#{login.submit}" update="@form,:growl"/>
+						<p:commandButton  value="Login" action="#{login.submit()}" update="@form,:growl"/>
 					</h:form>
 				</div>
 			</div>

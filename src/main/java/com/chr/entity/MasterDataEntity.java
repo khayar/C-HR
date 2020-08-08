@@ -356,5 +356,10 @@ public class MasterDataEntity {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
+
+	@Override
+	public String toString() {
+		return "MasterDataEntity [masterDataId=" + masterDataId + "]";
+	}
 	
 }

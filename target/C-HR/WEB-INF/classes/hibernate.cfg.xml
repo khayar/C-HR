@@ -32,5 +32,6 @@
 
 	
 		<mapping class="com.chr.entity.MasterDataEntity" />
+		<mapping class="com.chr.entity.AttandenceRegisterEntity" />
 	</session-factory>
 </hibernate-configuration>

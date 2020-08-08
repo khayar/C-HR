@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Attandence Register Detail</title>
+	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
+		type="text/css" />
+	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />
+</h:head>
+<h:body>
+	<ui:include src="/menu.xhtml" />
+	<br />
+	<br />
+	<h:form id="form1" prependId="false">
+		<p:panel id="panel" header="New Data">
+
+			<p:messages id="msgs" />
+
+			<p:panelGrid columns="4" styleClass="detailWidth">
+				<p:outputLabel value="Employee Code" for="empCode" />
+				<p:inputText id="empCode"
+					value="#{attandenceRegisterController.selectedEntity.employeeCode}"
+					required="true">
+					<p:ajax event="blur" update="empName" listener="#{attandenceRegisterController.getEmployeeName(attandenceRegisterController.selectedEntity.employeeCode)}" />
+				</p:inputText>
+
+				<p:outputLabel value="Employee Name" for="empName" />
+				<p:inputText id="empName"
+					value="#{attandenceRegisterController.selectedEntity.employeeName}"
+					required="true" readonly="true"/>
+
+
+				<p:outputLabel value="Time In" for="timeIn" />
+				<p:datePicker id="timeIn" value="#{attandenceRegisterController.selectedEntity.attandenceTimeIn}" timeOnly="true" pattern="HH:mm" />	
+
+				<p:outputLabel value="Time Out" for="timeOut" />
+				<p:datePicker  id="timeOut" value="#{attandenceRegisterController.selectedEntity.attandenceTimeOut}" timeOnly="true" pattern="HH:mm"  />	
+					
+
+				<p:outputLabel />
+				<p:outputLabel />
+				<p:outputLabel />
+				
+				<p:commandButton value="Submit"
+					actionListener="#{attandenceRegisterController.saveAttandenceRegisterDetail(attandenceRegisterController.selectedEntity)}"
+					update="panel"></p:commandButton>
+			</p:panelGrid>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>

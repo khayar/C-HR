@@ -20,7 +20,7 @@
 	<h:form id="form1">
 	<p:commandButton value="NEW" action="attandenceRegisterDetail.xhtml" style="margin-left: 943px;"></p:commandButton>
 	
-		<p:dataTable value="#{masterDataController.getAttandenceList()}"
+		<p:dataTable value="#{attandenceRegisterController.getAttandenceList()}"
 			var="p" paginator="true" rows="10" styleClass="tableCenter"
 			headerClass="order-table-header"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -48,7 +48,13 @@
 				<f:facet name="header">Employee Name</f:facet>
 				<h:outputText value="#{p.employeeName}" />
 			</p:column>
-
+			
+			<p:column sortBy="#{p.attandenceDate}" filterBy="#{p.attandenceDate}"
+				filterMatchMode="contains">
+				<f:facet name="header">Attandence Date</f:facet>
+				<h:outputText value="#{p.attandenceDate}" />
+			</p:column>
+			
 			<p:column sortBy="#{p.attandenceTimeIn}"
 				filterBy="#{p.attandenceTimeIn}" filterMatchMode="contains">
 				<f:facet name="header">Time In</f:facet>
@@ -60,6 +66,9 @@
 				<f:facet name="header">Time Out</f:facet>
 				<h:outputText value="#{p.attandenceTimeOut}" />
 			</p:column>
+			
+
+			
 
 		</p:dataTable>
 	</h:form>

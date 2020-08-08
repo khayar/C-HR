@@ -7,9 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ATTANDENCE_REGISTER")
@@ -18,14 +18,17 @@ public class AttandenceRegisterEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ATTANDENCE_REGISTER_ID", unique = true, nullable = false)
-	private String attandenceRegisterId;
-
+	private Integer attandenceRegisterId;
+	
 	@Column(name = "ATTANDENCE_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date attandenceDate;
-
+	
+	@Temporal(TemporalType.TIME)
 	@Column(name = "ATTANDENCE_TIME_IN")
 	private Date attandenceTimeIn;
-
+	
+	@Temporal(TemporalType.TIME)
 	@Column(name = "ATTANDENCE_TIME_OUT")
 	private Date attandenceTimeOut;
 
@@ -39,7 +42,7 @@ public class AttandenceRegisterEntity {
 		super();
 	}
 
-	public AttandenceRegisterEntity(String attandenceRegisterId, Date attandenceDate, Date attandenceTimeIn,
+	public AttandenceRegisterEntity(Integer attandenceRegisterId, Date attandenceDate, Date attandenceTimeIn,
 			Date attandenceTimeOut, String employeeName, String employeeCode) {
 		super();
 		this.attandenceRegisterId = attandenceRegisterId;
@@ -50,11 +53,11 @@ public class AttandenceRegisterEntity {
 		this.employeeCode = employeeCode;
 	}
 
-	public String getAttandenceRegisterId() {
+	public Integer getAttandenceRegisterId() {
 		return attandenceRegisterId;
 	}
 
-	public void setAttandenceRegisterId(String attandenceRegisterId) {
+	public void setAttandenceRegisterId(Integer attandenceRegisterId) {
 		this.attandenceRegisterId = attandenceRegisterId;
 	}
 
@@ -97,4 +100,53 @@ public class AttandenceRegisterEntity {
 	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attandenceRegisterId == null) ? 0 : attandenceRegisterId.hashCode());
+		result = prime * result + ((attandenceTimeIn == null) ? 0 : attandenceTimeIn.hashCode());
+		result = prime * result + ((attandenceTimeOut == null) ? 0 : attandenceTimeOut.hashCode());
+		result = prime * result + ((employeeCode == null) ? 0 : employeeCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AttandenceRegisterEntity other = (AttandenceRegisterEntity) obj;
+		if (attandenceRegisterId == null) {
+			if (other.attandenceRegisterId != null)
+				return false;
+		} else if (!attandenceRegisterId.equals(other.attandenceRegisterId))
+			return false;
+		if (attandenceTimeIn == null) {
+			if (other.attandenceTimeIn != null)
+				return false;
+		} else if (!attandenceTimeIn.equals(other.attandenceTimeIn))
+			return false;
+		if (attandenceTimeOut == null) {
+			if (other.attandenceTimeOut != null)
+				return false;
+		} else if (!attandenceTimeOut.equals(other.attandenceTimeOut))
+			return false;
+		if (employeeCode == null) {
+			if (other.employeeCode != null)
+				return false;
+		} else if (!employeeCode.equals(other.employeeCode))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "attandenceRegisterController";
+	}
+	
 }
