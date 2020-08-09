@@ -121,13 +121,33 @@ public class DbManager {
 		return entityList;
 	}
 
-	public <T> T getEntityById(String entityId) {
+	public <T> T getMasterDataById(String entityId) {
 		T entity = null;
 		Transaction trns = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			trns = session.beginTransaction();
 			String queryString = "from MasterDataEntity where masterDataId = :id";
+			Query query = session.createQuery(queryString);
+			query.setString("id", entityId);
+			entity = (T) query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entity;
+	}
+
+	
+	public <T> T getAttandenceRegisterById(String entityId) {
+		T entity = null;
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			String queryString = "from AttandenceRegisterEntity where attandenceRegisterId = :id";
 			Query query = session.createQuery(queryString);
 			query.setString("id", entityId);
 			entity = (T) query.uniqueResult();

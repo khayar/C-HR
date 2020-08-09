@@ -356,6 +356,43 @@ public class MasterDataEntity {
 	public void setStateCode(String stateCode) {
 		this.stateCode = stateCode;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((emiratesId == null) ? 0 : emiratesId.hashCode());
+		result = prime * result + ((employeeCode == null) ? 0 : employeeCode.hashCode());
+		result = prime * result + ((masterDataId == null) ? 0 : masterDataId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MasterDataEntity other = (MasterDataEntity) obj;
+		if (emiratesId == null) {
+			if (other.emiratesId != null)
+				return false;
+		} else if (!emiratesId.equals(other.emiratesId))
+			return false;
+		if (employeeCode == null) {
+			if (other.employeeCode != null)
+				return false;
+		} else if (!employeeCode.equals(other.employeeCode))
+			return false;
+		if (masterDataId == null) {
+			if (other.masterDataId != null)
+				return false;
+		} else if (!masterDataId.equals(other.masterDataId))
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {

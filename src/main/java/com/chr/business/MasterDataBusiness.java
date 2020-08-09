@@ -23,8 +23,13 @@ public class MasterDataBusiness {
 	}
 	
 	public MasterDataEntity getMasterDataById(String id){
-		MasterDataEntity masterEntity = dbManager.getEntityById(id);
+		MasterDataEntity masterEntity = dbManager.getMasterDataById(id);
 		return masterEntity;
+	}
+	
+	public AttandenceRegisterEntity getAttandenceRegisterById(String id){
+		AttandenceRegisterEntity attandencEntity = dbManager.getAttandenceRegisterById(id);
+		return attandencEntity;
 	}
 	
 	public List<AttandenceRegisterEntity> getAttandenceRegisterList() {

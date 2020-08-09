@@ -37,13 +37,23 @@ public class AttandenceRegisterEntity {
 
 	@Column(name = "EMPLOYEE_CODE")
 	private String employeeCode;
-
+	
+	@Temporal(TemporalType.TIME)
+	@Column(name = "ATTANDENCE_TIME_IN_ANOTHER")
+	private Date attandenceTimeInAnother;
+	
+	@Temporal(TemporalType.TIME)
+	@Column(name = "ATTANDENCE_TIME_OUT_ANOTHER")
+	private Date attandenceTimeOutAnother;
+	
+	
 	public AttandenceRegisterEntity() {
 		super();
 	}
-
+	
 	public AttandenceRegisterEntity(Integer attandenceRegisterId, Date attandenceDate, Date attandenceTimeIn,
-			Date attandenceTimeOut, String employeeName, String employeeCode) {
+			Date attandenceTimeOut, String employeeName, String employeeCode, Date attandenceTimeInAnother,
+			Date attandenceTimeOutAnother) {
 		super();
 		this.attandenceRegisterId = attandenceRegisterId;
 		this.attandenceDate = attandenceDate;
@@ -51,7 +61,10 @@ public class AttandenceRegisterEntity {
 		this.attandenceTimeOut = attandenceTimeOut;
 		this.employeeName = employeeName;
 		this.employeeCode = employeeCode;
+		this.attandenceTimeInAnother = attandenceTimeInAnother;
+		this.attandenceTimeOutAnother = attandenceTimeOutAnother;
 	}
+
 
 	public Integer getAttandenceRegisterId() {
 		return attandenceRegisterId;
@@ -101,6 +114,22 @@ public class AttandenceRegisterEntity {
 		this.employeeCode = employeeCode;
 	}
 	
+	public Date getAttandenceTimeInAnother() {
+		return attandenceTimeInAnother;
+	}
+
+	public void setAttandenceTimeInAnother(Date attandenceTimeInAnother) {
+		this.attandenceTimeInAnother = attandenceTimeInAnother;
+	}
+
+	public Date getAttandenceTimeOutAnother() {
+		return attandenceTimeOutAnother;
+	}
+
+	public void setAttandenceTimeOutAnother(Date attandenceTimeOutAnother) {
+		this.attandenceTimeOutAnother = attandenceTimeOutAnother;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -7,7 +7,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Attandence Register Detail</title>
+	<title>Attandence Register Detail Edit</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
 	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
@@ -17,13 +17,16 @@
 	<ui:include src="/menu.xhtml" />
 	<br />
 	<br />
-
+	<f:metadata>
+            <f:viewAction action="#{attandenceRegisterController.getAttandecRegisterById()}" onPostback="false"/>
+    </f:metadata>
+	
 	<h:form id="form1" prependId="false">
 		<p:commandButton value="Add" style="margin-left: 943px;">
-		<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}" update="panel"></p:ajax>
+		<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"></p:ajax>
 		</p:commandButton>
 		
-		<p:panel id="panel" header="New Data">
+		<p:panel id="panel" header="Edit Data">
 
 			<p:messages id="msgs" />
 
@@ -60,15 +63,16 @@
 					timeOnly="true" pattern="HH:mm" />
 
 
-				<p:outputLabel value="Time In 2" rendered="#{attandenceRegisterController.isRender}"/>
-				<p:datePicker id="timeIn2"  rendered="#{attandenceRegisterController.isRender}"
+				<p:outputLabel value="Time In 2" />
+				<p:datePicker id="timeIn2" 
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeInAnother}"
 					timeOnly="true" pattern="HH:mm" />
 
-				<p:outputLabel value="Time Out 2" rendered="#{attandenceRegisterController.isRender}" />
-				<p:datePicker id="timeOut2"  rendered="#{attandenceRegisterController.isRender}"
+				<p:outputLabel value="Time Out 2"  />
+				<p:datePicker id="timeOut2" 
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeOutAnother}"
 					timeOnly="true" pattern="HH:mm" />	
+
 
 				<p:outputLabel />
 				<p:outputLabel />
@@ -92,5 +96,6 @@
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
+	
 </h:body>
 </html>

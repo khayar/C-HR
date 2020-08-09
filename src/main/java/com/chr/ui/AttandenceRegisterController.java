@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.chr.business.MasterDataBusiness;
 import com.chr.entity.AttandenceRegisterEntity;
+import com.chr.entity.MasterDataEntity;
 
 @ManagedBean(name = "attandenceRegisterController")
 @ViewScoped
@@ -32,7 +34,13 @@ public class AttandenceRegisterController implements Serializable {
 	public void saveAttandenceRegisterDetail(AttandenceRegisterEntity attandenceRegisterEntity) {
 		masterDataBussiness.saveAttandenceRegisterDetail(attandenceRegisterEntity);
 	}
-
+	
+	public AttandenceRegisterEntity getAttandecRegisterById() {
+		String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("attandenceRegisterId");
+		selectedEntity = masterDataBussiness.getAttandenceRegisterById(id);
+		return selectedEntity;
+	}
+	
 	public void getEmployeeName(String empCode) {
 		String empName = masterDataBussiness.getEmployeeName(empCode);
 		selectedEntity.setEmployeeName(empName);
