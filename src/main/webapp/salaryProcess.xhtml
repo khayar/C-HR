@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Salary Process</title>
+	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
+		type="text/css" />
+	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />
+</h:head>
+<h:body>
+	<ui:include src="/menu.xhtml" />
+	<br />
+	<br />
+	<h:form id="form1">
+		<p:messages id="msgs" />
+
+		<p:commandButton value="Process Salary And Send to Approval"
+			action="#{salaryProcessController.processSalary(salaryProcessController.masterDataList)}"
+			update="msgs" style="margin-left: 943px;"></p:commandButton>
+
+		<p:dataTable value="#{salaryProcessController.getMasterDataList()}"
+			var="p" paginator="false" rows="10" styleClass="tableCenter"
+			headerClass="order-table-header"
+			rowClasses="order-table-odd-row,order-table-even-row">
+
+			<f:facet name="header">
+        		Salary Process
+    		</f:facet>
+			<p:column>
+				<f:facet name="header">Employee Code</f:facet>
+				<h:outputText value="#{p.employeeCode}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Employee Name</f:facet>
+				<h:outputText value="#{p.employeeName}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Total OT hours</f:facet>
+				<p:inputText value="#{p.salaryprocessEntity.totalOfHours}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Production incentive hours</f:facet>
+				<p:inputText value="#{p.salaryprocessEntity.productionIncentiveHours}" />
+			</p:column>
+			
+			
+			<p:column>
+				<f:facet name="header">Loan deduction</f:facet>
+				<p:inputText value="#{p.loan}" />
+			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Others deduction</f:facet>
+				<p:inputText value="#{p.loan}" />
+			</p:column>
+		
+
+
+
+
+
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

@@ -107,7 +107,7 @@
 			<p:inputText id="accountNum" value="#{masterDataController.selectedMasterEntity.salaryAccountNum}" />
 
 			<p:outputLabel/>
-			<p:commandButton value="Submit" actionListener="#{masterDataController.saveMasterDataDetail(masterDataController.selectedMasterEntity)}" update="panel"></p:commandButton>
+			<p:commandButton value="Submit" actionListener="#{masterDataController.saveMasterDataDetail(masterDataController.selectedMasterEntity)}" update="panel msgs"></p:commandButton>
 		</p:panelGrid>
 		</p:panel>
 	</h:form>

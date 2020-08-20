@@ -32,7 +32,9 @@
 			<p:column sortBy="#{p.masterDataId}" filterBy="#{p.masterDataId}"
 				filterMatchMode="contains">
 				<f:facet name="header">Master data Id</f:facet>
-				<h:outputText value="#{p.masterDataId}" />
+				<p:link  outcome="masterDataDetailEdit" value="#{p.masterDataId}">
+					<f:param name="masterDataId" value="#{p.masterDataId}" />
+				</p:link>
 			</p:column>
 			
 	

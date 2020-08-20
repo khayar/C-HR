@@ -33,5 +33,6 @@
 	
 		<mapping class="com.chr.entity.MasterDataEntity" />
 		<mapping class="com.chr.entity.AttandenceRegisterEntity" />
+		<mapping class="com.chr.entity.SalaryProcessEntity" />
 	</session-factory>
 </hibernate-configuration>

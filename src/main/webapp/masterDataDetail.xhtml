@@ -10,7 +10,8 @@
 	<title>Master Data Detail</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet" type="text/css" />
+	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />
 </h:head>
 <h:body>
 	<ui:include src="/menu.xhtml" />
@@ -18,97 +19,146 @@
 	<br />
 	<h:form id="form1" prependId="false">
 		<p:panel id="panel" header="New Data">
-		
-		<p:messages id="msgs" />
-		
-		<p:panelGrid columns="4" styleClass="detailWidth" > 
-			<p:outputLabel value="Employee Name" for="empName" />
-			<p:inputText id="empName" value="#{masterDataController.selectedMasterEntity.employeeName}" required="true"/>
 
-			<p:outputLabel value="Employee Code" for="empCode" />
-			<p:inputText id="empCode" value="#{masterDataController.selectedMasterEntity.employeeCode}" required="true" />
+			<p:messages id="msgs" />
 
+			<p:panelGrid columns="4" styleClass="detailWidth">
 
-			<p:outputLabel value="Employee Designation" for="empDesig" />
-			<p:inputText id="empDesig" value="#{masterDataController.selectedMasterEntity.employeeDesig}" required="true"/>
+				<p:outputLabel value="Employee Code" for="empCode" />
+				<p:inputText id="empCode"
+					value="#{masterDataController.selectedMasterEntity.employeeCode}"
+					required="true" />
 
+				<p:outputLabel value="Employee Name" for="empName" />
+				<p:inputText id="empName"
+					value="#{masterDataController.selectedMasterEntity.employeeName}"
+					required="true" />
 
-			<p:outputLabel value="Employee Dob" for="empDob"/>
-			<p:calendar id="empDob" pattern="dd-MM-yyyy" style="width:250px;" value="#{masterDataController.selectedMasterEntity.employeeDob}" required="true"/>
-
-			<p:outputLabel value="Employee Date of Joining" for="empDoJ"/>
-			<p:calendar id="empDoJ" pattern="dd-MM-yyyy" style="width:250px;" value="#{masterDataController.selectedMasterEntity.dateOfJoining}" required="true"/>
-
-			<p:outputLabel value="Passport No" for="passportNo"/>
-			<p:inputText id="passportNo" value="#{masterDataController.selectedMasterEntity.passportNo}" required="true"/>
-
-			<p:outputLabel value="Passport Expiry" for="passportExpiry"/>
-			<p:calendar id="passportExpiry" pattern="dd-MM-yyyy"
-				style="width:250px;" value="#{masterDataController.selectedMasterEntity.passportExpiry}" required="true"/>
+				<p:outputLabel value="Employee Designation" for="empDesig" />
+				<p:inputText id="empDesig"
+					value="#{masterDataController.selectedMasterEntity.employeeDesig}"
+					required="true" />
 
 
-			<p:outputLabel value="Visa No" />
-			<p:inputText id="visaNo" value="#{masterDataController.selectedMasterEntity.visaNo}" />
+				<p:outputLabel value="Employee Dob" for="empDob" />
+				<p:calendar id="empDob" pattern="dd-MM-yyyy" style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.employeeDob}"
+					required="true" />
 
-			<p:outputLabel value="Visa Expiry" />
-			<p:calendar id="visaExpiry" pattern="dd-MM-yyyy" style="width:250px;" value="#{masterDataController.selectedMasterEntity.visaExpiry}" />
+				<p:outputLabel value="Employee Date of Joining" for="empDoJ" />
+				<p:calendar id="empDoJ" pattern="dd-MM-yyyy" style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.dateOfJoining}"
+					required="true" />
 
+				<p:outputLabel value="Passport No" for="passportNo" />
+				<p:inputText id="passportNo"
+					value="#{masterDataController.selectedMasterEntity.passportNo}"
+					required="true" />
 
-			<p:outputLabel value="Labour Card" />
-			<p:inputText id="labourCard" value="#{masterDataController.selectedMasterEntity.labourCardNo}" />
-
-			<p:outputLabel value="Labour Card Expiry" />
-			<p:calendar id="laburCardExpiry" pattern="dd-MM-yyyy"
-				style="width:250px;" value="#{masterDataController.selectedMasterEntity.labourCardExpiry}" />
-
-
-			<p:outputLabel value="Emirates Id" for="emiratesID"/>
-			<p:inputText id="emiratesID" value="#{masterDataController.selectedMasterEntity.emiratesId}" required="true"/>
-
-			<p:outputLabel value="Emirates Expiry" for="emiratesExpiry"/>
-			<p:calendar id="emiratesExpiry" pattern="dd-MM-yyyy"
-				style="width:250px;" value="#{masterDataController.selectedMasterEntity.emiratesExpiry}" required="true"/>
-
-			<p:outputLabel value="Supervisor Name" />
-			<p:inputText id="supervisorName" value="#{masterDataController.selectedMasterEntity.supervisorName}" />
-
-			<p:outputLabel value="Loan" />
-			<p:inputText id="loan" value="#{masterDataController.selectedMasterEntity.loan}" />
-
-			<p:outputLabel value="Outstanding Loan" />
-			<p:inputText id="outstandingloan" value="#{masterDataController.selectedMasterEntity.outstandingLoan}" />
-
-			<p:outputLabel value="OT Type" />
-			<p:inputText id="ottype" value="#{masterDataController.selectedMasterEntity.otType}" />
-
-			<p:outputLabel value="OT Rate" />
-			<p:inputText id="otRate" value="#{masterDataController.selectedMasterEntity.otRate}" />
-
-			<p:outputLabel value="Basic Salary" for="bSalary"/>
-			<p:inputText id="bSalary" value="#{masterDataController.selectedMasterEntity.basicSalary}" required="true" />
-
-			<p:outputLabel value="Allowance" for="allowance" />
-			<p:inputText id="allowance" value="#{masterDataController.selectedMasterEntity.allowances}" required="true"/>
-
-			<p:outputLabel value="Total Fixed Salary" />
-			<p:inputText id="totalFixedSalary" value="#{masterDataController.selectedMasterEntity.totalFixedSalary}" />
-
-			<p:outputLabel value="Salary As per Labour Contract" />
-			<p:inputText id="salaryAsPerLabourContract" value="#{masterDataController.selectedMasterEntity.salaryAsPerLabourContract}" />
+				<p:outputLabel value="Passport Expiry" for="passportExpiry" />
+				<p:calendar id="passportExpiry" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.passportExpiry}"
+					required="true" />
 
 
-			<p:outputLabel value="Payment Mode" />
-			<p:inputText id="paymentMode" value="#{masterDataController.selectedMasterEntity.paymentMode}" />
+				<p:outputLabel value="Visa No" />
+				<p:inputText id="visaNo"
+					value="#{masterDataController.selectedMasterEntity.visaNo}" />
 
-			<p:outputLabel value="Bank Name" />
-			<p:inputText id="bankName" value="#{masterDataController.selectedMasterEntity.bankName}" />
+				<p:outputLabel value="Visa Expiry" />
+				<p:calendar id="visaExpiry" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.visaExpiry}" />
 
-			<p:outputLabel value="Account Num" />
-			<p:inputText id="accountNum" value="#{masterDataController.selectedMasterEntity.salaryAccountNum}" />
 
-			<p:outputLabel/>
-			<p:commandButton value="Submit" actionListener="#{masterDataController.saveMasterDataDetail(masterDataController.selectedMasterEntity)}" update="panel msgs"></p:commandButton>
-		</p:panelGrid>
+				<p:outputLabel value="Labour Card" />
+				<p:inputText id="labourCard"
+					value="#{masterDataController.selectedMasterEntity.labourCardNo}" />
+
+				<p:outputLabel value="Labour Card Expiry" />
+				<p:calendar id="laburCardExpiry" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.labourCardExpiry}" />
+
+
+				<p:outputLabel value="Emirates Id" for="emiratesID" />
+				<p:inputText id="emiratesID"
+					value="#{masterDataController.selectedMasterEntity.emiratesId}"
+					required="true" />
+
+				<p:outputLabel value="Emirates Expiry" for="emiratesExpiry" />
+				<p:calendar id="emiratesExpiry" pattern="dd-MM-yyyy"
+					style="width:250px;"
+					value="#{masterDataController.selectedMasterEntity.emiratesExpiry}"
+					required="true" />
+
+				<p:outputLabel value="Supervisor Name" />
+				<p:inputText id="supervisorName"
+					value="#{masterDataController.selectedMasterEntity.supervisorName}" />
+
+				<p:outputLabel value="Loan" />
+				<p:inputText id="loan"
+					value="#{masterDataController.selectedMasterEntity.loan}" />
+
+				<p:outputLabel value="Outstanding Loan" />
+				<p:inputText id="outstandingloan"
+					value="#{masterDataController.selectedMasterEntity.outstandingLoan}" />
+
+				<p:outputLabel value="OT Type" />
+				<p:selectOneMenu id="ottype"
+					value="#{masterDataController.selectedMasterEntity.otType}">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="Fixed" itemValue="Fixed" />
+					<f:selectItem itemLabel="Variable" itemValue="Variable" />
+				</p:selectOneMenu>		
+
+				<p:outputLabel value="OT Rate" />
+				<p:inputText id="otRate"
+					value="#{masterDataController.selectedMasterEntity.otRate}" />
+
+				<p:outputLabel value="Basic Salary" for="bSalary" />
+				<p:inputText id="bSalary"
+					value="#{masterDataController.selectedMasterEntity.basicSalary}"
+					required="true" />
+
+				<p:outputLabel value="Allowance" for="allowance" />
+				<p:inputText id="allowance"
+					value="#{masterDataController.selectedMasterEntity.allowances}"
+					required="true" />
+
+				<p:outputLabel value="Total Fixed Salary" />
+				<p:inputText id="totalFixedSalary"
+					value="#{masterDataController.selectedMasterEntity.totalFixedSalary}" />
+
+				<p:outputLabel value="Salary As per Labour Contract" />
+				<p:inputText id="salaryAsPerLabourContract"
+					value="#{masterDataController.selectedMasterEntity.salaryAsPerLabourContract}" />
+
+
+				<p:outputLabel value="Payment Mode" />
+				<p:selectOneMenu id="paymentMode"
+					value="#{masterDataController.selectedMasterEntity.paymentMode}">
+					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="Bank" itemValue="Bank" />
+					<f:selectItem itemLabel="Other" itemValue="Other" />
+
+				</p:selectOneMenu>
+
+
+				<p:outputLabel value="Bank Name" />
+				<p:inputText id="bankName"
+					value="#{masterDataController.selectedMasterEntity.bankName}" />
+
+				<p:outputLabel value="Account Num" />
+				<p:inputText id="accountNum"
+					value="#{masterDataController.selectedMasterEntity.salaryAccountNum}" />
+
+				<p:outputLabel />
+				<p:commandButton value="Submit"
+					actionListener="#{masterDataController.saveMasterDataDetail(masterDataController.selectedMasterEntity)}"
+					update="panel msgs"></p:commandButton>
+			</p:panelGrid>
 		</p:panel>
 	</h:form>
 </h:body>

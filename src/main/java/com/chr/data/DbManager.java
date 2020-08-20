@@ -6,7 +6,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 //import org.primefaces.context.RequestContext;
@@ -41,10 +43,10 @@ public class DbManager {
 			session.beginTransaction();
 			session.update(entity);
 			session.getTransaction().commit();
-			FacesMessage msg = new FacesMessage("Master data has been updated");
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
-	        
+			FacesMessage msg = new FacesMessage("Data has been updated successfully.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
+
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class  update()---------");
 			e.printStackTrace();
@@ -65,10 +67,9 @@ public class DbManager {
 			session.save(entity);
 			session.getTransaction().commit();
 			FacesMessage msg = new FacesMessage("New data has been saved");
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-	        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
-	        
-	    			
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
+
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class create()---------");
 			e.printStackTrace();
@@ -86,7 +87,7 @@ public class DbManager {
 		Transaction transcation = null;
 		List<T> entityList = null;
 		try {
-			Query query = session.createQuery("SELECT m FROM "+ tableName + " m");
+			Query query = session.createQuery("SELECT m FROM " + tableName + " m");
 			entityList = query.list();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class getList()---------");
@@ -100,7 +101,20 @@ public class DbManager {
 		}
 		return entityList;
 	}
-	
+
+	public <T> List<T> getMasterDataList() {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		String sql = "select master.name,master.EMPLOYEE_CODE,master.EMPLOYEE_DESIGNATION,attandence.ATTANDENCE_TIME_IN,attandence.ATTANDENCE_TIME_OUT ,salary.BASIC_SALARY "
+				 + " from MASTER_DATA master inner join ATTANDENCE_REGISTER attandence on master.EMPLOYEE_CODE=attandence.EMPLOYEE_CODE"
+				+ " left join SALARY_PROCESS salary on master.EMPLOYEE_CODE=salary.EMPLOYEE_CODE";
+		
+		SQLQuery query = session.createSQLQuery(sql);
+		// query.setParameter("roll", a);
+		//query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		return query.list();
+
+	}
+
 	public <T> List<T> getAttandenceRegisterList() {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
@@ -127,7 +141,7 @@ public class DbManager {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
 			trns = session.beginTransaction();
-			String queryString = "from MasterDataEntity where masterDataId = :id";
+			String queryString = "from MasterDataEntity where employeeCode = :id";
 			Query query = session.createQuery(queryString);
 			query.setString("id", entityId);
 			entity = (T) query.uniqueResult();
@@ -140,7 +154,6 @@ public class DbManager {
 		return entity;
 	}
 
-	
 	public <T> T getAttandenceRegisterById(String entityId) {
 		T entity = null;
 		Transaction trns = null;
@@ -159,8 +172,7 @@ public class DbManager {
 		}
 		return entity;
 	}
-	
-	
+
 	public <T> T getMasterDataByEmployeeCode(String entityId) {
 		T entity = null;
 		Transaction trns = null;
@@ -169,7 +181,7 @@ public class DbManager {
 			trns = session.beginTransaction();
 			String queryString = "from MasterDataEntity where employeeCode = :id";
 			Query query = session.createQuery(queryString);
-			//query.setInteger ("id", Integer.valueOf(entityId));
+			// query.setInteger ("id", Integer.valueOf(entityId));
 			query.setString("id", entityId);
 			entity = (T) query.uniqueResult();
 		} catch (Exception e) {
@@ -180,6 +192,5 @@ public class DbManager {
 		}
 		return entity;
 	}
-	
 
 }

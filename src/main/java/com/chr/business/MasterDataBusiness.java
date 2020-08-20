@@ -14,6 +14,10 @@ public class MasterDataBusiness {
 		return dbManager.getEntityList("MasterDataEntity");
 	}
 	
+	public List<MasterDataEntity> getMasterList() {
+		return dbManager.getMasterDataList();
+	}
+	
 	public void saveMasterDataDetail(MasterDataEntity masterDataEntity){
 		dbManager.addEntity(masterDataEntity);
 	}
@@ -40,9 +44,37 @@ public class MasterDataBusiness {
 		dbManager.addEntity(attandenceRegisterEntity);
 	}
 	
+	public void editAttandenceRegister(AttandenceRegisterEntity attandenceRegisterEntity){
+		dbManager.updateEntity(attandenceRegisterEntity);
+	}
+	
 	public String getEmployeeName(String empCode){
 		MasterDataEntity masterEntity = dbManager.getMasterDataByEmployeeCode(empCode);
 		return masterEntity.getEmployeeName();
 	}
+	
+	public String getDiffInTime(List<MasterDataEntity> masterList){
+	
+		return "";
+	}
+	
+	public String getOvertimeCalculation(){
+		return "";
+	}
+	
+	public String getVariableOvertimeRateCalculation(){
+		return "";
+	}
+	
+	public String getLostOfPayCalculation(){
+		return "";
+	}
+	
+	public String getDiffInSalary(){
+		return "";
+	}
+	
+	
+	
 	
 }

@@ -31,18 +31,13 @@
         		Attandence Register List
     		</f:facet>
 
-			<p:column sortBy="#{p.attandenceRegisterId}"
-				filterBy="#{p.attandenceRegisterId}" filterMatchMode="contains">
-				<f:facet name="header">Attandence Registration Id</f:facet>
-				<p:link  outcome="attandenceRegisterEdit" value="#{p.attandenceRegisterId}">
-					<f:param name="attandenceRegisterId" value="#{p.attandenceRegisterId}" />
-				</p:link>
-			</p:column>
-		
 			<p:column sortBy="#{p.employeeCode}" filterBy="#{p.employeeCode}"
 				filterMatchMode="contains">
 				<f:facet name="header">Employee Code</f:facet>
-				<h:outputText value="#{p.employeeCode}" />
+				<p:link  outcome="attandenceRegisterEdit" value="#{p.employeeCode}">
+					<f:param name="attandenceRegisterId" value="#{p.attandenceRegisterId}" />
+				</p:link>
+
 			</p:column>
 
 			<p:column sortBy="#{p.employeeName}" filterBy="#{p.employeeName}"

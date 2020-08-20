@@ -3,12 +3,15 @@ package com.chr.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,15 +19,11 @@ import javax.persistence.Table;
 public class MasterDataEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "MASTER_DATA_ID",unique=true, nullable = false)
-	private Integer masterDataId;
+	@Column(name = "EMPLOYEE_CODE", unique = true, nullable = false)
+	private String employeeCode;
 
 	@Column(name = "NAME")
 	private String employeeName;
-
-	@Column(name = "EMPLOYEE_CODE")
-	private String employeeCode;
 
 	@Column(name = "EMPLOYEE_DESIGNATION")
 	private String employeeDesig;
@@ -94,25 +93,20 @@ public class MasterDataEntity {
 
 	@Column(name = "SALARY_ACCOUNT_NUM")
 	private String salaryAccountNum;
-	
-	@Column(name = "STATE_CODE")
-	private String stateCode;
-	
-	
+
 	public MasterDataEntity() {
 		super();
 	}
 
-	public MasterDataEntity(Integer masterDataId, String employeeName, String employeeCode, String employeeDesig,
-			Date employeeDob, Date dateOfJoining, String passportNo, Date passportExpiry, String visaNo,
-			Date visaExpiry, String labourCardNo, Date labourCardExpiry, String emiratesId, Date emiratesExpiry,
-			String supervisorName, String loan, String outstandingLoan, String otType, String otRate,
-			String basicSalary, String allowances, String totalFixedSalary, String salaryAsPerLabourContract,
-			String paymentMode, String bankName, String salaryAccountNum, String stateCode) {
+	public MasterDataEntity(String employeeCode, String employeeName, String employeeDesig, Date employeeDob,
+			Date dateOfJoining, String passportNo, Date passportExpiry, String visaNo, Date visaExpiry,
+			String labourCardNo, Date labourCardExpiry, String emiratesId, Date emiratesExpiry, String supervisorName,
+			String loan, String outstandingLoan, String otType, String otRate, String basicSalary, String allowances,
+			String totalFixedSalary, String salaryAsPerLabourContract, String paymentMode, String bankName,
+			String salaryAccountNum) {
 		super();
-		this.masterDataId = masterDataId;
-		this.employeeName = employeeName;
 		this.employeeCode = employeeCode;
+		this.employeeName = employeeName;
 		this.employeeDesig = employeeDesig;
 		this.employeeDob = employeeDob;
 		this.dateOfJoining = dateOfJoining;
@@ -136,17 +130,7 @@ public class MasterDataEntity {
 		this.paymentMode = paymentMode;
 		this.bankName = bankName;
 		this.salaryAccountNum = salaryAccountNum;
-		this.stateCode = stateCode;
-	}
 
-
-
-	public Integer getMasterDataId() {
-		return masterDataId;
-	}
-
-	public void setMasterDataId(Integer masterDataId) {
-		this.masterDataId = masterDataId;
 	}
 
 	public String getEmployeeName() {
@@ -349,54 +333,4 @@ public class MasterDataEntity {
 		this.employeeDesig = employeeDesig;
 	}
 
-	public String getStateCode() {
-		return stateCode;
-	}
-
-	public void setStateCode(String stateCode) {
-		this.stateCode = stateCode;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((emiratesId == null) ? 0 : emiratesId.hashCode());
-		result = prime * result + ((employeeCode == null) ? 0 : employeeCode.hashCode());
-		result = prime * result + ((masterDataId == null) ? 0 : masterDataId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MasterDataEntity other = (MasterDataEntity) obj;
-		if (emiratesId == null) {
-			if (other.emiratesId != null)
-				return false;
-		} else if (!emiratesId.equals(other.emiratesId))
-			return false;
-		if (employeeCode == null) {
-			if (other.employeeCode != null)
-				return false;
-		} else if (!employeeCode.equals(other.employeeCode))
-			return false;
-		if (masterDataId == null) {
-			if (other.masterDataId != null)
-				return false;
-		} else if (!masterDataId.equals(other.masterDataId))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "MasterDataEntity [masterDataId=" + masterDataId + "]";
-	}
-	
 }

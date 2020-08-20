@@ -18,14 +18,16 @@
 	<br />
 	<br />
 	<f:metadata>
-            <f:viewAction action="#{attandenceRegisterController.getAttandecRegisterById()}" onPostback="false"/>
-    </f:metadata>
-	
+		<f:viewAction
+			action="#{attandenceRegisterController.getAttandecRegisterById()}"
+			onPostback="false" />
+	</f:metadata>
+
 	<h:form id="form1" prependId="false">
 		<p:commandButton value="Add" style="margin-left: 943px;">
-		<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"></p:ajax>
+			<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"></p:ajax>
 		</p:commandButton>
-		
+
 		<p:panel id="panel" header="Edit Data">
 
 			<p:messages id="msgs" />
@@ -60,18 +62,45 @@
 				<p:outputLabel value="Time Out" for="timeOut" />
 				<p:datePicker id="timeOut" required="true"
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeOut}"
-					timeOnly="true" pattern="HH:mm" />
-
+					timeOnly="true" pattern="HH:mm">
+					<p:ajax event="blur"
+						update="totalHours totalOTHours productionInHrs" process="@form"
+						listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
+				</p:datePicker>
 
 				<p:outputLabel value="Time In 2" />
-				<p:datePicker id="timeIn2" 
+				<p:datePicker id="timeIn2"
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeInAnother}"
 					timeOnly="true" pattern="HH:mm" />
 
-				<p:outputLabel value="Time Out 2"  />
-				<p:datePicker id="timeOut2" 
+				<p:outputLabel value="Time Out 2" />
+				<p:datePicker id="timeOut2"
 					value="#{attandenceRegisterController.selectedEntity.attandenceTimeOutAnother}"
-					timeOnly="true" pattern="HH:mm" />	
+					timeOnly="true" pattern="HH:mm" >
+						<p:ajax event="blur" update="totalHours totalOTHours productionInHrs" process="@form" 
+						listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
+					</p:datePicker>
+
+
+				<p:outputLabel value="Total Hours" />
+				<p:inputText id="totalHours"
+					value="#{attandenceRegisterController.selectedEntity.totalhours}"
+					required="true" readonly="true" />
+
+
+				<p:outputLabel value="Total OT Hours" />
+				<p:inputText id="totalOTHours"
+					value="#{attandenceRegisterController.selectedEntity.totalOThours}"
+					required="true" readonly="true" />
+
+
+
+				<p:outputLabel value="Production Incentive Hours" />
+				<p:inputText id="productionInHrs"
+					value="#{attandenceRegisterController.selectedEntity.productionIncentiveHours}"
+					required="true" readonly="true" />
+
+
 
 
 				<p:outputLabel />
@@ -79,7 +108,7 @@
 				<p:outputLabel />
 
 				<p:commandButton value="Submit"
-					actionListener="#{attandenceRegisterController.saveAttandenceRegisterDetail(attandenceRegisterController.selectedEntity)}"
+					actionListener="#{attandenceRegisterController.editAttandenceRegister(attandenceRegisterController.selectedEntity)}"
 					update="panel msgs"></p:commandButton>
 				<p:outputLabel />
 				<p:outputLabel />
@@ -96,6 +125,6 @@
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
-	
+
 </h:body>
 </html>

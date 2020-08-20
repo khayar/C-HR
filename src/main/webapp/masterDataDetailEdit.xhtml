@@ -25,12 +25,11 @@
 		<p:messages id="msgs" />
 		
 		<p:panelGrid columns="4" styleClass="detailWidth" > 
-			<p:outputLabel value="Employee Name" for="empName" />
-			<p:inputText id="empName" value="#{masterDataController.selectedMasterEntity.employeeName}" required="true"/>
-
 			<p:outputLabel value="Employee Code" for="empCode" />
 			<p:inputText id="empCode" value="#{masterDataController.selectedMasterEntity.employeeCode}" required="true" readonly="true" />
-
+			
+			<p:outputLabel value="Employee Name" for="empName" />
+			<p:inputText id="empName" value="#{masterDataController.selectedMasterEntity.employeeName}" required="true"/>
 
 			<p:outputLabel value="Employee Designation" for="empDesig" />
 			<p:inputText id="empDesig" value="#{masterDataController.selectedMasterEntity.employeeDesig}" required="true"/>
