@@ -21,7 +21,7 @@
 	<p:commandButton value="NEW" action="attandenceRegisterDetail.xhtml" style="margin-left: 943px;"></p:commandButton>
 	
 		<p:dataTable value="#{attandenceRegisterController.getAttandenceList()}"
-			var="p" paginator="true" rows="10" styleClass="tableCenter"
+			var="p" paginator="true" rows="10" styleClass="tableCenter" filteredValue="#{attandenceRegisterController.filteredRanges}"
 			headerClass="order-table-header"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowClasses="order-table-odd-row,order-table-even-row"

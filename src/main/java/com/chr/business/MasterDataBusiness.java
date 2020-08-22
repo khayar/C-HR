@@ -1,5 +1,6 @@
 package com.chr.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.chr.data.DbManager;
@@ -13,68 +14,48 @@ public class MasterDataBusiness {
 	public List<MasterDataEntity> getMasterDataList() {
 		return dbManager.getEntityList("MasterDataEntity");
 	}
-	
+
 	public List<MasterDataEntity> getMasterList() {
 		return dbManager.getMasterDataList();
 	}
-	
-	public void saveMasterDataDetail(MasterDataEntity masterDataEntity){
+
+	public void saveMasterDataDetail(MasterDataEntity masterDataEntity) {
 		dbManager.addEntity(masterDataEntity);
 	}
-	
-	public void editMasterDataDetail(MasterDataEntity masterDataEntity){
+
+	public void editMasterDataDetail(MasterDataEntity masterDataEntity) {
 		dbManager.updateEntity(masterDataEntity);
 	}
-	
-	public MasterDataEntity getMasterDataById(String id){
+
+	public MasterDataEntity getMasterDataById(String id) {
 		MasterDataEntity masterEntity = dbManager.getMasterDataById(id);
 		return masterEntity;
 	}
-	
-	public AttandenceRegisterEntity getAttandenceRegisterById(String id){
+
+	public AttandenceRegisterEntity getAttandenceRegisterById(String id) {
 		AttandenceRegisterEntity attandencEntity = dbManager.getAttandenceRegisterById(id);
 		return attandencEntity;
 	}
-	
+
 	public List<AttandenceRegisterEntity> getAttandenceRegisterList() {
 		return dbManager.getAttandenceRegisterList();
 	}
 
-	public void saveAttandenceRegisterDetail(AttandenceRegisterEntity attandenceRegisterEntity){
+	public void saveAttandenceRegisterDetail(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.addEntity(attandenceRegisterEntity);
 	}
-	
-	public void editAttandenceRegister(AttandenceRegisterEntity attandenceRegisterEntity){
+
+	public void editAttandenceRegister(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.updateEntity(attandenceRegisterEntity);
 	}
-	
-	public String getEmployeeName(String empCode){
+
+	public String getEmployeeName(String empCode) {
 		MasterDataEntity masterEntity = dbManager.getMasterDataByEmployeeCode(empCode);
 		return masterEntity.getEmployeeName();
 	}
-	
-	public String getDiffInTime(List<MasterDataEntity> masterList){
-	
-		return "";
+
+	public List<AttandenceRegisterEntity> getAttandenceRegister(Boolean isWeekend,String empCode,LocalDate fromDate , LocalDate endDate) {
+		return dbManager.getCountOfVariableOTRateForWeekendWeekdays(isWeekend,empCode,fromDate,endDate);
 	}
-	
-	public String getOvertimeCalculation(){
-		return "";
-	}
-	
-	public String getVariableOvertimeRateCalculation(){
-		return "";
-	}
-	
-	public String getLostOfPayCalculation(){
-		return "";
-	}
-	
-	public String getDiffInSalary(){
-		return "";
-	}
-	
-	
-	
-	
+
 }

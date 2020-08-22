@@ -94,6 +94,9 @@ public class MasterDataEntity {
 	@Column(name = "SALARY_ACCOUNT_NUM")
 	private String salaryAccountNum;
 
+	@OneToOne(mappedBy = "masterDataEntitySalaryProcess")
+	public SalaryProcessEntity salaryProcessEntity;
+
 	public MasterDataEntity() {
 		super();
 	}
@@ -103,7 +106,7 @@ public class MasterDataEntity {
 			String labourCardNo, Date labourCardExpiry, String emiratesId, Date emiratesExpiry, String supervisorName,
 			String loan, String outstandingLoan, String otType, String otRate, String basicSalary, String allowances,
 			String totalFixedSalary, String salaryAsPerLabourContract, String paymentMode, String bankName,
-			String salaryAccountNum) {
+			String salaryAccountNum, SalaryProcessEntity salaryProcessEntity) {
 		super();
 		this.employeeCode = employeeCode;
 		this.employeeName = employeeName;
@@ -130,6 +133,7 @@ public class MasterDataEntity {
 		this.paymentMode = paymentMode;
 		this.bankName = bankName;
 		this.salaryAccountNum = salaryAccountNum;
+		this.salaryProcessEntity = salaryProcessEntity;
 
 	}
 
@@ -332,5 +336,6 @@ public class MasterDataEntity {
 	public void setEmployeeDesig(String employeeDesig) {
 		this.employeeDesig = employeeDesig;
 	}
+
 
 }

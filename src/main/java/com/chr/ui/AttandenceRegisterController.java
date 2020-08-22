@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -29,11 +31,19 @@ public class AttandenceRegisterController implements Serializable {
 	MasterDataBusiness masterDataBussiness = new MasterDataBusiness();
 	private List<AttandenceRegisterEntity> attandenceRegisterList = null;
 	private Boolean isRender = false;
+	private List<AttandenceRegisterEntity> filteredRanges;
 
 	public AttandenceRegisterController() {
 		super();
-		selectedEntity = new AttandenceRegisterEntity();
 
+	}
+
+	@PostConstruct
+	public void init() {
+		// In @PostConstruct (will be invoked immediately after construction and
+		// dependency/property injection).
+		selectedEntity = new AttandenceRegisterEntity();
+		setFilteredRanges(getAttandenceList());
 	}
 
 	public List<AttandenceRegisterEntity> getAttandenceList() {
@@ -137,7 +147,7 @@ public class AttandenceRegisterController implements Serializable {
 		}
 
 		attandenceEntity.setProductionIncentiveHours(String.valueOf(phours));
-		
+
 		isWeekendTrue(attandenceEntity);
 	}
 
@@ -147,7 +157,7 @@ public class AttandenceRegisterController implements Serializable {
 
 		Calendar c1 = Calendar.getInstance();
 		c1.setTime(dateOfAttandence);
-		
+
 		if (c1.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
 			attandenceEntity.setIsWeekend(true);
 		else
@@ -174,6 +184,14 @@ public class AttandenceRegisterController implements Serializable {
 
 	public void setIsRender(Boolean isRender) {
 		this.isRender = isRender;
+	}
+
+	public List<AttandenceRegisterEntity> getFilteredRanges() {
+		return filteredRanges;
+	}
+
+	public void setFilteredRanges(List<AttandenceRegisterEntity> filteredRanges) {
+		this.filteredRanges = filteredRanges;
 	}
 
 }

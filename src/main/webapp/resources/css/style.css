@@ -330,3 +330,6 @@ Calander CSS-->.ui-datepicker-calendar {
 .ui-datepicker {
 	width: 14em;
 }
+.ui-widget-content a {
+	color: #7bba55 !important;
+}

@@ -19,11 +19,7 @@ import javax.persistence.Table;
 public class SalaryProcessEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "SALARY_REGISTRATION_ID", unique = true, nullable = false)
-	private Integer salaryRegistrationId;
-
-	@Column(name = "EMPLOYEE_CODE")
+	@Column(name = "EMPLOYEE_CODE", unique = true, nullable = false)
 	private String employeeCode;
 
 	@Column(name = "NO_OF_DAYS_WORK")
@@ -101,20 +97,23 @@ public class SalaryProcessEntity {
 	@Column(name = "CREATED_ON")
 	private Date createdOn;
 
+	@OneToOne
+	@JoinColumn(name = "EMPLOYEE_CODE")
+	private MasterDataEntity masterDataEntitySalaryProcess;
+
 	public SalaryProcessEntity() {
 		super();
 	}
 
-	public SalaryProcessEntity(Integer salaryRegistrationId, String employeeCode, String noOfDaysWork,
-			String totalOfHours, String productionIncentiveHours, String fixedRatePerHour,
-			String variableOtRateWeekdays, String variableOtRateWeekend, String basicSalary, String allowances,
-			String totalFixedSalary, String lostOfPay, String overTimeWeekDays, String overTimeWeekEnds,
-			String productionIncentives, String totalSalary, String advanceDeduction, String netSalary,
-			String salaryAsPerLabourContract, String differenceInSalary, String amountToBeCredit,
-			String netPayableRevevable, String modeOftransfer, Date salaryProcessDate, String salaryProcessMonth,
-			String createdBy, Date createdOn) {
+	public SalaryProcessEntity(String employeeCode, String noOfDaysWork, String totalOfHours,
+			String productionIncentiveHours, String fixedRatePerHour, String variableOtRateWeekdays,
+			String variableOtRateWeekend, String basicSalary, String allowances, String totalFixedSalary,
+			String lostOfPay, String overTimeWeekDays, String overTimeWeekEnds, String productionIncentives,
+			String totalSalary, String advanceDeduction, String netSalary, String salaryAsPerLabourContract,
+			String differenceInSalary, String amountToBeCredit, String netPayableRevevable, String modeOftransfer,
+			Date salaryProcessDate, String salaryProcessMonth, String createdBy, Date createdOn,
+			MasterDataEntity masterDataEntitySalaryProcess) {
 		super();
-		this.salaryRegistrationId = salaryRegistrationId;
 		this.employeeCode = employeeCode;
 		this.noOfDaysWork = noOfDaysWork;
 		this.totalOfHours = totalOfHours;
@@ -141,6 +140,15 @@ public class SalaryProcessEntity {
 		this.salaryProcessMonth = salaryProcessMonth;
 		this.createdBy = createdBy;
 		this.createdOn = createdOn;
+		this.masterDataEntitySalaryProcess = masterDataEntitySalaryProcess;
+	}
+
+	public MasterDataEntity getMasterDataEntitySalaryProcess() {
+		return masterDataEntitySalaryProcess;
+	}
+
+	public void setMasterDataEntitySalaryProcess(MasterDataEntity masterDataEntitySalaryProcess) {
+		this.masterDataEntitySalaryProcess = masterDataEntitySalaryProcess;
 	}
 
 	public String getEmployeeCode() {

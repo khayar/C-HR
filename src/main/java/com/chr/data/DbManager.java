@@ -1,5 +1,6 @@
 package com.chr.data;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -124,6 +125,28 @@ public class DbManager {
 			entityList = query.list();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class getAttandenceRegisterList()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+	
+	
+	public <T> List<T> getCountOfVariableOTRateForWeekendWeekdays(Boolean isWeekend,String empCode,LocalDate fromDate , LocalDate endDate) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.employeeCode='"+empCode+"' AND m.isWeekend="+isWeekend + " "
+					+ "AND m.attandenceDate BETWEEN '"+fromDate+"' AND '"+endDate+"'");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getCountOfVariableOTRateForWeekendWeekdays()---------");
 			e.printStackTrace();
 			if (transcation != null) {
 				transcation.rollback();

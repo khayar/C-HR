@@ -179,4 +179,47 @@ public class AttandenceRegisterEntity {
 		this.employeeCode = employeeCode;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((attandenceRegisterId == null) ? 0 : attandenceRegisterId.hashCode());
+		result = prime * result + ((employeeCode == null) ? 0 : employeeCode.hashCode());
+		result = prime * result + ((employeeName == null) ? 0 : employeeName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AttandenceRegisterEntity other = (AttandenceRegisterEntity) obj;
+		if (attandenceRegisterId == null) {
+			if (other.attandenceRegisterId != null)
+				return false;
+		} else if (!attandenceRegisterId.equals(other.attandenceRegisterId))
+			return false;
+		if (employeeCode == null) {
+			if (other.employeeCode != null)
+				return false;
+		} else if (!employeeCode.equals(other.employeeCode))
+			return false;
+		if (employeeName == null) {
+			if (other.employeeName != null)
+				return false;
+		} else if (!employeeName.equals(other.employeeName))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "AttandenceRegisterEntity [attandenceRegisterId=" + attandenceRegisterId + ", employeeCode="
+				+ employeeCode + ", employeeName=" + employeeName + "]";
+	}
+
 }

@@ -3,6 +3,7 @@ package com.chr.ui;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 import com.chr.business.MasterDataBusiness;
 import com.chr.entity.AttandenceRegisterEntity;
 import com.chr.entity.MasterDataEntity;
+import com.chr.entity.SalaryProcessEntity;
 
 @ManagedBean(name = "masterDataController")
 @ViewScoped
@@ -23,6 +25,12 @@ public class MasterDataController implements Serializable {
 
 	public MasterDataController() {
 		super();
+	}
+
+	@PostConstruct
+	public void init() {
+		// In @PostConstruct (will be invoked immediately after construction and
+		// dependency/property injection).
 		selectedMasterEntity = new MasterDataEntity();
 	}
 
