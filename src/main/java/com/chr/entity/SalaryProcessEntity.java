@@ -97,6 +97,9 @@ public class SalaryProcessEntity {
 	@Column(name = "CREATED_ON")
 	private Date createdOn;
 
+	@Column(name = "TOTAL_OVERTIME")
+	private String totalOvertime;
+
 	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_CODE")
 	private MasterDataEntity masterDataEntitySalaryProcess;
@@ -111,7 +114,7 @@ public class SalaryProcessEntity {
 			String lostOfPay, String overTimeWeekDays, String overTimeWeekEnds, String productionIncentives,
 			String totalSalary, String advanceDeduction, String netSalary, String salaryAsPerLabourContract,
 			String differenceInSalary, String amountToBeCredit, String netPayableRevevable, String modeOftransfer,
-			Date salaryProcessDate, String salaryProcessMonth, String createdBy, Date createdOn,
+			Date salaryProcessDate, String salaryProcessMonth, String createdBy, Date createdOn, String totalOvertime,
 			MasterDataEntity masterDataEntitySalaryProcess) {
 		super();
 		this.employeeCode = employeeCode;
@@ -140,7 +143,16 @@ public class SalaryProcessEntity {
 		this.salaryProcessMonth = salaryProcessMonth;
 		this.createdBy = createdBy;
 		this.createdOn = createdOn;
+		this.totalOvertime = totalOvertime;
 		this.masterDataEntitySalaryProcess = masterDataEntitySalaryProcess;
+	}
+
+	public String getTotalOvertime() {
+		return totalOvertime;
+	}
+
+	public void setTotalOvertime(String totalOvertime) {
+		this.totalOvertime = totalOvertime;
 	}
 
 	public MasterDataEntity getMasterDataEntitySalaryProcess() {

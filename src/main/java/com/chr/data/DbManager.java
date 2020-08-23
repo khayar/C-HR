@@ -63,7 +63,6 @@ public class DbManager {
 
 	public <T> void addEntity(T entity) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
-		Transaction transcation = null;
 		try {
 			session.beginTransaction();
 			session.save(entity);
@@ -74,11 +73,36 @@ public class DbManager {
 
 		} catch (ConstraintViolationException ce) {
 			logger.info("---------ConstraintViolationException Exception comes in DbManager class create()---------");
-			FacesMessage msg = new FacesMessage("Constraint voilation error comes, The data has already in the database.");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, ce.getSQLException().toString(), ce.getMessage()));
 			ce.printStackTrace();
+			session.clear();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class create()---------");
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+	}
+
+	public <T> void addSalaryEntity(T entity) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		try {
+			session.beginTransaction();
+			session.save(entity);
+			session.getTransaction().commit();
+
+		} catch (ConstraintViolationException ce) {
+			logger.info(
+					"---------ConstraintViolationException Exception comes in DbManager class addSalaryEntity---------");
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_FATAL, ce.getSQLException().toString(), ce.getMessage()));
+			ce.printStackTrace();
+			session.clear();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class addSalaryEntity---------");
 			e.printStackTrace();
 		} finally {
 			session.flush();
@@ -184,14 +208,15 @@ public class DbManager {
 		return entityList;
 	}
 
-	public Integer getTotalNoOfProductionIncentiveHours(String empCode, LocalDate fromDate, LocalDate endDate) {
+	public Object getTotalNoOfProductionIncentiveHours(String empCode, LocalDate fromDate, LocalDate endDate) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
-		Integer totalProductionIncentiveHours = null;
+		Object totalProductionIncentiveHours = null;
 		try {
-			Query query = session.createQuery("SELECT count(*) FROM AttandenceRegisterEntity m where m.employeeCode='"
-					+ empCode + "'" + "AND m.attandenceDate BETWEEN '" + fromDate + "' AND '" + endDate + "'");
-			totalProductionIncentiveHours = query.getFirstResult();
+			Query query = session.createQuery(
+					"SELECT SUM(CAST(PRODUCTION_INCENTIVIE_HOURS as float)) FROM AttandenceRegisterEntity m where m.employeeCode='"
+							+ empCode + "'" + "AND m.attandenceDate BETWEEN '" + fromDate + "' AND '" + endDate + "'");
+			totalProductionIncentiveHours = query.uniqueResult();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class getTotalNoOfProductionIncentiveHours()---------");
 			e.printStackTrace();

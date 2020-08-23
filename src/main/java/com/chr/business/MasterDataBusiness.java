@@ -63,11 +63,11 @@ public class MasterDataBusiness {
 		return dbManager.getTotalNoOfDaysWork(empCode,fromDate,endDate);
 	}
 	
-	public Integer getTotalNoOfProductionIncentiveHours(String empCode,LocalDate fromDate , LocalDate endDate) {
+	public Object getTotalNoOfProductionIncentiveHours(String empCode,LocalDate fromDate , LocalDate endDate) {
 		return dbManager.getTotalNoOfProductionIncentiveHours(empCode,fromDate,endDate);
 	}
 	
 	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
-		dbManager.addEntity(salaryProcessEntity);
+		dbManager.addSalaryEntity(salaryProcessEntity);
 	}
 }

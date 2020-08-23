@@ -76,7 +76,7 @@ public class SalaryProcessController implements Serializable {
 				getCalculateVariableOTRate(masterEntity);
 				getTotalSumUpOTHoursWeekend(masterEntity);
 				getTotalSumUpOTHoursWeekDays(masterEntity);
-				getSumUpTotalOTHoursAndVariableOTRatesOfWeekend(masterEntity);
+				getSumUpTotalOTHoursAndVariableOTRatesOfWeekendOrWeekdays(masterEntity);
 				getTotalNoOfDaysWork(masterEntity);
 				getTotalNoOfProductionIncentiveHours(masterEntity);
 				persistSalary(masterEntity);
@@ -85,7 +85,6 @@ public class SalaryProcessController implements Serializable {
 
 				getTotalSumUpOTHoursWeekend(masterEntity);
 				getTotalSumUpOTHoursWeekDays(masterEntity);
-				getSumUpTotalOTHoursAndVariableOTRatesOfWeekend(masterEntity);
 				getTotalNoOfDaysWork(masterEntity);
 				getTotalNoOfProductionIncentiveHours(masterEntity);
 				persistSalary(masterEntity);
@@ -157,7 +156,7 @@ public class SalaryProcessController implements Serializable {
 		LocalDate date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
-		Double otHoursWeekend = null;
+		Double otHoursWeekend = 0.0;
 		Double result = 0.0;
 		List<AttandenceRegisterEntity> attandenceRegisterList = masterDataBussiness.getAttandenceRegister(isWeekend,
 				masterEntity.getEmployeeCode(), beginningOfMonth, endOfMonth);
@@ -181,7 +180,7 @@ public class SalaryProcessController implements Serializable {
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
 		List<AttandenceRegisterEntity> attandenceRegisterList = masterDataBussiness.getAttandenceRegister(isWeekend,
 				masterEntity.getEmployeeCode(), beginningOfMonth, endOfMonth);
-		Double otHoursWeekdays = null;
+		Double otHoursWeekdays = 0.0;
 		Double result = 0.0;
 
 		for (AttandenceRegisterEntity attandenceEntity : attandenceRegisterList) {
@@ -192,20 +191,57 @@ public class SalaryProcessController implements Serializable {
 		logger.info("================ Step 4 : Calculate Total sum up of OT hours by Weekend [end]================");
 	}
 
-	public void getSumUpTotalOTHoursAndVariableOTRatesOfWeekend(MasterDataEntity masterEntity) {
+	public void getSumUpTotalOTHoursAndVariableOTRatesOfWeekendOrWeekdays(MasterDataEntity masterEntity) {
 
-		logger.info(
-				"================ Step 5 : Calculate Total sum up of OT hours and Variable OT hours by Weekend [start]================");
+		logger.info("======= Step 5 : Calculate Total sum up of OT hours and Variable OT hours by Weekend [start]=======");
 
+		String varOTratesWeekend = masterEntity.salaryProcessEntity.getVariableOtRateWeekend();
+		String otRatesWeekend = masterEntity.salaryProcessEntity.getOverTimeWeekEnds();
+		
+		Double res_1 = Double.valueOf(varOTratesWeekend) * Double.valueOf(otRatesWeekend);
+		
 		String varOTratesWeekdays = masterEntity.salaryProcessEntity.getVariableOtRateWeekdays();
-		String otRates = empOTHours.get(masterEntity.getEmployeeCode());
-		String res = varOTratesWeekdays + otRates;
+		String otRatesWeekdays = masterEntity.salaryProcessEntity.getOverTimeWeekDays();
+		
+		Double res_2 = Double.valueOf(varOTratesWeekdays) * Double.valueOf(otRatesWeekdays);
+		
+		Double res_3 = res_1 + res_2;
 
-		masterEntity.salaryProcessEntity.setTotalOTHours(res);
+		masterEntity.salaryProcessEntity.setTotalOTHours(String.valueOf(res_3));
 		logger.info(
 				"================ Step 5 : Calculate Total sum up of OT hours and Variable OT hours by Weekend [start]================");
 	}
+	
+//	public void getSumUpTotalOTHoursAndVariableOTRatesOfWeekDays(MasterDataEntity masterEntity) {
+//
+//		logger.info("======= Step 6 : Calculate Total sum up of OT hours and Variable OT hours by Weekdays [start]=======");
+//
+//		String varOTratesWeekdays = masterEntity.salaryProcessEntity.getVariableOtRateWeekdays();
+//		String otRates = masterEntity.salaryProcessEntity.getOverTimeWeekDays();
+//		
+//		Double res = Double.valueOf(varOTratesWeekdays) * Double.valueOf(otRates);
+//
+//		masterEntity.salaryProcessEntity.setTotalOTHours(String.valueOf(res));
+//		logger.info(
+//				"================ Step 5 : Calculate Total sum up of OT hours and Variable OT hours by Weekdays [start]================");
+//	}
 
+	
+	public void getSumUpWeekdaysAndWeekend(MasterDataEntity masterEntity) {
+
+		logger.info("======= sum up weekdays and weekend of OT [start]=======");
+
+		String varOTratesWeekdays = masterEntity.salaryProcessEntity.getVariableOtRateWeekdays();
+		String otRates = masterEntity.salaryProcessEntity.getOverTimeWeekDays();
+		
+		Double res = Double.valueOf(varOTratesWeekdays) * Double.valueOf(otRates);
+
+		masterEntity.salaryProcessEntity.setTotalOTHours(String.valueOf(res));
+		logger.info(
+				"================ sum up weekdays and weekend of OT [end]================");
+	}
+	
+	
 	public void getTotalNoOfDaysWork(MasterDataEntity masterEntity) {
 
 		logger.info("================ Calculate Total No of days Work [start]================");
@@ -229,8 +265,9 @@ public class SalaryProcessController implements Serializable {
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
 
-		Integer productionHours = masterDataBussiness
+		Object productionHours = masterDataBussiness
 				.getTotalNoOfProductionIncentiveHours(masterEntity.getEmployeeCode(), beginningOfMonth, endOfMonth);
+		
 		masterEntity.salaryProcessEntity.setProductionIncentiveHours(String.valueOf(productionHours));
 
 		logger.info("================ Calculate Total No of Production incentive hours [end]================");
@@ -259,6 +296,16 @@ public class SalaryProcessController implements Serializable {
 		salaryEntity.setCreatedBy(currentUser.getPrincipal().toString());
 		salaryEntity.setCreatedOn(new Date());
 
+		Double totalSalary = Double.valueOf(masterEntity.getBasicSalary()) + Double.valueOf(masterEntity.getAllowances()) + Double.valueOf(masterEntity.salaryProcessEntity.getProductionIncentiveHours()) + Double.valueOf(masterEntity.salaryProcessEntity.getTotalOTHours());
+		Double netSalary = Double.valueOf(masterEntity.getBasicSalary()) + Double.valueOf(masterEntity.getAllowances()) + Double.valueOf(masterEntity.salaryProcessEntity.getProductionIncentiveHours()) + Double.valueOf(masterEntity.salaryProcessEntity.getTotalOTHours()) - Double.valueOf(masterEntity.getLoan());
+		Double diffInSalary = Double.valueOf(masterEntity.getSalaryAsPerLabourContract()) - netSalary;
+		Double amoutCredit = netSalary > Double.valueOf(masterEntity.getSalaryAsPerLabourContract()) ? netSalary : Double.valueOf(masterEntity.getSalaryAsPerLabourContract());  
+		
+		salaryEntity.setTotalSalary(String.valueOf(totalSalary));
+		salaryEntity.setNetSalary(String.valueOf(netSalary));
+		salaryEntity.setDifferenceInSalary(String.valueOf(diffInSalary));
+		salaryEntity.setAmountToBeCredit(String.valueOf(amoutCredit));
+		
 		masterDataBussiness.saveSalaryEntity(salaryEntity);
 	}
 
