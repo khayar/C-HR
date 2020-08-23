@@ -12,6 +12,7 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 //import org.primefaces.context.RequestContext;
 
 public class DbManager {
@@ -71,12 +72,14 @@ public class DbManager {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(entity.toString(), null);
 
+		} catch (ConstraintViolationException ce) {
+			logger.info("---------ConstraintViolationException Exception comes in DbManager class create()---------");
+			FacesMessage msg = new FacesMessage("Constraint voilation error comes, The data has already in the database.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			ce.printStackTrace();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class create()---------");
 			e.printStackTrace();
-			if (transcation != null) {
-				transcation.rollback();
-			}
 		} finally {
 			session.flush();
 			session.close();
@@ -106,12 +109,12 @@ public class DbManager {
 	public <T> List<T> getMasterDataList() {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		String sql = "select master.name,master.EMPLOYEE_CODE,master.EMPLOYEE_DESIGNATION,attandence.ATTANDENCE_TIME_IN,attandence.ATTANDENCE_TIME_OUT ,salary.BASIC_SALARY "
-				 + " from MASTER_DATA master inner join ATTANDENCE_REGISTER attandence on master.EMPLOYEE_CODE=attandence.EMPLOYEE_CODE"
+				+ " from MASTER_DATA master inner join ATTANDENCE_REGISTER attandence on master.EMPLOYEE_CODE=attandence.EMPLOYEE_CODE"
 				+ " left join SALARY_PROCESS salary on master.EMPLOYEE_CODE=salary.EMPLOYEE_CODE";
-		
+
 		SQLQuery query = session.createSQLQuery(sql);
 		// query.setParameter("roll", a);
-		//query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
+		// query.setResultTransformer(Criteria.ALIAS_TO_ENTITY_MAP);
 		return query.list();
 
 	}
@@ -135,18 +138,20 @@ public class DbManager {
 		}
 		return entityList;
 	}
-	
-	
-	public <T> List<T> getCountOfVariableOTRateForWeekendWeekdays(Boolean isWeekend,String empCode,LocalDate fromDate , LocalDate endDate) {
+
+	public <T> List<T> getCountOfVariableOTRateForWeekendWeekdays(Boolean isWeekend, String empCode, LocalDate fromDate,
+			LocalDate endDate) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
 		List<T> entityList = null;
 		try {
-			Query query = session.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.employeeCode='"+empCode+"' AND m.isWeekend="+isWeekend + " "
-					+ "AND m.attandenceDate BETWEEN '"+fromDate+"' AND '"+endDate+"'");
+			Query query = session.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.employeeCode='"
+					+ empCode + "' AND m.isWeekend=" + isWeekend + " " + "AND m.attandenceDate BETWEEN '" + fromDate
+					+ "' AND '" + endDate + "'");
 			entityList = query.list();
 		} catch (Exception e) {
-			logger.info("---------Exception comes in DbManager class getCountOfVariableOTRateForWeekendWeekdays()---------");
+			logger.info(
+					"---------Exception comes in DbManager class getCountOfVariableOTRateForWeekendWeekdays()---------");
 			e.printStackTrace();
 			if (transcation != null) {
 				transcation.rollback();
@@ -156,6 +161,48 @@ public class DbManager {
 			session.close();
 		}
 		return entityList;
+	}
+
+	public <T> List<T> getTotalNoOfDaysWork(String empCode, LocalDate fromDate, LocalDate endDate) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.employeeCode='"
+					+ empCode + "'" + "AND m.attandenceDate BETWEEN '" + fromDate + "' AND '" + endDate + "'");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getTotalNoOfDaysWork()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+
+	public Integer getTotalNoOfProductionIncentiveHours(String empCode, LocalDate fromDate, LocalDate endDate) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		Integer totalProductionIncentiveHours = null;
+		try {
+			Query query = session.createQuery("SELECT count(*) FROM AttandenceRegisterEntity m where m.employeeCode='"
+					+ empCode + "'" + "AND m.attandenceDate BETWEEN '" + fromDate + "' AND '" + endDate + "'");
+			totalProductionIncentiveHours = query.getFirstResult();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getTotalNoOfProductionIncentiveHours()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return totalProductionIncentiveHours;
 	}
 
 	public <T> T getMasterDataById(String entityId) {

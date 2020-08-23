@@ -89,7 +89,7 @@ public class AttandenceRegisterController implements Serializable {
 
 		attandenceEntity.setTotalhours(String.valueOf(diffInHours));
 
-		System.out.print("The difference in time is" + diffInHours);
+		System.out.print("The difference in time is = " + diffInHours);
 
 		getTotalOTHoursCount(attandenceEntity);
 	}
@@ -130,18 +130,18 @@ public class AttandenceRegisterController implements Serializable {
 		Object otHours = null;
 
 		if (attandenceEntity.getTotalOThours().contains("."))
-			otHours = Float.valueOf(attandenceEntity.getTotalOThours());
+			otHours = Double.valueOf(attandenceEntity.getTotalOThours());
 		else
 			otHours = Integer.valueOf(attandenceEntity.getTotalOThours());
 
-		if (otHours instanceof Float) {
-			res = standardHours + Float.valueOf(otHours.toString());
+		if (otHours instanceof Double) {
+			res = standardHours + Double.valueOf(otHours.toString());
 		} else {
 			res = standardHours + Integer.valueOf(otHours.toString());
 		}
 
-		if (res instanceof Float) {
-			phours = totalhours - Float.valueOf(res.toString());
+		if (res instanceof Double) {
+			phours = totalhours - Double.valueOf(res.toString());
 		} else {
 			phours = totalhours - Integer.valueOf(res.toString());
 		}

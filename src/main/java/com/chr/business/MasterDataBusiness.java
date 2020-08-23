@@ -6,6 +6,7 @@ import java.util.List;
 import com.chr.data.DbManager;
 import com.chr.entity.AttandenceRegisterEntity;
 import com.chr.entity.MasterDataEntity;
+import com.chr.entity.SalaryProcessEntity;
 
 public class MasterDataBusiness {
 
@@ -57,5 +58,16 @@ public class MasterDataBusiness {
 	public List<AttandenceRegisterEntity> getAttandenceRegister(Boolean isWeekend,String empCode,LocalDate fromDate , LocalDate endDate) {
 		return dbManager.getCountOfVariableOTRateForWeekendWeekdays(isWeekend,empCode,fromDate,endDate);
 	}
-
+	
+	public List<AttandenceRegisterEntity> getTotalNoOfDaysWork(String empCode,LocalDate fromDate , LocalDate endDate) {
+		return dbManager.getTotalNoOfDaysWork(empCode,fromDate,endDate);
+	}
+	
+	public Integer getTotalNoOfProductionIncentiveHours(String empCode,LocalDate fromDate , LocalDate endDate) {
+		return dbManager.getTotalNoOfProductionIncentiveHours(empCode,fromDate,endDate);
+	}
+	
+	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
+		dbManager.addEntity(salaryProcessEntity);
+	}
 }

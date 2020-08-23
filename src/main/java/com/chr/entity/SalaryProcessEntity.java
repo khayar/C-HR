@@ -26,7 +26,7 @@ public class SalaryProcessEntity {
 	private String noOfDaysWork;
 
 	@Column(name = "TOTAL_OT_HOURS")
-	private String totalOfHours;
+	private String totalOTHours;
 
 	@Column(name = "PRODUCTION_INCENTIVE_HOURS")
 	private String productionIncentiveHours;
@@ -105,7 +105,7 @@ public class SalaryProcessEntity {
 		super();
 	}
 
-	public SalaryProcessEntity(String employeeCode, String noOfDaysWork, String totalOfHours,
+	public SalaryProcessEntity(String employeeCode, String noOfDaysWork, String totalOTHours,
 			String productionIncentiveHours, String fixedRatePerHour, String variableOtRateWeekdays,
 			String variableOtRateWeekend, String basicSalary, String allowances, String totalFixedSalary,
 			String lostOfPay, String overTimeWeekDays, String overTimeWeekEnds, String productionIncentives,
@@ -116,7 +116,7 @@ public class SalaryProcessEntity {
 		super();
 		this.employeeCode = employeeCode;
 		this.noOfDaysWork = noOfDaysWork;
-		this.totalOfHours = totalOfHours;
+		this.totalOTHours = totalOTHours;
 		this.productionIncentiveHours = productionIncentiveHours;
 		this.fixedRatePerHour = fixedRatePerHour;
 		this.variableOtRateWeekdays = variableOtRateWeekdays;
@@ -167,12 +167,12 @@ public class SalaryProcessEntity {
 		this.noOfDaysWork = noOfDaysWork;
 	}
 
-	public String getTotalOfHours() {
-		return totalOfHours;
+	public String getTotalOTHours() {
+		return totalOTHours;
 	}
 
-	public void setTotalOfHours(String totalOfHours) {
-		this.totalOfHours = totalOfHours;
+	public void setTotalOTHours(String totalOTHours) {
+		this.totalOTHours = totalOTHours;
 	}
 
 	public String getProductionIncentiveHours() {
