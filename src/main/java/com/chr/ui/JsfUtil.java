@@ -22,7 +22,12 @@ public class JsfUtil {
 		Subject currentUser = SecurityUtils.getSubject();
 		return "Welcome " + currentUser.getPrincipal() == null ? "" : currentUser.getPrincipal().toString();
 	}
-
+	
+	public static Object getUserName() {
+		Subject currentUser = SecurityUtils.getSubject();
+		return currentUser.getPrincipal().toString();
+	}
+	
 	public void getLogout() throws IOException {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout(); // removes all identifying information and

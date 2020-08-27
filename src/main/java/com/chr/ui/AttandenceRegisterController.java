@@ -1,10 +1,8 @@
 package com.chr.ui;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,11 +14,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.tomcat.jni.Local;
-
 import com.chr.business.MasterDataBusiness;
 import com.chr.entity.AttandenceRegisterEntity;
-import com.chr.entity.MasterDataEntity;
 
 @ManagedBean(name = "attandenceRegisterController")
 @ViewScoped

@@ -12,20 +12,25 @@
 		type="text/css" />
 	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
 		type="text/css" />
-		
-		
+
+
 </h:head>
 <h:body>
 	<ui:include src="/menu.xhtml" />
 	<br />
 	<br />
 	<h:form id="form1">
-		<p:messages id="msgs" />
+		<p:panel id="panel">
+			<p:messages id="msgs" />
 
-		<p:commandButton value="Process Salary And Send to Approval"
-			action="#{salaryProcessController.processSalary(salaryProcessController.masterDataList)}"
-			update="msgs" style="margin-left: 943px;" ></p:commandButton>
+			<p:commandButton value="Process Salary And Send to Approval"
+				action="#{salaryProcessController.processSalary(salaryProcessController.masterDataList)}"
+				update="msgs" style="margin-left: 943px;"></p:commandButton>
 
+
+			<p:commandButton value="Print" action="#{reportController.print()}"
+				update="panel msgs" style="margin-left: 943px;" ajax="false"></p:commandButton>
+		</p:panel>
 
 		<p:outputLabel value="Salary Month" for="salaryMonth" />
 		<p:datePicker id="salaryMonth"
