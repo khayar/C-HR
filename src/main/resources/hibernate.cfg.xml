@@ -34,5 +34,6 @@
 		<mapping class="com.chr.entity.MasterDataEntity" />
 		<mapping class="com.chr.entity.AttandenceRegisterEntity" />
 		<mapping class="com.chr.entity.SalaryProcessEntity" />
+		<mapping class="com.chr.entity.SystemHolidays" />
 	</session-factory>
 </hibernate-configuration>

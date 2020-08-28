@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>System Holidays List</title>
+	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
+		type="text/css" />
+	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />
+</h:head>
+<h:body>
+	<ui:include src="/menu.xhtml" />
+	<br />
+	<br />
+	<h:form id="form1">
+		<p:commandButton value="NEW" action="systemHolidaysDetail.xhtml"
+			style="margin-left: 943px;"></p:commandButton>
+
+		<p:dataTable
+			value="#{systemHolidayController.getSystemHolidaysList()}" var="p"
+			paginator="true" rows="10" styleClass="tableCenter"
+			filteredValue="#{attandenceRegisterController.filteredRanges}"
+			headerClass="order-table-header"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowClasses="order-table-odd-row,order-table-even-row"
+			paginatorPosition="bottom">
+
+			<f:facet name="header">
+        		System Holidays List
+    		</f:facet>
+			<p:column sortBy="#{p.systemHolidayId}" filterBy="#{p.systemHolidayId}"
+				filterMatchMode="contains">
+				<f:facet name="header">System Holiday ID</f:facet>
+				<p:link  outcome="systemHolidayEdit" value="#{p.systemHolidayId}">
+					<f:param name="systeholidayId" value="#{p.systemHolidayId}" />
+				</p:link>
+
+			</p:column>
+			
+			<p:column sortBy="#{p.startDate}" filterBy="#{p.startDate}"
+				filterMatchMode="contains">
+				<f:facet name="header">Start Date</f:facet>
+				<h:outputText value="#{p.startDate}" />
+			</p:column>
+
+			<p:column sortBy="#{p.endDate}" filterBy="#{p.endDate}"
+				filterMatchMode="contains">
+				<f:facet name="header">End Date</f:facet>
+				<h:outputText value="#{p.endDate}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

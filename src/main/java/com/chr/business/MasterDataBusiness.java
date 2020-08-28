@@ -7,6 +7,7 @@ import com.chr.data.DbManager;
 import com.chr.entity.AttandenceRegisterEntity;
 import com.chr.entity.MasterDataEntity;
 import com.chr.entity.SalaryProcessEntity;
+import com.chr.entity.SystemHolidays;
 
 public class MasterDataBusiness {
 
@@ -38,35 +39,53 @@ public class MasterDataBusiness {
 		return attandencEntity;
 	}
 
+	public SystemHolidays getSystemHolidayById(String id) {
+		SystemHolidays systemholidayEntity = dbManager.getSystemHolidayById(id);
+		return systemholidayEntity;
+	}
+	
 	public List<AttandenceRegisterEntity> getAttandenceRegisterList() {
 		return dbManager.getAttandenceRegisterList();
+	}
+
+	public List<SystemHolidays> getSystemHolidaysList() {
+		return dbManager.getSystemHolidaysList();
 	}
 
 	public void saveAttandenceRegisterDetail(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.addEntity(attandenceRegisterEntity);
 	}
 
+	public void saveSystemHolidays(SystemHolidays systemHolidaysEntity) {
+		dbManager.addEntity(systemHolidaysEntity);
+	}
+
 	public void editAttandenceRegister(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.updateEntity(attandenceRegisterEntity);
 	}
 
+	public void editSystemHolidays(SystemHolidays systemHokidayEntity) {
+		dbManager.updateEntity(systemHokidayEntity);
+	}
+	
 	public String getEmployeeName(String empCode) {
 		MasterDataEntity masterEntity = dbManager.getMasterDataByEmployeeCode(empCode);
 		return masterEntity.getEmployeeName();
 	}
 
-	public List<AttandenceRegisterEntity> getAttandenceRegister(Boolean isWeekend,String empCode,LocalDate fromDate , LocalDate endDate) {
-		return dbManager.getCountOfVariableOTRateForWeekendWeekdays(isWeekend,empCode,fromDate,endDate);
+	public List<AttandenceRegisterEntity> getAttandenceRegister(Boolean isWeekend, String empCode, LocalDate fromDate,
+			LocalDate endDate) {
+		return dbManager.getCountOfVariableOTRateForWeekendWeekdays(isWeekend, empCode, fromDate, endDate);
 	}
-	
-	public List<AttandenceRegisterEntity> getTotalNoOfDaysWork(String empCode,LocalDate fromDate , LocalDate endDate) {
-		return dbManager.getTotalNoOfDaysWork(empCode,fromDate,endDate);
+
+	public List<AttandenceRegisterEntity> getTotalNoOfDaysWork(String empCode, LocalDate fromDate, LocalDate endDate) {
+		return dbManager.getTotalNoOfDaysWork(empCode, fromDate, endDate);
 	}
-	
-	public Object getTotalNoOfProductionIncentiveHours(String empCode,LocalDate fromDate , LocalDate endDate) {
-		return dbManager.getTotalNoOfProductionIncentiveHours(empCode,fromDate,endDate);
+
+	public Object getTotalNoOfProductionIncentiveHours(String empCode, LocalDate fromDate, LocalDate endDate) {
+		return dbManager.getTotalNoOfProductionIncentiveHours(empCode, fromDate, endDate);
 	}
-	
+
 	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
 		dbManager.addSalaryEntity(salaryProcessEntity);
 	}

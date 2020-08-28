@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -45,6 +48,7 @@ public class ReportController implements Serializable {
 	final String SUFFIX = ".jasper";
 	private int format=1;
 
+	@SuppressWarnings("unused")
 	public void print() throws IOException, JRException, NamingException, SQLException {
 
 		ServletContext theApplicationsServletContext = (ServletContext) FacesContext.getCurrentInstance()
@@ -55,12 +59,20 @@ public class ReportController implements Serializable {
 
 		LinkedHashMap<String, Object> fillParams = new LinkedHashMap<>();
 		setReportName("salaryProcess");
-		/*
-		 * General parameters
-		 */
+		
+		Date salaryMonth =	SalaryProcessController.salaryMonth;
+		
+		LocalDate date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate beginningOfMonth = date.withDayOfMonth(1);
+		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
+		
+		
 		fillParams.put("userName", JsfUtil.getUserName());
 		fillParams.put("SUBREPORT_DIR", realPath + "\\");
 		fillParams.put("imagePath", imagePath + "\\");
+		fillParams.put("fromDate",beginningOfMonth);
+		fillParams.put("toDate", endOfMonth);
+		
 		switch (reportId) {
 		case 1:
 			setReportName("Agency_at_Glance");

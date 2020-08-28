@@ -35,7 +35,7 @@ public class SalaryProcessController implements Serializable {
 	private List<MasterDataEntity> masterEntityList = null;
 	private SalaryProcessEntity selectedMasterEntity;
 	MasterDataBusiness masterDataBussiness = new MasterDataBusiness();
-	private Date salaryMonth;
+	public static Date salaryMonth;
 	HashMap<String, String> empOTHours = new HashMap<>();
 
 	public SalaryProcessController() {

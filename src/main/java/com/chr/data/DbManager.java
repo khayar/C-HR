@@ -163,6 +163,22 @@ public class DbManager {
 		return entityList;
 	}
 
+	public <T> List<T> getSystemHolidaysList() {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM SystemHolidays m");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getSystemHolidaysList()---------");
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+
 	public <T> List<T> getCountOfVariableOTRateForWeekendWeekdays(Boolean isWeekend, String empCode, LocalDate fromDate,
 			LocalDate endDate) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
@@ -256,6 +272,25 @@ public class DbManager {
 		try {
 			trns = session.beginTransaction();
 			String queryString = "from AttandenceRegisterEntity where attandenceRegisterId = :id";
+			Query query = session.createQuery(queryString);
+			query.setString("id", entityId);
+			entity = (T) query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entity;
+	}
+
+	public <T> T getSystemHolidayById(String entityId) {
+		T entity = null;
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			String queryString = "from SystemHolidays where systemHolidayId = :id";
 			Query query = session.createQuery(queryString);
 			query.setString("id", entityId);
 			entity = (T) query.uniqueResult();
