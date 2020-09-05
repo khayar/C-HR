@@ -72,7 +72,11 @@ public class AttandenceRegisterController implements Serializable {
 
 		Date timeInAnother = attandenceEntity.getAttandenceTimeInAnother();
 		Date timeOutAnother = attandenceEntity.getAttandenceTimeOutAnother();
-
+		
+		if(timeIn.getTime()  < timeOut.getTime()){
+			System.out.println("Time in is less than to timeout");
+		}
+		
 		long duration = timeOut.getTime() - timeIn.getTime();
 		long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 

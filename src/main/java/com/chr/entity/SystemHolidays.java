@@ -30,15 +30,27 @@ public class SystemHolidays {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
+	@Column(name = "HOLIDAY_NAME")
+	private String holdayName;
+
 	public SystemHolidays() {
 		super();
 	}
 
-	public SystemHolidays(Integer systemHolidayId, Date startDate, Date endDate) {
+	public SystemHolidays(Integer systemHolidayId, Date startDate, Date endDate, String holdayName) {
 		super();
 		this.systemHolidayId = systemHolidayId;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.holdayName = holdayName;
+	}
+
+	public String getHoldayName() {
+		return holdayName;
+	}
+
+	public void setHoldayName(String holdayName) {
+		this.holdayName = holdayName;
 	}
 
 	public Integer getSystemHolidayId() {

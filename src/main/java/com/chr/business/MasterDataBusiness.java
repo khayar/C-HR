@@ -1,6 +1,7 @@
 package com.chr.business;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import com.chr.data.DbManager;
@@ -39,11 +40,16 @@ public class MasterDataBusiness {
 		return attandencEntity;
 	}
 
+	public List<AttandenceRegisterEntity> getAttandenceRegisterByDate(LocalDate fromDate, LocalDate toDate) {
+		List<AttandenceRegisterEntity> attandencEntityList = dbManager.getAttandenceRegisterByDate(fromDate, toDate);
+		return attandencEntityList;
+	}
+
 	public SystemHolidays getSystemHolidayById(String id) {
 		SystemHolidays systemholidayEntity = dbManager.getSystemHolidayById(id);
 		return systemholidayEntity;
 	}
-	
+
 	public List<AttandenceRegisterEntity> getAttandenceRegisterList() {
 		return dbManager.getAttandenceRegisterList();
 	}
@@ -67,7 +73,7 @@ public class MasterDataBusiness {
 	public void editSystemHolidays(SystemHolidays systemHokidayEntity) {
 		dbManager.updateEntity(systemHokidayEntity);
 	}
-	
+
 	public String getEmployeeName(String empCode) {
 		MasterDataEntity masterEntity = dbManager.getMasterDataByEmployeeCode(empCode);
 		return masterEntity.getEmployeeName();
@@ -82,11 +88,19 @@ public class MasterDataBusiness {
 		return dbManager.getTotalNoOfDaysWork(empCode, fromDate, endDate);
 	}
 
+	public List<SystemHolidays> getTotalHolidaysOfMonth(LocalDate fromDate, LocalDate endDate) {
+		return dbManager.getTotalHolidaysOfMonth(fromDate, endDate);
+	}
+
 	public Object getTotalNoOfProductionIncentiveHours(String empCode, LocalDate fromDate, LocalDate endDate) {
 		return dbManager.getTotalNoOfProductionIncentiveHours(empCode, fromDate, endDate);
 	}
 
 	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
 		dbManager.addSalaryEntity(salaryProcessEntity);
+	}
+	
+	public void updateAttandenceRegisterEntity(AttandenceRegisterEntity attandenceRegisterEntity) {
+		dbManager.updateAttandenceRegisterEntity(attandenceRegisterEntity);
 	}
 }

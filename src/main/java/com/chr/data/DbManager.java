@@ -1,6 +1,7 @@
 package com.chr.data;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -284,6 +285,26 @@ public class DbManager {
 		return entity;
 	}
 
+	public <T> List<T> getAttandenceRegisterByDate(LocalDate fromDate, LocalDate endDate) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+			try {
+			transcation = session.beginTransaction();
+			Query query = session
+					.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.attandenceDate BETWEEN '" + fromDate
+							+ "' AND '" + endDate + "'");
+			entityList = query.list();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+
 	public <T> T getSystemHolidayById(String entityId) {
 		T entity = null;
 		Transaction trns = null;
@@ -321,6 +342,46 @@ public class DbManager {
 			session.close();
 		}
 		return entity;
+	}
+
+	public <T> List<T> getTotalHolidaysOfMonth(LocalDate fromDate, LocalDate endDate) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM SystemHolidays m where m.startDate >= '" + fromDate
+					+ "' and m.endDate <= '" + endDate + "'");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getTotalHolidaysOfMonth()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+	
+	public <T> void updateAttandenceRegisterEntity(T entity) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		try {
+			session.beginTransaction();
+			session.update(entity);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class  updateAttandenceRegisterEntity()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
 	}
 
 }

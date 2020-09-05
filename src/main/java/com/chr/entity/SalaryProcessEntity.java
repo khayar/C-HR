@@ -89,7 +89,7 @@ public class SalaryProcessEntity {
 	private Date salaryProcessDate;
 
 	@Column(name = "SALARY_PROCESS_MONTH")
-	private String salaryProcessMonth;
+	private Date salaryProcessMonth;
 
 	@Column(name = "CREATED_BY")
 	private String createdBy;
@@ -114,7 +114,7 @@ public class SalaryProcessEntity {
 			String lostOfPay, String overTimeWeekDays, String overTimeWeekEnds, String productionIncentives,
 			String totalSalary, String advanceDeduction, String netSalary, String salaryAsPerLabourContract,
 			String differenceInSalary, String amountToBeCredit, String netPayableRevevable, String modeOftransfer,
-			Date salaryProcessDate, String salaryProcessMonth, String createdBy, Date createdOn, String totalOvertime,
+			Date salaryProcessDate, Date salaryProcessMonth, String createdBy, Date createdOn, String totalOvertime,
 			MasterDataEntity masterDataEntitySalaryProcess) {
 		super();
 		this.employeeCode = employeeCode;
@@ -331,11 +331,11 @@ public class SalaryProcessEntity {
 		this.salaryProcessDate = salaryProcessDate;
 	}
 
-	public String getSalaryProcessMonth() {
+	public Date getSalaryProcessMonth() {
 		return salaryProcessMonth;
 	}
 
-	public void setSalaryProcessMonth(String salaryProcessMonth) {
+	public void setSalaryProcessMonth(Date salaryProcessMonth) {
 		this.salaryProcessMonth = salaryProcessMonth;
 	}
 

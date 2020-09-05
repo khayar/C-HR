@@ -33,15 +33,15 @@
 			<f:facet name="header">
         		System Holidays List
     		</f:facet>
-			<p:column sortBy="#{p.systemHolidayId}" filterBy="#{p.systemHolidayId}"
-				filterMatchMode="contains">
+			<p:column sortBy="#{p.systemHolidayId}"
+				filterBy="#{p.systemHolidayId}" filterMatchMode="contains">
 				<f:facet name="header">System Holiday ID</f:facet>
-				<p:link  outcome="systemHolidayEdit" value="#{p.systemHolidayId}">
+				<p:link outcome="systemHolidayEdit" value="#{p.systemHolidayId}">
 					<f:param name="systeholidayId" value="#{p.systemHolidayId}" />
 				</p:link>
 
 			</p:column>
-			
+
 			<p:column sortBy="#{p.startDate}" filterBy="#{p.startDate}"
 				filterMatchMode="contains">
 				<f:facet name="header">Start Date</f:facet>
@@ -52,6 +52,12 @@
 				filterMatchMode="contains">
 				<f:facet name="header">End Date</f:facet>
 				<h:outputText value="#{p.endDate}" />
+			</p:column>
+
+			<p:column sortBy="#{p.holdayName}" filterBy="#{p.holdayName}"
+				filterMatchMode="contains">
+				<f:facet name="header">Holiday Name</f:facet>
+				<h:outputText value="#{p.holdayName}" />
 			</p:column>
 
 		</p:dataTable>

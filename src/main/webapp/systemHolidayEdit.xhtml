@@ -41,10 +41,15 @@
 					value="#{systemHolidayController.selectedEntity.endDate}"
 					required="true" />
 
+				<p:outputLabel value="Holiday Name" for="holidayName" />
+				<p:inputText id="holidayName" style="width:250px;"
+					value="#{systemHolidayController.selectedEntity.holdayName}"
+					required="true" />
+
 				<p:commandButton value="Submit"
 					actionListener="#{systemHolidayController.editSystemHolidays(systemHolidayController.selectedEntity)}"
 					update="panel msgs"></p:commandButton>
-					
+
 			</p:panelGrid>
 		</p:panel>
 	</h:form>
