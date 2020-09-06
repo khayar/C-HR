@@ -35,7 +35,8 @@ public class AttandenceRegisterController implements Serializable {
 	private List<AttandenceRegisterEntity> attandenceRegisterList = null;
 	private Boolean isRender = false;
 	private List<AttandenceRegisterEntity> filteredRanges;
-
+	static Long totalHoursWorked = 0L;
+	
 	public AttandenceRegisterController() {
 		super();
 
@@ -80,8 +81,8 @@ public class AttandenceRegisterController implements Serializable {
 
 		Date timeInAnother = attandenceEntity.getAttandenceTimeInAnother();
 		Date timeOutAnother = attandenceEntity.getAttandenceTimeOutAnother();
+
 		
-		long totalHoursWorked;
 		// check if timeout is less than timein
 		if (timeOut.getTime() < timeIn.getTime()) {
 			String stringTime = "1970-01-01 24:00:00";
@@ -93,31 +94,48 @@ public class AttandenceRegisterController implements Serializable {
 				System.out.println("Exception comes in getTotalHoursCount() " + e);
 				e.printStackTrace();
 			}
-			
+
 			LocalDateTime hours24DateTime = hours24Date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			
+
 			LocalDateTime dateTimeout = timeOut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 			int hours = dateTimeout.getHour();
 
 			LocalDateTime dateTimeIn = timeIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			
-			Duration totalDurationHours = Duration.ofHours(ChronoUnit.HOURS.between(dateTimeIn,hours24DateTime));
+
+			Duration totalDurationHours = Duration.ofHours(ChronoUnit.HOURS.between(dateTimeIn, hours24DateTime));
 			long aLong = totalDurationHours.toHours();
 			aLong = aLong + hours;
-			
-			dateTimeIn = dateTimeIn.plusHours(aLong);
-			totalHoursWorked = dateTimeIn.getHour();
+
+			totalHoursWorked = aLong;
 
 		} else if (timeOutAnother != null && (timeOutAnother.getTime() < timeInAnother.getTime())) {
+			Date hours24Date = null;
+			if (timeOutAnother.getTime() < timeInAnother.getTime()) {
+				String stringTime = "1970-01-01 24:00:00";
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				try {
+					hours24Date = df.parse(stringTime);
+				} catch (ParseException e) {
+					System.out.println("Exception comes in getTotalHoursCount() timeinAnother" + e);
+					e.printStackTrace();
+				}
+			}
+			LocalDateTime hours24DateTime = hours24Date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
 			LocalDateTime dateTimeOutAnother = timeOutAnother.toInstant().atZone(ZoneId.systemDefault())
 					.toLocalDateTime();
 			int hours = dateTimeOutAnother.getHour();
 
 			LocalDateTime dateTimeInAnother = timeInAnother.toInstant().atZone(ZoneId.systemDefault())
 					.toLocalDateTime();
-			dateTimeInAnother = dateTimeInAnother.plusHours(hours);
-			long timeinDurationAnother = dateTimeInAnother.getHour();
-			totalHoursWorked = timeinDurationAnother + timeinDurationAnother; // add timein with timeinAnother
+
+			Duration totalDurationHours = Duration
+					.ofHours(ChronoUnit.HOURS.between(dateTimeInAnother, hours24DateTime));
+			long aLong = totalDurationHours.toHours();
+			aLong = aLong + hours;
+			totalHoursWorked = totalHoursWorked + aLong; // add timein and
+															// timein another
+
 		}
 
 		else {
