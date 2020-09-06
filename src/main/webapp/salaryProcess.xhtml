@@ -66,6 +66,14 @@
 				<f:facet name="header">Others deduction</f:facet>
 				<p:inputText value="#{p.loan}" />
 			</p:column>
+			
+			<p:column>
+				<f:facet name="header">Salary Slip</f:facet>
+				<p:commandButton value="Report"  action="#{reportController.print()}" ajax="false">
+				<f:param name="empCode"  value="#{p.employeeCode}"></f:param>
+				<f:param name="reportId"  value="2"></f:param>
+				</p:commandButton>
+			</p:column>
 
 		</p:dataTable>
 	</h:form>

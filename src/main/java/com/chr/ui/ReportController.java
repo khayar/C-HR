@@ -43,7 +43,7 @@ public class ReportController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String reportName = null;
-	private int reportId;
+	private String reportId;
 	final String PREFIX = "/WEB-INF/reports/";
 	final String SUFFIX = ".jasper";
 	private int format=1;
@@ -66,6 +66,8 @@ public class ReportController implements Serializable {
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
 		
+		reportId = 	FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("reportId");
+		String empCode  = 	FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
 		
 		fillParams.put("userName", JsfUtil.getUserName());
 		fillParams.put("SUBREPORT_DIR", realPath + "\\");
@@ -74,10 +76,14 @@ public class ReportController implements Serializable {
 		fillParams.put("toDate", endOfMonth);
 		
 		switch (reportId) {
-		case 1:
+		case "1":
 			setReportName("Agency_at_Glance");
 			fillParams.put("reportNameParam", "AGENCY_AT_GLANCE");
 			break;
+		case "2":
+			setReportName("EmplyerSalarySlip");
+			fillParams.put("empCode", empCode);
+			format = 2;
 		}
 
 		generateReport(getReportName(), fillParams, realPath);
@@ -177,11 +183,11 @@ public class ReportController implements Serializable {
 		this.reportName = reportName;
 	}
 
-	public int getReportId() {
+	public String getReportId() {
 		return reportId;
 	}
 
-	public void setReportId(int reportId) {
+	public void setReportId(String reportId) {
 		this.reportId = reportId;
 	}
 
