@@ -1,10 +1,18 @@
 package com.chr.ui;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -73,22 +81,58 @@ public class AttandenceRegisterController implements Serializable {
 		Date timeInAnother = attandenceEntity.getAttandenceTimeInAnother();
 		Date timeOutAnother = attandenceEntity.getAttandenceTimeOutAnother();
 		
-		if(timeIn.getTime()  < timeOut.getTime()){
-			System.out.println("Time in is less than to timeout");
+		long totalHoursWorked;
+		// check if timeout is less than timein
+		if (timeOut.getTime() < timeIn.getTime()) {
+			String stringTime = "1970-01-01 24:00:00";
+			Date hours24Date = null;
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			try {
+				hours24Date = df.parse(stringTime);
+			} catch (ParseException e) {
+				System.out.println("Exception comes in getTotalHoursCount() " + e);
+				e.printStackTrace();
+			}
+			
+			LocalDateTime hours24DateTime = hours24Date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			
+			LocalDateTime dateTimeout = timeOut.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			int hours = dateTimeout.getHour();
+
+			LocalDateTime dateTimeIn = timeIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			
+			Duration totalDurationHours = Duration.ofHours(ChronoUnit.HOURS.between(dateTimeIn,hours24DateTime));
+			long aLong = totalDurationHours.toHours();
+			aLong = aLong + hours;
+			
+			dateTimeIn = dateTimeIn.plusHours(aLong);
+			totalHoursWorked = dateTimeIn.getHour();
+
+		} else if (timeOutAnother != null && (timeOutAnother.getTime() < timeInAnother.getTime())) {
+			LocalDateTime dateTimeOutAnother = timeOutAnother.toInstant().atZone(ZoneId.systemDefault())
+					.toLocalDateTime();
+			int hours = dateTimeOutAnother.getHour();
+
+			LocalDateTime dateTimeInAnother = timeInAnother.toInstant().atZone(ZoneId.systemDefault())
+					.toLocalDateTime();
+			dateTimeInAnother = dateTimeInAnother.plusHours(hours);
+			long timeinDurationAnother = dateTimeInAnother.getHour();
+			totalHoursWorked = timeinDurationAnother + timeinDurationAnother; // add timein with timeinAnother
 		}
-		
-		long duration = timeOut.getTime() - timeIn.getTime();
-		long diffInHours = TimeUnit.MILLISECONDS.toHours(duration);
 
-		if (timeOutAnother != null && timeInAnother != null) {
-			long durationAnother = timeOutAnother.getTime() - timeInAnother.getTime();
-			long diffInHoursAnother = TimeUnit.MILLISECONDS.toHours(durationAnother);
-			diffInHours = diffInHours + diffInHoursAnother;
+		else {
+			long duration = timeOut.getTime() - timeIn.getTime();
+			totalHoursWorked = TimeUnit.MILLISECONDS.toHours(duration);
+
+			if (timeOutAnother != null && timeInAnother != null) {
+				long durationAnother = timeOutAnother.getTime() - timeInAnother.getTime();
+				long diffInHoursAnother = TimeUnit.MILLISECONDS.toHours(durationAnother);
+				totalHoursWorked = totalHoursWorked + diffInHoursAnother;
+			}
 		}
+		attandenceEntity.setTotalhours(String.valueOf(totalHoursWorked));
 
-		attandenceEntity.setTotalhours(String.valueOf(diffInHours));
-
-		System.out.print("The difference in time is = " + diffInHours);
+		System.out.print("The difference in time is = " + totalHoursWorked);
 
 		getTotalOTHoursCount(attandenceEntity);
 	}
