@@ -35,7 +35,7 @@ public class AttandenceRegisterController implements Serializable {
 	private List<AttandenceRegisterEntity> attandenceRegisterList = null;
 	private Boolean isRender = false;
 	private List<AttandenceRegisterEntity> filteredRanges;
-	static Long totalHoursWorked = 0L;
+	
 	
 	public AttandenceRegisterController() {
 		super();
@@ -82,7 +82,7 @@ public class AttandenceRegisterController implements Serializable {
 		Date timeInAnother = attandenceEntity.getAttandenceTimeInAnother();
 		Date timeOutAnother = attandenceEntity.getAttandenceTimeOutAnother();
 
-		
+		Long totalHoursWorked = 0L;
 		// check if timeout is less than timein
 		if (timeOut.getTime() < timeIn.getTime()) {
 			String stringTime = "1970-01-01 24:00:00";
@@ -133,6 +133,7 @@ public class AttandenceRegisterController implements Serializable {
 					.ofHours(ChronoUnit.HOURS.between(dateTimeInAnother, hours24DateTime));
 			long aLong = totalDurationHours.toHours();
 			aLong = aLong + hours;
+			totalHoursWorked = totalHoursWorked == 0 ? Long.valueOf(attandenceEntity.getTotalhours()) : totalHoursWorked;
 			totalHoursWorked = totalHoursWorked + aLong; // add timein and
 															// timein another
 
