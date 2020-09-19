@@ -333,3 +333,7 @@ Calander CSS-->.ui-datepicker-calendar {
 .ui-widget-content a {
 	color: #7bba55 !important;
 }
+
+.ui-panel .ui-panel-content {
+	overflow: inherit !important;
+}

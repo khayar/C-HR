@@ -44,9 +44,11 @@ public class ReportController implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String reportName = null;
 	private String reportId;
+	private Date salaryMonth = null;
+	private String empCode;
 	final String PREFIX = "/WEB-INF/reports/";
 	final String SUFFIX = ".jasper";
-	private int format=1;
+	private int format = 1;
 
 	@SuppressWarnings("unused")
 	public void print() throws IOException, JRException, NamingException, SQLException {
@@ -58,31 +60,33 @@ public class ReportController implements Serializable {
 		String imagePath = theApplicationsServletContext.getRealPath("/resources/images/");
 
 		LinkedHashMap<String, Object> fillParams = new LinkedHashMap<>();
-		setReportName("salaryProcess");
-		
-		Date salaryMonth =	SalaryProcessController.salaryMonth;
-		
+
+		//Date salaryMonth = SalaryProcessController.salaryMonth;
+
 		LocalDate date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
+
+		String reportName = "";
 		
-		reportId = 	FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("reportId");
-		String empCode  = 	FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
-		
+		//String empCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
+
 		fillParams.put("userName", JsfUtil.getUserName());
 		fillParams.put("SUBREPORT_DIR", realPath + "\\");
 		fillParams.put("imagePath", imagePath + "\\");
-		fillParams.put("fromDate",beginningOfMonth);
-		fillParams.put("toDate", endOfMonth);
-		
-		switch (reportId) {
+
+		switch (getReportId()) {
 		case "1":
-			setReportName("Agency_at_Glance");
-			fillParams.put("reportNameParam", "AGENCY_AT_GLANCE");
+			setReportName("salaryProcess");
+			fillParams.put("fromDate", beginningOfMonth);
+			fillParams.put("toDate", endOfMonth);
+			format = 1;
 			break;
 		case "2":
 			setReportName("EmplyerSalarySlip");
 			fillParams.put("empCode", empCode);
+			fillParams.put("fromDate", beginningOfMonth);
+			fillParams.put("toDate", endOfMonth);
 			format = 2;
 		}
 
@@ -98,9 +102,8 @@ public class ReportController implements Serializable {
 			String type = "application/pdf";
 			javax.naming.Context ctx = new javax.naming.InitialContext();
 
-			
 			SessionImpl sessionImpl = (SessionImpl) HibernateUtil.buildSessionFactory().openSession();
-	        conn = sessionImpl.connection();
+			conn = sessionImpl.connection();
 
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
@@ -189,6 +192,22 @@ public class ReportController implements Serializable {
 
 	public void setReportId(String reportId) {
 		this.reportId = reportId;
+	}
+
+	public Date getSalaryMonth() {
+		return salaryMonth;
+	}
+
+	public String getEmpCode() {
+		return empCode;
+	}
+
+	public void setSalaryMonth(Date salaryMonth) {
+		this.salaryMonth = salaryMonth;
+	}
+
+	public void setEmpCode(String empCode) {
+		this.empCode = empCode;
 	}
 
 }

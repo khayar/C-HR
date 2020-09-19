@@ -26,12 +26,7 @@
 			<p:commandButton value="Process Salary And Send to Approval"
 				action="#{salaryProcessController.processSalary(salaryProcessController.masterDataList)}"
 				update="msgs" style="margin-left: 943px;"></p:commandButton>
-
-
-			<p:commandButton value="Print" action="#{reportController.print()}"
-				update="panel msgs" style="margin-left: 943px;" ajax="false"></p:commandButton>
 		</p:panel>
-
 		<p:outputLabel value="Salary Month" for="salaryMonth" />
 		<p:datePicker id="salaryMonth"
 			value="#{salaryProcessController.salaryMonth}" view="month"
@@ -65,14 +60,6 @@
 			<p:column>
 				<f:facet name="header">Others deduction</f:facet>
 				<p:inputText value="#{p.loan}" />
-			</p:column>
-			
-			<p:column>
-				<f:facet name="header">Salary Slip</f:facet>
-				<p:commandButton value="Report"  action="#{reportController.print()}" ajax="false">
-				<f:param name="empCode"  value="#{p.employeeCode}"></f:param>
-				<f:param name="reportId"  value="2"></f:param>
-				</p:commandButton>
 			</p:column>
 
 		</p:dataTable>
