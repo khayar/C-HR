@@ -10,13 +10,14 @@
 	<title>Salary Process</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
+<!--  <link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
 
 
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 	<h:form id="form1">
@@ -25,7 +26,7 @@
 
 			<p:commandButton value="Process Salary And Send to Approval"
 				action="#{salaryProcessController.processSalary(salaryProcessController.masterDataList)}"
-				update="msgs" style="margin-left: 943px;"></p:commandButton>
+				update="msgs"></p:commandButton>
 		</p:panel>
 		<p:outputLabel value="Salary Month" for="salaryMonth" />
 		<p:datePicker id="salaryMonth"
@@ -50,8 +51,6 @@
 				<h:outputText value="#{p.employeeName}" />
 			</p:column>
 
-
-
 			<p:column>
 				<f:facet name="header">Loan deduction</f:facet>
 				<p:inputText value="#{p.loan}" />
@@ -61,7 +60,12 @@
 				<f:facet name="header">Others deduction</f:facet>
 				<p:inputText value="#{p.loan}" />
 			</p:column>
-
+			
+			<p:column>
+				<f:facet name="header">Current Status</f:facet>
+				<h:outputText value="#{p.salaryProcessEntity.currentState}" />
+			</p:column>
+			
 		</p:dataTable>
 	</h:form>
 </h:body>

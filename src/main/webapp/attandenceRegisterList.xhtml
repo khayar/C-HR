@@ -10,15 +10,17 @@
 	<title>Attandence Register List</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
+		
+	<!--<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 	<h:form id="form1">
-	<p:commandButton value="NEW" action="attandenceRegisterDetail.xhtml" style="margin-left: 943px;"></p:commandButton>
+	<p:commandButton value="NEW" action="attandenceRegisterDetail.xhtml"></p:commandButton>
 	
 		<p:dataTable value="#{attandenceRegisterController.getAttandenceList()}"
 			var="p" paginator="true" rows="10" styleClass="tableCenter" filteredValue="#{attandenceRegisterController.filteredRanges}"

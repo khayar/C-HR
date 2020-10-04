@@ -10,16 +10,17 @@
 	<title>Attandence Register Detail</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
+	<!-- <link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 
 	<h:form id="form1" prependId="false">
-		<p:commandButton value="Add" style="margin-left: 943px;">
+		<p:commandButton value="Add another timeInOut">
 			<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"
 				update="panel"></p:ajax>
 		</p:commandButton>

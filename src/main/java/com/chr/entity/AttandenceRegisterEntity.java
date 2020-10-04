@@ -1,5 +1,6 @@
 package com.chr.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,7 +16,9 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ATTANDENCE_REGISTER")
-public class AttandenceRegisterEntity {
+public class AttandenceRegisterEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

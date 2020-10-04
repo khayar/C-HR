@@ -88,11 +88,11 @@ public class DbManager {
 		}
 	}
 
-	public <T> void addSalaryEntity(T entity) {
+	public <T> void addOrUpdateSalaryEntity(T entity) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		try {
 			session.beginTransaction();
-			session.save(entity);
+			session.saveOrUpdate(entity);
 			session.getTransaction().commit();
 
 		} catch (ConstraintViolationException ce) {
@@ -289,7 +289,7 @@ public class DbManager {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
 		List<T> entityList = null;
-			try {
+		try {
 			transcation = session.beginTransaction();
 			Query query = session
 					.createQuery("SELECT m FROM AttandenceRegisterEntity m where m.attandenceDate BETWEEN '" + fromDate
@@ -364,7 +364,7 @@ public class DbManager {
 		}
 		return entityList;
 	}
-	
+
 	public <T> void updateAttandenceRegisterEntity(T entity) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
@@ -384,4 +384,44 @@ public class DbManager {
 		}
 	}
 
+	public <T> List<T> getUserMenuPermissionList(String userId) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM UserMenuPermission m where m.userPermissionKey.userID = '" + userId + "' order by sortId");
+			entityList = query.list();
+
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getUserMenuPermissionList()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+	
+	public <T> List<T> getSalaryApprovalList() {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM SalaryProcessEntity m where m.currentState = 'Approval Required'");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getList()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
 }

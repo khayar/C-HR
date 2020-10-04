@@ -5,7 +5,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">net.sourceforge.jtds.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost:1433/CHR;instance=SQLSERVER2014;charset=CP1256;socketTimeout=60;</property>
+		 <property name="hibernate.connection.url">jdbc:jtds:sqlserver://localhost:1433/CHR;instance=SQLSERVER2014;charset=CP1256;socketTimeout=60;</property>
+		<!-- <property name="hibernate.connection.url">jdbc:jtds:sqlserver://172.25.64.19:1433/CHR;instance=SQLEXPRESS;charset=CP1256;socketTimeout=60;</property> -->
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password">efu123**</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
@@ -35,5 +36,7 @@
 		<mapping class="com.chr.entity.AttandenceRegisterEntity" />
 		<mapping class="com.chr.entity.SalaryProcessEntity" />
 		<mapping class="com.chr.entity.SystemHolidays" />
+		<mapping class="com.chr.entity.UserMenuPermission" />
+		<mapping class="com.chr.entity.UserEntity" />
 	</session-factory>
 </hibernate-configuration>

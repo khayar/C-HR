@@ -97,10 +97,15 @@ public class MasterDataBusiness {
 	}
 
 	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
-		dbManager.addSalaryEntity(salaryProcessEntity);
+		dbManager.addOrUpdateSalaryEntity(salaryProcessEntity);
 	}
 	
 	public void updateAttandenceRegisterEntity(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.updateAttandenceRegisterEntity(attandenceRegisterEntity);
 	}
+	
+	public List<SalaryProcessEntity> getSalaryApprovalList() {
+		return dbManager.getSalaryApprovalList();
+	}
+
 }

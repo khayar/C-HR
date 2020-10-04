@@ -10,11 +10,12 @@
 	<title>System Holidays Detail</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
+	<!-- <link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 

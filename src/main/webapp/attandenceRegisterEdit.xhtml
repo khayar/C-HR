@@ -10,11 +10,12 @@
 	<title>Attandence Register Detail Edit</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
+	<!-- <link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 	<f:metadata>
@@ -24,10 +25,6 @@
 	</f:metadata>
 
 	<h:form id="form1" prependId="false">
-		<p:commandButton value="Add" style="margin-left: 943px;">
-			<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"></p:ajax>
-		</p:commandButton>
-
 		<p:panel id="panel" header="Edit Data">
 
 			<p:messages id="msgs" />

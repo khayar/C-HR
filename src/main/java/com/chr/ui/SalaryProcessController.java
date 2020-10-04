@@ -37,6 +37,7 @@ public class SalaryProcessController implements Serializable {
 	private static final Logger logger = Logger.getLogger(DbManager.class);
 
 	private List<MasterDataEntity> masterEntityList = null;
+	private List<SalaryProcessEntity> salaryProcessList = null;
 	private SalaryProcessEntity selectedMasterEntity;
 	MasterDataBusiness masterDataBussiness = new MasterDataBusiness();
 	public static Date salaryMonth;
@@ -69,6 +70,21 @@ public class SalaryProcessController implements Serializable {
 			masterEntityList = masterDataBussiness.getMasterList();
 		}
 		return masterEntityList;
+	}
+
+	public List<SalaryProcessEntity> getSalaryProcessList() {
+		if (salaryProcessList == null)
+			salaryProcessList = masterDataBussiness.getSalaryApprovalList();
+
+		return salaryProcessList;
+	}
+
+	public void getSalaryApproved(List<SalaryProcessEntity> salaryList) {
+		for (int i = 0; i < salaryList.size(); i++) {
+			salaryList.get(i).setCurrentState("Approved");
+			masterDataBussiness.saveSalaryEntity(salaryList.get(i));
+		}
+
 	}
 
 	public void processSalary(List<MasterDataEntity> masterList) {
@@ -356,6 +372,7 @@ public class SalaryProcessController implements Serializable {
 		salaryEntity.setVariableOtRateWeekend(masterEntity.salaryProcessEntity.getVariableOtRateWeekend());
 		salaryEntity.setCreatedBy(currentUser.getPrincipal().toString());
 		salaryEntity.setCreatedOn(new Date());
+		salaryEntity.setCurrentState("Approval Required");
 
 		Double totalSalary = Double.valueOf(masterEntity.getBasicSalary())
 				+ Double.valueOf(masterEntity.getAllowances())
@@ -365,9 +382,9 @@ public class SalaryProcessController implements Serializable {
 				+ Double.valueOf(masterEntity.salaryProcessEntity.getProductionIncentives())
 				+ Double.valueOf(masterEntity.salaryProcessEntity.getTotalOTHours())
 				- Double.valueOf(masterEntity.getLoan());
-		
+
 		Double diffInSalary = Double.valueOf(masterEntity.getSalaryAsPerLabourContract()) - netSalary;
-		
+
 		Double amoutCredit = netSalary > Double.valueOf(masterEntity.getSalaryAsPerLabourContract()) ? netSalary
 				: Double.valueOf(masterEntity.getSalaryAsPerLabourContract());
 
@@ -385,6 +402,10 @@ public class SalaryProcessController implements Serializable {
 
 	public void setSalaryMonth(Date salaryMonth) {
 		this.salaryMonth = salaryMonth;
+	}
+
+	public void setSalaryProcessList(List<SalaryProcessEntity> salaryProcessList) {
+		this.salaryProcessList = salaryProcessList;
 	}
 
 }

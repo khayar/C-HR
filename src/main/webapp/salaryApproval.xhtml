@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<title>Salary Approval</title>
+	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
+		type="text/css" />
+</h:head>
+<h:body>
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}" />
+	<br />
+	<br />
+	<h:form id="form1">
+		<p:panel id="panel">
+			<p:messages id="msgs" />
+
+			<p:commandButton value="Approved"
+				action="#{salaryProcessController.getSalaryApproved(salaryProcessController.salaryProcessList)}"
+				update="msgs"></p:commandButton>
+		</p:panel>
+
+		<p:dataTable value="#{salaryProcessController.getSalaryProcessList()}"
+			var="p" paginator="false" rows="10" styleClass="tableCenter"
+			headerClass="order-table-header"
+			rowClasses="order-table-odd-row,order-table-even-row">
+
+			<f:facet name="header">
+        		Salary Process Approval
+    		</f:facet>
+			<p:column>
+				<f:facet name="header">Employee Code</f:facet>
+				<h:outputText value="#{p.employeeCode}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">No of Days Work</f:facet>
+				<h:outputText value="#{p.noOfDaysWork}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Total OT Hours</f:facet>
+				<h:outputText value="#{p.totalOTHours}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Production Incentive Hours</f:facet>
+				<h:outputText value="#{p.productionIncentiveHours}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Fixed OT rate per hour</f:facet>
+				<h:outputText value="#{p.fixedRatePerHour}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Variable OT Rate Weekdays</f:facet>
+				<h:outputText value="#{p.variableOtRateWeekdays}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Variable OT Rate Weekend</f:facet>
+				<h:outputText value="#{p.variableOtRateWeekend}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Basic Salary</f:facet>
+				<h:outputText value="#{p.basicSalary}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Allowances</f:facet>
+				<h:outputText value="#{p.allowances}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Total Fixed Salary</f:facet>
+				<h:outputText value="#{p.totalFixedSalary}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Overtime Weekdays</f:facet>
+				<h:outputText value="#{p.overTimeWeekDays}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Overtime Weekends</f:facet>
+				<h:outputText value="#{p.overTimeWeekEnds}" />
+			</p:column>
+
+
+
+			<p:column>
+				<f:facet name="header">Production Incentives</f:facet>
+				<h:outputText value="#{p.productionIncentives}" />
+			</p:column>
+
+
+			<p:column>
+				<f:facet name="header">Current Status</f:facet>
+				<h:outputText value="#{p.currentState}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

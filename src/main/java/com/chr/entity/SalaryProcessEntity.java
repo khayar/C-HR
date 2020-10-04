@@ -1,5 +1,6 @@
 package com.chr.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SALARY_PROCESS")
-public class SalaryProcessEntity {
+public class SalaryProcessEntity implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "EMPLOYEE_CODE", unique = true, nullable = false)
@@ -100,6 +103,9 @@ public class SalaryProcessEntity {
 	@Column(name = "TOTAL_OVERTIME")
 	private String totalOvertime;
 
+	@Column(name = "CURRENT_STATE")
+	private String currentState;
+
 	@OneToOne
 	@JoinColumn(name = "EMPLOYEE_CODE")
 	private MasterDataEntity masterDataEntitySalaryProcess;
@@ -115,7 +121,7 @@ public class SalaryProcessEntity {
 			String totalSalary, String advanceDeduction, String netSalary, String salaryAsPerLabourContract,
 			String differenceInSalary, String amountToBeCredit, String netPayableRevevable, String modeOftransfer,
 			Date salaryProcessDate, Date salaryProcessMonth, String createdBy, Date createdOn, String totalOvertime,
-			MasterDataEntity masterDataEntitySalaryProcess) {
+			String currentState, MasterDataEntity masterDataEntitySalaryProcess) {
 		super();
 		this.employeeCode = employeeCode;
 		this.noOfDaysWork = noOfDaysWork;
@@ -144,6 +150,7 @@ public class SalaryProcessEntity {
 		this.createdBy = createdBy;
 		this.createdOn = createdOn;
 		this.totalOvertime = totalOvertime;
+		this.currentState = currentState;
 		this.masterDataEntitySalaryProcess = masterDataEntitySalaryProcess;
 	}
 
@@ -369,6 +376,14 @@ public class SalaryProcessEntity {
 
 	public void setVariableOtRateWeekend(String variableOtRateWeekend) {
 		this.variableOtRateWeekend = variableOtRateWeekend;
+	}
+
+	public String getCurrentState() {
+		return currentState;
+	}
+
+	public void setCurrentState(String currentState) {
+		this.currentState = currentState;
 	}
 
 }

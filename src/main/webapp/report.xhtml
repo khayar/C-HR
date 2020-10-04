@@ -10,39 +10,46 @@
 	<title>System Reports</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
-	<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
-		type="text/css" />
 
+	<!--<link href="/C-HR/resources/menuCss/menuCss.css" rel="stylesheet"
+		type="text/css" />-->
+	<h:outputScript library="js" name="main.js" />
 
 </h:head>
 <h:body>
-	<ui:include src="/menu.xhtml" />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}" />
+	<!--<ui:include src="/menu.xhtml" />-->
 	<br />
 	<br />
-	<h:form id="form1">
+	<h:form id="form1" prependId="false">
+		<p:commandButton value="Print" action="#{reportController.print()}"
+			update="panel msgs" style="margin-left: 943px;" ajax="false"
+			onclick="return checkReportParams();">
+		</p:commandButton>
+		
 		<p:panel id="panel">
-			<p:messages id="msgs" />
-
+		<p:messages id="msgs" />
+			
 			<p:outputLabel value="Salary Month" for="salaryMonth" />
 			<p:datePicker id="salaryMonth"
 				value="#{reportController.salaryMonth}" view="month"
 				pattern="MM/yyyy" required="true" />
 
-			<p:outputLabel value="Employee Code" for="empCode" />
-			<p:inputText id="empCode" value="#{reportController.empCode}"
-				required="true" />
+			<p:outputLabel value="Employee Code" />
+			<p:inputText id="empCode" value="#{reportController.empCode}" />
+			
+			<p:outputLabel></p:outputLabel>
+			<p:outputLabel></p:outputLabel>
 
-
-			<p:outputLabel value="Report Name" for="reportId"/>
-			<p:selectOneMenu id="reportId" value="#{reportController.reportId}">
+			<p:outputLabel value="Report Name" for="reportId" />
+			<p:selectOneMenu id="reportId" value="#{reportController.reportId}"
+				widgetVar="reportValues">
 				<f:selectItem itemLabel="Select One" itemValue="" />
 				<f:selectItem itemLabel="Salary Slip of Employee" itemValue="2" />
 				<f:selectItem itemLabel="Salary process slip" itemValue="1" />
 			</p:selectOneMenu>
-
-			<p:commandButton value="Print" action="#{reportController.print()}"
-				update="panel msgs" style="margin-left: 943px;" ajax="false">
-			</p:commandButton>
+			
+			
 		</p:panel>
 
 

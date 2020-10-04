@@ -1,5 +1,6 @@
 package com.chr.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MASTER_DATA")
-public class MasterDataEntity {
+public class MasterDataEntity implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "EMPLOYEE_CODE", unique = true, nullable = false)
@@ -335,6 +338,14 @@ public class MasterDataEntity {
 
 	public void setEmployeeDesig(String employeeDesig) {
 		this.employeeDesig = employeeDesig;
+	}
+
+	public SalaryProcessEntity getSalaryProcessEntity() {
+		return salaryProcessEntity;
+	}
+
+	public void setSalaryProcessEntity(SalaryProcessEntity salaryProcessEntity) {
+		this.salaryProcessEntity = salaryProcessEntity;
 	}
 
 
