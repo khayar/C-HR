@@ -96,16 +96,23 @@ public class MasterDataBusiness {
 		return dbManager.getTotalNoOfProductionIncentiveHours(empCode, fromDate, endDate);
 	}
 
-	public void saveSalaryEntity(SalaryProcessEntity salaryProcessEntity) {
-		dbManager.addOrUpdateSalaryEntity(salaryProcessEntity);
+	public void getApprovedSalary(List<SalaryProcessEntity> salaryProcessList, String flag) {
+		dbManager.getSalaryApproved(salaryProcessList, flag);
 	}
-	
+
 	public void updateAttandenceRegisterEntity(AttandenceRegisterEntity attandenceRegisterEntity) {
 		dbManager.updateAttandenceRegisterEntity(attandenceRegisterEntity);
 	}
-	
+
 	public List<SalaryProcessEntity> getSalaryApprovalList() {
 		return dbManager.getSalaryApprovalList();
 	}
 
+	public List<SalaryProcessEntity> getSalaryReturnList() {
+		return dbManager.getSalaryReturnList();
+	}
+
+	public void addSalaryEntity(SalaryProcessEntity salaryEntity) {
+		dbManager.addSalaryEntity(salaryEntity);
+	}
 }

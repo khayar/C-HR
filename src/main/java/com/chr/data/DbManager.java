@@ -16,6 +16,8 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 //import org.primefaces.context.RequestContext;
 
+import com.chr.entity.SalaryProcessEntity;
+
 public class DbManager {
 
 	private static final Logger logger = Logger.getLogger(DbManager.class);
@@ -88,11 +90,11 @@ public class DbManager {
 		}
 	}
 
-	public <T> void addOrUpdateSalaryEntity(T entity) {
+	public <T> void addSalaryEntity(T entity) {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		try {
 			session.beginTransaction();
-			session.saveOrUpdate(entity);
+			session.save(entity);
 			session.getTransaction().commit();
 
 		} catch (ConstraintViolationException ce) {
@@ -389,7 +391,8 @@ public class DbManager {
 		Transaction transcation = null;
 		List<T> entityList = null;
 		try {
-			Query query = session.createQuery("SELECT m FROM UserMenuPermission m where m.userPermissionKey.userID = '" + userId + "' order by sortId");
+			Query query = session.createQuery("SELECT m FROM UserMenuPermission m where m.userPermissionKey.userID = '"
+					+ userId + "' order by sortId");
 			entityList = query.list();
 
 		} catch (Exception e) {
@@ -404,13 +407,14 @@ public class DbManager {
 		}
 		return entityList;
 	}
-	
+
 	public <T> List<T> getSalaryApprovalList() {
 		Session session = HibernateUtil.buildSessionFactory().openSession();
 		Transaction transcation = null;
 		List<T> entityList = null;
 		try {
-			Query query = session.createQuery("SELECT m FROM SalaryProcessEntity m where m.currentState = 'Approval Required'");
+			Query query = session
+					.createQuery("SELECT m FROM SalaryProcessEntity m where m.currentState = 'Approval Required'");
 			entityList = query.list();
 		} catch (Exception e) {
 			logger.info("---------Exception comes in DbManager class getList()---------");
@@ -423,5 +427,71 @@ public class DbManager {
 			session.close();
 		}
 		return entityList;
+	}
+
+	public <T> List<T> getSalaryReturnList() {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = null;
+		List<T> entityList = null;
+		try {
+			Query query = session.createQuery("SELECT m FROM SalaryProcessEntity m where m.currentState = 'Returned'");
+			entityList = query.list();
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getSalaryReturnList()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return entityList;
+	}
+
+	public int getSalaryApproved(List<SalaryProcessEntity> salaryEntityList, String flag) {
+		Session session = HibernateUtil.buildSessionFactory().openSession();
+		Transaction transcation = session.beginTransaction();
+		int countUpdate = 0;
+		try {
+			FacesMessage msg=null;	
+			if (flag.equals("1")) {
+				for (SalaryProcessEntity salaryEntity : salaryEntityList) {
+					countUpdate = session
+							.createQuery("Update SalaryProcessEntity set CURRENT_STATE='Approved' where EMPLOYEE_CODE='"
+									+ salaryEntity.getEmployeeCode() + "' AND SALARY_PROCESS_DATE='"
+									+ salaryEntity.getSalaryProcessDate() + "'")
+							.executeUpdate();
+					transcation.commit();
+				}
+				 msg = new FacesMessage("Salary has been approved.");
+			}
+			else {
+				for (SalaryProcessEntity salaryEntity : salaryEntityList) {
+					countUpdate = session
+							.createQuery("Update SalaryProcessEntity set CURRENT_STATE='Returned' where EMPLOYEE_CODE='"
+									+ salaryEntity.getEmployeeCode() + "' AND SALARY_PROCESS_DATE='"
+									+ salaryEntity.getSalaryProcessDate() + "'")
+							.executeUpdate();
+					transcation.commit();
+				}
+				 msg = new FacesMessage("Salary has been returned to maker");
+		
+			}
+			
+			
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+
+		} catch (Exception e) {
+			logger.info("---------Exception comes in DbManager class getSalaryApproved()---------");
+			e.printStackTrace();
+			if (transcation != null) {
+				transcation.rollback();
+			}
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return countUpdate;
 	}
 }

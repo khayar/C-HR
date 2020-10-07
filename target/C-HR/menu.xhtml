@@ -1,25 +1,33 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</h:head>
 <h:body>
-	<h:form>
+	<h:form prependId="false">
 		<div>
 			<div class="topbar">
 				<span>Welcome #{util.getUserFullName()}</span>
 			</div>
-
 		</div>
 	</h:form>
 	<div>
-		<h:form>
+		<h:form prependId="false">
+			<p:growl id="menuMessage" showDetail="false"/>
+			<p:menu id="menuId" model="#{userMenuPermissionController.model}"  />
+			<!-- 
 			<h:commandLink action="index.xhtml" value="Home" styleClass="btn" />
 			<h:commandLink action="masterDatalist.xhtml" class="btn"
 				value=" Employee Master Data" />
 			<h:commandLink action="attandenceRegisterList.xhtml" class="btn" value="Attandence Register" />
 			<h:commandLink action="salaryProcess.xhtml" class="btn" value="Process Salary" />
-			<h:commandLink action="#" class="btn" value="Approve Salary" />
+			<h:commandLink action="systemHolidayList.xhtml" class="btn" value="System Holidays" />
+			<h:commandLink action="report.xhtml" class="btn" value="System Reports" />
 			<h:commandLink action="#{util.getLogout()}" class="btn" value="Logout" />
+	 		 -->
 		</h:form>
 	</div>
 </h:body>

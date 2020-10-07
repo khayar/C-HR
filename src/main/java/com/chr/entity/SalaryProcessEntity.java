@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "SALARY_PROCESS")
@@ -89,6 +91,7 @@ public class SalaryProcessEntity implements Serializable {
 	private String modeOftransfer;
 
 	@Column(name = "SALARY_PROCESS_DATE")
+	@Temporal(TemporalType.DATE)
 	private Date salaryProcessDate;
 
 	@Column(name = "SALARY_PROCESS_MONTH")

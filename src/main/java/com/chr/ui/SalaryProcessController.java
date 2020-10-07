@@ -78,15 +78,21 @@ public class SalaryProcessController implements Serializable {
 
 		return salaryProcessList;
 	}
+	
+	public List<SalaryProcessEntity> getSalaryReturnList() {
+		if (salaryProcessList == null)
+			salaryProcessList = masterDataBussiness.getSalaryReturnList();
 
+		return salaryProcessList;
+	}
+	
 	public void getSalaryApproved(List<SalaryProcessEntity> salaryList) {
-		for (int i = 0; i < salaryList.size(); i++) {
-			salaryList.get(i).setCurrentState("Approved");
-			masterDataBussiness.saveSalaryEntity(salaryList.get(i));
-		}
-
+		masterDataBussiness.getApprovedSalary(salaryList,"1");
 	}
 
+	public void getSalaryReturn(List<SalaryProcessEntity> salaryList) {
+		masterDataBussiness.getApprovedSalary(salaryList,"0");
+	}
 	public void processSalary(List<MasterDataEntity> masterList) {
 		logger.info("======================= Salary Processing Start =======================");
 
@@ -393,7 +399,7 @@ public class SalaryProcessController implements Serializable {
 		salaryEntity.setDifferenceInSalary(String.valueOf(diffInSalary));
 		salaryEntity.setAmountToBeCredit(String.valueOf(amoutCredit));
 
-		masterDataBussiness.saveSalaryEntity(salaryEntity);
+		masterDataBussiness.addSalaryEntity(salaryEntity);
 	}
 
 	public Date getSalaryMonth() {

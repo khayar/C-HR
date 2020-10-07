@@ -7,7 +7,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<title>Salary Approval</title>
+	<title>Return Salary</title>
 	<link href="/C-HR/resources/css/style.css" rel="stylesheet"
 		type="text/css" />
 </h:head>
@@ -19,18 +19,12 @@
 		<p:panel id="panel">
 			<p:messages id="msgs" />
 
-			<p:commandButton value="Approved"
+			<p:commandButton value="Send for Approval"
 				actionListener="#{salaryProcessController.getSalaryApproved(salaryProcessController.salaryProcessList)}"
 				update="form1"></p:commandButton>
-				
-			<p:commandButton value="Return"
-				actionListener="#{salaryProcessController.getSalaryReturn(salaryProcessController.salaryProcessList)}"
-				update="form1"></p:commandButton>
-			
-				
 		</p:panel>
 
-		<p:dataTable value="#{salaryProcessController.getSalaryProcessList()}"
+		<p:dataTable value="#{salaryProcessController.getSalaryReturnList()}"
 			var="p" paginator="false" rows="10" styleClass="tableCenter"
 			headerClass="order-table-header"
 			rowClasses="order-table-odd-row,order-table-even-row">

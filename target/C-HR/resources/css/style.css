@@ -6,8 +6,10 @@ body {
 	background: #FEFEFA;
 	font-family: 'titillium_webregular';
 }
-ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-shadow ui-input-overlay ui-datepicker-timeonly p-datepicker-panelall{
-	background-color:#D8D5D8!important;
+
+ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-shadow ui-input-overlay ui-datepicker-timeonly p-datepicker-panelall
+	{
+	background-color: #D8D5D8 !important;
 }
 
 .label {
@@ -19,27 +21,30 @@ ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-sh
 	max-width: 150px;
 	padding-right: 100px !important;
 }
-.ui-panelgrid{
-	border :solid 0px #d1d3d4 !important;	
+
+.ui-panelgrid {
+	border: solid 0px #d1d3d4 !important;
 }
-.ui-widget-header{
+
+.ui-widget-header {
 	color: #2f2222;
 }
 
 .noBorder, .noBorder table tr td {
-    border: none !important;
+	border: none !important;
 }
-.detailWidth{
+
+.detailWidth {
 	width: 100%;
 }
 
-.ui-panelgrid > tr td, .ui-panelgrid > tr{
-   border-style: none !important
- }
- 
-.ui-panelgrid tbody tr td{
- 	border-style: none !important
- }
+.ui-panelgrid>tr td, .ui-panelgrid>tr {
+	border-style: none !important
+}
+
+.ui-panelgrid tbody tr td {
+	border-style: none !important
+}
 
 .ui-datatable table {
 	border-collapse: collapse;
@@ -330,6 +335,17 @@ Calander CSS-->.ui-datepicker-calendar {
 .ui-datepicker {
 	width: 14em;
 }
+
 .ui-widget-content a {
 	color: #7bba55 !important;
+}
+
+.ui-panel .ui-panel-content {
+	overflow: inherit !important;
+}
+.ui-datatable tbody td {
+	white-space: normal !important;
+}
+.ui-datatable thead th {
+   white-space: normal !important;
 }
