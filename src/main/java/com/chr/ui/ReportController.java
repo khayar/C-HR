@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -61,20 +62,26 @@ public class ReportController implements Serializable {
 
 		LinkedHashMap<String, Object> fillParams = new LinkedHashMap<>();
 
-		//Date salaryMonth = SalaryProcessController.salaryMonth;
+		// Date salaryMonth = SalaryProcessController.salaryMonth;
 
 		LocalDate date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
-
-		String reportName = "";
+		Month month = date.getMonth();
+		int year = date.getYear();
+		String monthName = month.name();
 		
-		//String empCode = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
+		String reportName = "";
+
+		// String empCode =
+		// FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
 
 		fillParams.put("userName", JsfUtil.getUserName());
 		fillParams.put("SUBREPORT_DIR", realPath + "\\");
 		fillParams.put("imagePath", imagePath + "\\");
-
+		fillParams.put("month", monthName);
+		fillParams.put("year", year);
+		
 		switch (getReportId()) {
 		case "1":
 			setReportName("salaryProcess");
@@ -88,6 +95,18 @@ public class ReportController implements Serializable {
 			fillParams.put("fromDate", beginningOfMonth);
 			fillParams.put("toDate", endOfMonth);
 			format = 2;
+			break;
+		case "3":
+			setReportName("attandenceReport");
+			fillParams.put("empCode", empCode);
+			fillParams.put("fromDate", beginningOfMonth);
+			fillParams.put("toDate", endOfMonth);
+			format = 1;
+			break;
+		case "4":
+			setReportName("employeReport");
+			format = 1;
+			break;
 		}
 
 		generateReport(getReportName(), fillParams, realPath);

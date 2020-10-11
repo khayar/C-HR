@@ -5,12 +5,13 @@ $(document).ready(function() {
 });
 
 function checkReportParams() {
-	var reportId = PF('reportValues').value;
-	var empCode = document.getElementById("empCode");
+	var reportId = PF("reportValues").value;
+	var empCode = document.getElementById("empCode").value;
 	if (reportId == "2") {
-		if (empCode !== null && empCode.value !== null)
+		if (empCode == "") {
 			alert("Please select the Employee Code");
-		return false;
+			return false;
+		}
 	}
 	return true;
 }

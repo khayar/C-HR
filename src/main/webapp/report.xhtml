@@ -36,7 +36,7 @@
 				pattern="MM/yyyy" required="true" />
 
 			<p:outputLabel value="Employee Code" />
-			<p:inputText id="empCode" value="#{reportController.empCode}" />
+			<p:inputText id="empCode" value="#{reportController.empCode}" widgetVar="empCode"/>
 			
 			<p:outputLabel></p:outputLabel>
 			<p:outputLabel></p:outputLabel>
@@ -47,6 +47,8 @@
 				<f:selectItem itemLabel="Select One" itemValue="" />
 				<f:selectItem itemLabel="Salary Slip of Employee" itemValue="2" />
 				<f:selectItem itemLabel="Salary process slip" itemValue="1" />
+				<f:selectItem itemLabel="Attandence Report" itemValue="3" />
+				<f:selectItem itemLabel="Employee Report" itemValue="4" />
 			</p:selectOneMenu>
 			
 			
