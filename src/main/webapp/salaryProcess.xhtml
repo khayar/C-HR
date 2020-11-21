@@ -35,9 +35,11 @@
 
 
 		<p:dataTable value="#{salaryProcessController.getMasterDataList()}"
-			var="p" paginator="false" rows="10" styleClass="tableCenter"
+			var="p" paginator="true" rows="30" styleClass="tableCenter"
 			headerClass="order-table-header"
-			rowClasses="order-table-odd-row,order-table-even-row">
+			rowClasses="order-table-odd-row,order-table-even-row"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			paginatorPosition="bottom">
 
 			<f:facet name="header">
         		Salary Process

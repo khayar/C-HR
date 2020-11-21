@@ -30,10 +30,10 @@
 		<p:panel id="panel">
 		<p:messages id="msgs" />
 			
-			<p:outputLabel value="Salary Month" for="salaryMonth" />
+			<p:outputLabel value="Salary Month"  />
 			<p:datePicker id="salaryMonth"
 				value="#{reportController.salaryMonth}" view="month"
-				pattern="MM/yyyy" required="true" />
+				pattern="MM/yyyy"  widgetVar="sm" />
 
 			<p:outputLabel value="Employee Code" />
 			<p:inputText id="empCode" value="#{reportController.empCode}" widgetVar="empCode"/>

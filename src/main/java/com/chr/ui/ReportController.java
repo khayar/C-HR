@@ -61,20 +61,22 @@ public class ReportController implements Serializable {
 		String imagePath = theApplicationsServletContext.getRealPath("/resources/images/");
 
 		LinkedHashMap<String, Object> fillParams = new LinkedHashMap<>();
-
-		// Date salaryMonth = SalaryProcessController.salaryMonth;
-
-		LocalDate date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate beginningOfMonth = date.withDayOfMonth(1);
-		LocalDate endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
-		Month month = date.getMonth();
-		int year = date.getYear();
-		String monthName = month.name();
-		
 		String reportName = "";
-
-		// String empCode =
-		// FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("empCode");
+		LocalDate date = null;
+		LocalDate beginningOfMonth= null;
+		LocalDate endOfMonth = null;
+		Month month =null;
+		int year =0;
+		String monthName="";
+		
+		if (salaryMonth != null) {
+			date = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+			beginningOfMonth = date.withDayOfMonth(1);
+			endOfMonth = date.plusMonths(1).withDayOfMonth(1).minusDays(1);
+			month = date.getMonth();
+			year = date.getYear();
+			monthName = month.name();
+		}
 
 		fillParams.put("userName", JsfUtil.getUserName());
 		fillParams.put("SUBREPORT_DIR", realPath + "\\");

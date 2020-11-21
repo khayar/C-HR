@@ -54,6 +54,12 @@ public class AttandenceRegisterEntity implements Serializable {
 	@Column(name = "TOTAL_HOURS")
 	private String totalhours;
 
+	@Column(name = "TOTAL_HOURS_DISPLAY")
+	private String totalhoursDisplay;
+
+	@Column(name = "TOTAL_MINUTES")
+	private String totalMinutes;
+
 	@Column(name = "TOTAL_OT_HOURS")
 	private String totalOThours;
 
@@ -69,8 +75,8 @@ public class AttandenceRegisterEntity implements Serializable {
 
 	public AttandenceRegisterEntity(Integer attandenceRegisterId, String employeeCode, String employeeName,
 			Date attandenceDate, Date attandenceTimeIn, Date attandenceTimeOut, Date attandenceTimeInAnother,
-			Date attandenceTimeOutAnother, String totalhours, String totalOThours, String productionIncentiveHours,
-			Boolean isWeekend) {
+			Date attandenceTimeOutAnother, String totalhours, String totalhoursDisplay, String totalMinutes,
+			String totalOThours, String productionIncentiveHours, Boolean isWeekend) {
 		super();
 		this.attandenceRegisterId = attandenceRegisterId;
 		this.employeeCode = employeeCode;
@@ -81,9 +87,19 @@ public class AttandenceRegisterEntity implements Serializable {
 		this.attandenceTimeInAnother = attandenceTimeInAnother;
 		this.attandenceTimeOutAnother = attandenceTimeOutAnother;
 		this.totalhours = totalhours;
+		this.totalhoursDisplay = totalhoursDisplay;
+		this.totalMinutes = totalMinutes;
 		this.totalOThours = totalOThours;
 		this.productionIncentiveHours = productionIncentiveHours;
 		this.isWeekend = isWeekend;
+	}
+
+	public String getTotalMinutes() {
+		return totalMinutes;
+	}
+
+	public void setTotalMinutes(String totalMinutes) {
+		this.totalMinutes = totalMinutes;
 	}
 
 	public Integer getAttandenceRegisterId() {
@@ -180,6 +196,14 @@ public class AttandenceRegisterEntity implements Serializable {
 
 	public void setEmployeeCode(String employeeCode) {
 		this.employeeCode = employeeCode;
+	}
+
+	public String getTotalhoursDisplay() {
+		return totalhoursDisplay;
+	}
+
+	public void setTotalhoursDisplay(String totalhoursDisplay) {
+		this.totalhoursDisplay = totalhoursDisplay;
 	}
 
 	@Override
