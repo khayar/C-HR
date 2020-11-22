@@ -22,6 +22,7 @@ public class MasterDataController implements Serializable {
 	private List<MasterDataEntity> masterEntityList = null;
 	private MasterDataEntity selectedMasterEntity;
 	MasterDataBusiness masterDataBussiness = new MasterDataBusiness();
+	private List<MasterDataEntity> filteredRanges;
 
 	public MasterDataController() {
 		super();
@@ -32,6 +33,7 @@ public class MasterDataController implements Serializable {
 		// In @PostConstruct (will be invoked immediately after construction and
 		// dependency/property injection).
 		selectedMasterEntity = new MasterDataEntity();
+		setFilteredRanges(getList());
 	}
 
 	public List<MasterDataEntity> getList() {
@@ -61,4 +63,13 @@ public class MasterDataController implements Serializable {
 		this.selectedMasterEntity = selectedMasterEntity;
 	}
 
+	public List<MasterDataEntity> getFilteredRanges() {
+		return filteredRanges;
+	}
+
+	public void setFilteredRanges(List<MasterDataEntity> filteredRanges) {
+		this.filteredRanges = filteredRanges;
+	}
+	
+	
 }

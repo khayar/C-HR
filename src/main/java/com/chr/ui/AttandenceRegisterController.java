@@ -1,7 +1,9 @@
 package com.chr.ui;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -35,7 +37,7 @@ public class AttandenceRegisterController implements Serializable {
 	private List<AttandenceRegisterEntity> attandenceRegisterList = null;
 	private Boolean isRender = false;
 	private List<AttandenceRegisterEntity> filteredRanges;
-	
+	private static DecimalFormat df = new DecimalFormat("#.##");
 	
 	public AttandenceRegisterController() {
 		super();
@@ -158,6 +160,8 @@ public class AttandenceRegisterController implements Serializable {
 				long hours = TimeUnit.MILLISECONDS.toHours(sumUpHours);
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(sumUpHours);
 
+				totalHoursWorkedInHours = hours;
+				totalHoursWorkedInMinutes = minutes;
 				
 				totalHoursFormatted = String.format("%02d:%02d", hours, minutes%60);
 				
@@ -204,17 +208,22 @@ public class AttandenceRegisterController implements Serializable {
 	}
 
 	public void getProductionIncentiveCount(AttandenceRegisterEntity attandenceEntity) {
+
+
 		Integer standardHours = Integer.valueOf(JsfUtil.getResourceInstance("STANDARD_HOURS"));
 		Integer totalhours = Integer.valueOf(attandenceEntity.getTotalhours());
 		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes());
+		Integer totalMinutesDivideBy60 = totalMinutes%60;
 		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(attandenceEntity.getAttandenceDate());
         cal.add(Calendar.HOUR_OF_DAY,totalhours);
         cal.add(Calendar.MINUTE,totalMinutes%60);
-		
+		Double totalHoursInMilli = Double.valueOf(totalhours+"."+totalMinutesDivideBy60);
+        
+        
 		Object res = null;
-		Object phours = null;
+		Double phours = null;
 		Object otHours = null;
 
 		if (attandenceEntity.getTotalOThours().contains("."))
@@ -229,12 +238,14 @@ public class AttandenceRegisterController implements Serializable {
 		}
 
 		if (res instanceof Double) {
-			phours = Double.valueOf(res.toString()) - totalhours ;
+			phours = Double.valueOf(res.toString()) - totalHoursInMilli ;
 		} else {
-			phours = Integer.valueOf(res.toString()) - totalhours;
+			phours = Integer.valueOf(res.toString()) - totalHoursInMilli;
 		}
-		
-		attandenceEntity.setProductionIncentiveHours(String.valueOf(phours));
+		df.setRoundingMode(RoundingMode.DOWN);
+		String phoursInString = df.format(phours).replace("-","");
+	
+		attandenceEntity.setProductionIncentiveHours(phoursInString.trim());
 	}
 
 	public void isWeekendTrue(AttandenceRegisterEntity attandenceEntity) {

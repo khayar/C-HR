@@ -23,7 +23,7 @@
 		<p:commandButton value="NEW" action="masterDataDetail.xhtml"></p:commandButton>
 
 		<p:dataTable value="#{masterDataController.getList()}" var="p"
-			paginator="true" rows="10" styleClass="tableCenter"
+			paginator="true" rows="10" styleClass="tableCenter" filteredValue="#{masterDataController.filteredRanges}"
 			headerClass="order-table-header"
 			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 			rowClasses="order-table-odd-row,order-table-even-row"
