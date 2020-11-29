@@ -1,7 +1,6 @@
 package com.chr.ui;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -179,43 +178,31 @@ public class AttandenceRegisterController implements Serializable {
 	}
 
 	public void getTotalOTHoursCount(AttandenceRegisterEntity attandenceEntity) {
+		Integer standardHours = Integer.valueOf(JsfUtil.getResourceInstance("STANDARD_HOURS"));
+		Integer totalhours = Integer.valueOf(attandenceEntity.getTotalhours());
+		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes())%60;
 		
-		BigDecimal standardHours = new BigDecimal(JsfUtil.getResourceInstance("STANDARD_HOURS"));
-		BigDecimal totalhours =  new BigDecimal(attandenceEntity.getTotalhours());
-		
-		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes());
-		BigDecimal minutesFraction = new BigDecimal(totalMinutes);
-		
-		totalhours = totalhours.add(minutesFraction);
-		BigDecimal res = totalhours.subtract(standardHours);
-		res = res.divide(new BigDecimal(60));
-		
-//		if ((totalhours < standardHours) || (standardHours.equals(totalhours)) && totalMinutes == 0 ) {
-//			attandenceEntity.setTotalOThours("0");
-//			attandenceEntity.setProductionIncentiveHours("0");
-//
-//		}
-		
+		if ((totalhours < standardHours) || (standardHours.equals(totalhours)) && totalMinutes == 0 ) {
+			attandenceEntity.setTotalOThours("0");
+			attandenceEntity.setProductionIncentiveHours("0");
+
+		} else {
 			Date dateOfAttandence = attandenceEntity.getAttandenceDate();
 			LocalDate localDate = dateOfAttandence.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 			int dayOfMonth = localDate.getDayOfMonth();
 
-			BigDecimal otHours ;
+			String otHours = "";
 
 			if (dayOfMonth <= 10)
-				otHours = new BigDecimal(JsfUtil.getResourceInstance("LESS_THAN_TEN_MONTH_VALUE"));
+				otHours = JsfUtil.getResourceInstance("LESS_THAN_TEN_MONTH_VALUE");
 			else if (dayOfMonth <= 20)
-				otHours = new BigDecimal(JsfUtil.getResourceInstance("GREATER_THAN_TEN_MONTH_VALUE"));
+				otHours = JsfUtil.getResourceInstance("GREATER_THAN_TEN_MONTH_VALUE");
 			else
-				otHours = new BigDecimal(JsfUtil.getResourceInstance("GREATER_THAN_TWENTY_MONTH_VALUE"));
-			
-			if(res.compareTo(otHours) == 0){
-				
-			}
-			
-			//attandenceEntity.setTotalOThours(otHours);
+				otHours = JsfUtil.getResourceInstance("GREATER_THAN_TWENTY_MONTH_VALUE");
+
+			attandenceEntity.setTotalOThours(otHours);
 			getProductionIncentiveCount(attandenceEntity);
-		
+		}
 
 		isWeekendTrue(attandenceEntity);
 	}
@@ -227,18 +214,16 @@ public class AttandenceRegisterController implements Serializable {
 		Integer totalhours = Integer.valueOf(attandenceEntity.getTotalhours());
 		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes());
 		Integer totalMinutesDivideBy60 = totalMinutes%60;
-		String val = totalhours+"."+totalMinutesDivideBy60;
 		
-//		Calendar cal = Calendar.getInstance();
-//		cal.setTime(attandenceEntity.getAttandenceDate());
-//        cal.add(Calendar.HOUR_OF_DAY,totalhours);
-//        cal.add(Calendar.MINUTE,totalMinutes%60);
-
-        BigDecimal totalHoursInMilli = new BigDecimal(val);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(attandenceEntity.getAttandenceDate());
+        cal.add(Calendar.HOUR_OF_DAY,totalhours);
+        cal.add(Calendar.MINUTE,totalMinutes%60);
+		Double totalHoursInMilli = Double.valueOf(totalhours+"."+totalMinutesDivideBy60);
         
         
 		Object res = null;
-		BigDecimal phours = null;
+		Double phours = null;
 		Object otHours = null;
 
 		if (attandenceEntity.getTotalOThours().contains("."))
@@ -252,12 +237,12 @@ public class AttandenceRegisterController implements Serializable {
 			res = standardHours + Integer.valueOf(otHours.toString());
 		}
 
-		if (res instanceof BigDecimal) {
-			phours = new BigDecimal(res.toString()).subtract(totalHoursInMilli) ;
+		if (res instanceof Double) {
+			phours = Double.valueOf(res.toString()) - totalHoursInMilli ;
 		} else {
-			phours = new BigDecimal(res.toString()).subtract(totalHoursInMilli);
+			phours = Integer.valueOf(res.toString()) - totalHoursInMilli;
 		}
-//		df.setRoundingMode(RoundingMode.DOWN);
+		df.setRoundingMode(RoundingMode.DOWN);
 		String phoursInString = df.format(phours).replace("-","");
 	
 		attandenceEntity.setProductionIncentiveHours(phoursInString.trim());
