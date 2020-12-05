@@ -14,17 +14,18 @@
 		type="text/css" />-->
 </h:head>
 <h:body>
-	<p:menubar id="menuId" model="#{userMenuPermissionController.model}"  />
+	<p:menubar id="menuId" model="#{userMenuPermissionController.model}" />
 	<!-- <ui:include src="/menu.xhtml" /> -->
 	<br />
 	<br />
 
-	<h:form id="form1" prependId="false">
-		<p:commandButton value="Add another timeInOut">
+	<h:form id="form1">
+		<p:commandButton id="anotherBtn" value="Add another timeInOut">
 			<p:ajax listener="#{attandenceRegisterController.isSecondFormRender}"
 				update="panel"></p:ajax>
 		</p:commandButton>
-
+		<p:commandButton id="backBtn" value="Back" action="attandenceRegisterList.xhtml?faces-redirect=true" immediate="true"></p:commandButton>
+	
 		<p:panel id="panel" header="New Data">
 
 			<p:messages id="msgs" />
@@ -65,6 +66,11 @@
 						listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
 				</p:datePicker>
 
+				<p:outputLabel value="Is Next Day" />
+				<p:selectBooleanCheckbox id="isNextDay"
+					value="#{attandenceRegisterController.selectedEntity.isNextDay}" >
+					<p:ajax update="totalHours totalOTHours productionInHrs" listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
+				</p:selectBooleanCheckbox>
 
 				<p:outputLabel value="Time In 2"
 					rendered="#{attandenceRegisterController.isRender}" />
@@ -83,6 +89,13 @@
 						update="totalHours totalOTHours productionInHrs" process="@form"
 						listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
 				</p:datePicker>
+
+				<p:outputLabel value="Is Next Day" rendered="#{attandenceRegisterController.isRender}"/>
+				<p:selectBooleanCheckbox id="isNextDayAnother" rendered="#{attandenceRegisterController.isRender}"
+					value="#{attandenceRegisterController.selectedEntity.isNextDayAnother}" >
+					<p:ajax update="totalHours totalOTHours productionInHrs" listener="#{attandenceRegisterController.isNextDaySelection()}" />	
+				</p:selectBooleanCheckbox>
+
 
 
 				<p:outputLabel value="Total Hours" />
