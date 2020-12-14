@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -86,6 +87,12 @@ public class AttandenceRegisterController implements Serializable {
 		Date timeInAnother = attandenceEntity.getAttandenceTimeInAnother();
 		Date timeOutAnother = attandenceEntity.getAttandenceTimeOutAnother();
 
+		LocalTime timeInLocalDate = timeIn.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+		LocalTime timeOutLocalDate = timeOut.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+		
+		timeOutLocalDate.getHour();
+		timeOutLocalDate.getMinute();
+		
 		Long totalHoursWorkedInHours = 0L;
 		Long totalHoursWorkedInMinutes = 0L;
 		String totalHoursFormatted = "";
@@ -127,39 +134,42 @@ public class AttandenceRegisterController implements Serializable {
 					TimeUnit.MILLISECONDS.toMinutes(duration) % 60);
 
 			if (timeOutAnother != null && timeInAnother != null) {
-			
+
 				if (attandenceEntity.getIsNextDayAnother()) {
-					
+
 					StringBuilder stringBuilderTimeOut = new StringBuilder();
 					stringBuilderTimeOut.append(timeOutAnother.getHours());
 					stringBuilderTimeOut.append(".");
 					stringBuilderTimeOut.append(timeOutAnother.getMinutes());
 					timeOutAnotherAdded12 = new BigDecimal(stringBuilderTimeOut.toString());
-					
+
 					StringBuilder stringBuilderTimeIn = new StringBuilder();
 					stringBuilderTimeIn.append(timeInAnother.getHours());
 					stringBuilderTimeIn.append(".");
 					stringBuilderTimeIn.append(timeInAnother.getMinutes());
 					timeInAnotherAdded12 = new BigDecimal(stringBuilderTimeIn.toString());
-				
-					timeOutAnotherAdded12 = timeOutAnotherAdded12.add(new BigDecimal(24)); //add 12 hours
-					resultAnother = timeOutAnotherAdded12.subtract(timeInAdded12);
+
+					timeOutAnotherAdded12 = timeOutAnotherAdded12.add(new BigDecimal(24)); // add 24 hours
+					resultAnother = timeOutAnotherAdded12.subtract(timeInAnotherAdded12);
 					
-					//resultAnother = resultAnother.stripTrailingZeros();
-					BigDecimal totalHours = resultAnother;
-					totalHoursWorkedInHours = totalHours.longValue();
+					
+					String time1Diff = totalHoursFormatted.replace(":", ".");
+					BigDecimal time1DiffBD = new BigDecimal(time1Diff);
+					
+					BigDecimal totalHours = resultAnother.add(time1DiffBD);
+					totalHoursFormatted = totalHours.toString();
+	
+				} else {
+					long durationAnother = timeOutAnother.getTime() - timeInAnother.getTime();
+					long sumUpHours = duration + durationAnother;
+					long hours = TimeUnit.MILLISECONDS.toHours(sumUpHours);
+					long minutes = TimeUnit.MILLISECONDS.toMinutes(sumUpHours);
 
+					totalHoursWorkedInHours = hours;
+					totalHoursWorkedInMinutes = minutes;
+
+					totalHoursFormatted = String.format("%02d:%02d", hours, minutes % 60);
 				}
-
-				long durationAnother = timeOutAnother.getTime() - timeInAnother.getTime();
-				long sumUpHours = duration + durationAnother;
-				long hours = TimeUnit.MILLISECONDS.toHours(sumUpHours);
-				long minutes = TimeUnit.MILLISECONDS.toMinutes(sumUpHours);
-
-				totalHoursWorkedInHours = hours;
-				totalHoursWorkedInMinutes = minutes;
-
-				totalHoursFormatted = String.format("%02d:%02d", hours, minutes % 60);
 
 			}
 		}
@@ -175,7 +185,6 @@ public class AttandenceRegisterController implements Serializable {
 
 	public void getTotalOTHoursCount(AttandenceRegisterEntity attandenceEntity) {
 		BigDecimal standardHours = new BigDecimal(JsfUtil.getResourceInstance("STANDARD_HOURS"));
-		//BigDecimal totalhours = new BigDecimal(attandenceEntity.getTotalhours());
 		String totalHoursString = attandenceEntity.getTotalhoursDisplay().replace(":", ".");
 		BigDecimal totalhours = new BigDecimal(totalHoursString);
 		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes()) % 60;

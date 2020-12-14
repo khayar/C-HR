@@ -89,11 +89,10 @@
 						listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
 				</p:datePicker>
 
-				<p:outputLabel value="Is Next Day"/>
+				<p:outputLabel value="Is Next Day Another"/>
 				<p:selectBooleanCheckbox id="isNextDayAnother"
 					value="#{attandenceRegisterController.selectedEntity.isNextDayAnother}">
-					<p:ajax update="totalHours totalOTHours productionInHrs"
-						listener="#{attandenceRegisterController.isNextDaySelection()}" />
+					<p:ajax update="totalHours totalOTHours productionInHrs" listener="#{attandenceRegisterController.getTotalHoursCount(attandenceRegisterController.selectedEntity)}" />
 				</p:selectBooleanCheckbox>
 
 				<p:outputLabel value="Total Hours" />
