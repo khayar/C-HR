@@ -75,6 +75,10 @@ public class AttandenceRegisterEntity implements Serializable {
 	@Column(name = "IS_NEXT_DAY_ANOTHER")
 	private Boolean isNextDayAnother;
 
+	@Column(name = "IS_ABSENT")
+	private Boolean isAbsent;
+	
+	
 	public AttandenceRegisterEntity() {
 		super();
 	}
@@ -83,7 +87,7 @@ public class AttandenceRegisterEntity implements Serializable {
 			Date attandenceDate, Date attandenceTimeIn, Date attandenceTimeOut, Date attandenceTimeInAnother,
 			Date attandenceTimeOutAnother, String totalhours, String totalhoursDisplay, String totalMinutes,
 			String totalOThours, String productionIncentiveHours, Boolean isWeekend, Boolean isNextDay,
-			Boolean isNextDayAnother) {
+			Boolean isNextDayAnother, Boolean isAbsent) {
 		super();
 		this.attandenceRegisterId = attandenceRegisterId;
 		this.employeeCode = employeeCode;
@@ -101,6 +105,7 @@ public class AttandenceRegisterEntity implements Serializable {
 		this.isWeekend = isWeekend;
 		this.isNextDay = isNextDay;
 		this.isNextDayAnother = isNextDayAnother;
+		this.isAbsent = isAbsent;
 	}
 
 	public String getTotalMinutes() {
@@ -229,6 +234,14 @@ public class AttandenceRegisterEntity implements Serializable {
 
 	public void setIsNextDayAnother(Boolean isNextDayAnother) {
 		this.isNextDayAnother = isNextDayAnother;
+	}
+	
+	public Boolean getIsAbsent() {
+		return isAbsent;
+	}
+
+	public void setIsAbsent(Boolean isAbsent) {
+		this.isAbsent = isAbsent;
 	}
 
 	@Override

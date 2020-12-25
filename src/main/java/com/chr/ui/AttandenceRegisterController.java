@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
 
 import com.chr.business.MasterDataBusiness;
 import com.chr.entity.AttandenceRegisterEntity;
+import com.chr.entity.SystemHolidays;
 
 @ManagedBean(name = "attandenceRegisterController")
 @ViewScoped
@@ -80,7 +81,7 @@ public class AttandenceRegisterController implements Serializable {
 		selectedEntity.setEmployeeName(empName);
 	}
 
-	public void getTotalHoursCount(AttandenceRegisterEntity attandenceEntity) {
+	public void getTotalHoursCount(AttandenceRegisterEntity attandenceEntity) throws ParseException {
 		Date timeIn = attandenceEntity.getAttandenceTimeIn();
 		Date timeOut = attandenceEntity.getAttandenceTimeOut();
 
@@ -119,12 +120,29 @@ public class AttandenceRegisterController implements Serializable {
 			timeInAdded12 = new BigDecimal(stringBuilderTimeIn.toString());
 		
 			timeOutAdded12 = timeOutAdded12.add(new BigDecimal(24)); //add 24 hours
-			result = timeOutAdded12.subtract(timeInAdded12);
-			//result = result.stripTrailingZeros();
 			
-			BigDecimal totalHours = result;
-			totalHoursWorkedInHours = totalHours.longValue();
-			totalHoursFormatted = String.valueOf(totalHours);
+			
+			String s[] = timeOutAdded12.toPlainString().split("\\.");
+			String hour = s[0];
+			String minute = s[1];
+			
+			Date tempDateOut = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00"); 
+			Calendar calendar = GregorianCalendar.getInstance(); 
+			calendar.setTime(tempDateOut);    
+			calendar.set(Calendar.HOUR,Integer.valueOf(hour));
+			calendar.set(Calendar.MINUTE,Integer.valueOf(minute));
+			calendar.getTime();
+			
+			long duration = calendar.getTime().getTime() - timeIn.getTime();
+			totalHoursWorkedInHours = TimeUnit.MILLISECONDS.toHours(duration);
+			totalHoursWorkedInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+			totalHoursFormatted = String.format("%02d:%02d", totalHoursWorkedInHours,
+					TimeUnit.MILLISECONDS.toMinutes(duration) % 60);
+			
+		//  result = timeOutAdded12.subtract(timeInAdded12);
+		//  BigDecimal totalHours = result;
+		//	totalHoursWorkedInHours = totalHours.longValue();
+		//	totalHoursFormatted = String.valueOf(totalHours);
 
 		} else {
 			long duration = timeOut.getTime() - timeIn.getTime();
@@ -150,14 +168,37 @@ public class AttandenceRegisterController implements Serializable {
 					timeInAnotherAdded12 = new BigDecimal(stringBuilderTimeIn.toString());
 
 					timeOutAnotherAdded12 = timeOutAnotherAdded12.add(new BigDecimal(24)); // add 24 hours
-					resultAnother = timeOutAnotherAdded12.subtract(timeInAnotherAdded12);
+					
+					//resultAnother = timeOutAnotherAdded12.subtract(timeInAnotherAdded12);
+					
+					String s[] = timeOutAnotherAdded12.toPlainString().split("\\.");
+					String hour = s[0];
+					String minute = s[1];
+					
+					Date tempDateOut = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00"); 
+					Calendar calendar = GregorianCalendar.getInstance(); 
+					calendar.setTime(tempDateOut);    
+					calendar.set(Calendar.HOUR,Integer.valueOf(hour));
+					calendar.set(Calendar.MINUTE,Integer.valueOf(minute));
+					calendar.getTime();
+					
+					long durationAnother = calendar.getTime().getTime() - timeOutAnother.getTime();
+					totalHoursWorkedInHours = TimeUnit.MILLISECONDS.toHours(durationAnother);
+					totalHoursWorkedInMinutes = TimeUnit.MILLISECONDS.toMinutes(durationAnother);
+					totalHoursFormatted = String.format("%02d:%02d", totalHoursWorkedInHours,
+							TimeUnit.MILLISECONDS.toMinutes(durationAnother) % 60);
 					
 					
-					String time1Diff = totalHoursFormatted.replace(":", ".");
-					BigDecimal time1DiffBD = new BigDecimal(time1Diff);
+					long addTimes = durationAnother + duration;
+					totalHoursWorkedInHours = TimeUnit.MILLISECONDS.toHours(addTimes);
+					totalHoursWorkedInMinutes = TimeUnit.MILLISECONDS.toMinutes(addTimes);
+					totalHoursFormatted = String.format("%02d:%02d", totalHoursWorkedInHours,
+							TimeUnit.MILLISECONDS.toMinutes(addTimes) % 60);
 					
-					BigDecimal totalHours = resultAnother.add(time1DiffBD);
-					totalHoursFormatted = totalHours.toString();
+//					String time1Diff = totalHoursFormatted.replace(":", ".");
+//					BigDecimal time1DiffBD = new BigDecimal(time1Diff);
+//					BigDecimal totalHours = resultAnother.add(time1DiffBD);
+//					totalHoursFormatted = totalHours.toString();
 	
 				} else {
 					long durationAnother = timeOutAnother.getTime() - timeInAnother.getTime();
@@ -183,8 +224,11 @@ public class AttandenceRegisterController implements Serializable {
 		getTotalOTHoursCount(attandenceEntity);
 	}
 
-	public void getTotalOTHoursCount(AttandenceRegisterEntity attandenceEntity) {
+	public void getTotalOTHoursCount(AttandenceRegisterEntity attandenceEntity) throws ParseException {
 		BigDecimal standardHours = new BigDecimal(JsfUtil.getResourceInstance("STANDARD_HOURS"));
+		if(getHolidaysAndWeekend(attandenceEntity))
+				standardHours = new BigDecimal("0");
+		
 		String totalHoursString = attandenceEntity.getTotalhoursDisplay().replace(":", ".");
 		BigDecimal totalhours = new BigDecimal(totalHoursString);
 		Integer totalMinutes = Integer.valueOf(attandenceEntity.getTotalMinutes()) % 60;
@@ -198,9 +242,7 @@ public class AttandenceRegisterController implements Serializable {
 		if ((totalhours.compareTo(standardHours) == -1) || (standardHours.equals(totalhours)) && totalMinutes == 0) {
 			attandenceEntity.setTotalOThours("0");
 			attandenceEntity.setProductionIncentiveHours("0");
-
 		}
-
 		else {
 			Date dateOfAttandence = attandenceEntity.getAttandenceDate();
 			Calendar cal = Calendar.getInstance(); // locale-specific
@@ -236,7 +278,7 @@ public class AttandenceRegisterController implements Serializable {
 					productionIncentiveHours = result.subtract(new BigDecimal(range));
 					productionIncentiveHours = productionIncentiveHours.stripTrailingZeros();
 					attandenceEntity.setTotalOThours(String.valueOf(range));
-					attandenceEntity.setProductionIncentiveHours(String.valueOf(productionIncentiveHours));
+					attandenceEntity.setProductionIncentiveHours(productionIncentiveHours.toPlainString());
 
 				}
 			}
@@ -250,10 +292,38 @@ public class AttandenceRegisterController implements Serializable {
 					attandenceEntity.setTotalOThours(String.valueOf(result));
 					attandenceEntity.setProductionIncentiveHours(String.valueOf(productionIncentiveHours));
 				} else {
-					BigDecimal productionIncentiveHoursFraction = result.subtract(new BigDecimal("1.30"));
-					productionIncentiveHoursFraction = productionIncentiveHoursFraction.stripTrailingZeros();
+					String s[] = new BigDecimal("1.30").toPlainString().split("\\.");
+					String shour = s[0];
+					String sminute = s[1];
+					
+					String s1[] = result.toPlainString().split("\\.");
+					String reshour = s1[0];
+					String resminute = s1[1];
+					
+					Date stdHourTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00"); 
+					Date resultingTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse("1970-01-01 00:00:00");
+					
+					Calendar calendarStnd = GregorianCalendar.getInstance(); 
+					calendarStnd.setTime(stdHourTime);    
+					calendarStnd.set(Calendar.HOUR,Integer.valueOf(shour));
+					calendarStnd.set(Calendar.MINUTE,Integer.valueOf(sminute));
+					calendarStnd.getTime();
+					
+					Calendar calendarResultingTime = GregorianCalendar.getInstance(); 
+					calendarResultingTime.setTime(resultingTime);    
+					calendarResultingTime.set(Calendar.HOUR,Integer.valueOf(reshour));
+					calendarResultingTime.set(Calendar.MINUTE,Integer.valueOf(resminute));
+					calendarResultingTime.getTime();
+			
+					long durationAnother = calendarResultingTime.getTime().getTime() - calendarStnd.getTime().getTime();
+					long hour = TimeUnit.MILLISECONDS.toHours(durationAnother);
+					long minute = TimeUnit.MILLISECONDS.toMinutes(durationAnother);
+					String formatStr = String.format("%02d:%02d", hour,TimeUnit.MILLISECONDS.toMinutes(durationAnother) % 60);
+
+					//BigDecimal productionIncentiveHoursFraction = result.subtract(new BigDecimal("1.30"));
+					//productionIncentiveHoursFraction = productionIncentiveHoursFraction.stripTrailingZeros();
 					attandenceEntity.setTotalOThours("1.30");
-					attandenceEntity.setProductionIncentiveHours(String.valueOf(productionIncentiveHoursFraction));
+					attandenceEntity.setProductionIncentiveHours(formatStr);
 
 				}
 			}
@@ -313,7 +383,31 @@ public class AttandenceRegisterController implements Serializable {
 			attandenceEntity.setIsWeekend(false);
 
 	}
+	
+	public void isAbsentCheck(AttandenceRegisterEntity attandenceEntity)  {
+		attandenceEntity.setTotalhours("0");
+		attandenceEntity.setTotalOThours("0");
+		attandenceEntity.setTotalhoursDisplay("0");
+		attandenceEntity.setTotalMinutes("0");
+		attandenceEntity.setProductionIncentiveHours("0");
+		attandenceEntity.setIsWeekend(false);
+	}
 
+	public Boolean getHolidaysAndWeekend(AttandenceRegisterEntity attandenceEntity){
+		Boolean isHolidayWeekend= false;
+		Date dateOfAttandence = attandenceEntity.getAttandenceDate();
+		LocalDate date = dateOfAttandence.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate beginningOfMonth = date.withDayOfMonth(1);
+		LocalDate endOfMonth = beginningOfMonth;
+
+		List<SystemHolidays> systemHolidaysEntityList = masterDataBussiness.getTotalHolidaysOfMonth(date,date);
+		if(!systemHolidaysEntityList.isEmpty()){
+			isHolidayWeekend = true;
+		}
+		
+		return isHolidayWeekend;
+	}
+	
 	public void isSecondFormRender() {
 		setIsRender(true);
 		selectedEntity = new AttandenceRegisterEntity();
