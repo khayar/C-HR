@@ -99,9 +99,9 @@ public class SalaryProcessController implements Serializable {
 		processHolidaysOfMonth();
 
 		for (MasterDataEntity masterEntity : masterList) {
-
+			//Ot type variable then calculate OT hours and production incentives otherwise not
 			if (masterEntity.getOtType().equals("Variable")) {
-
+				
 				getCalculateVariableOTRate(masterEntity);
 				getTotalSumUpOTHoursWeekend(masterEntity);
 				getTotalSumUpOTHoursWeekDays(masterEntity);
@@ -115,8 +115,8 @@ public class SalaryProcessController implements Serializable {
 				getTotalSumUpOTHoursWeekend(masterEntity);
 				getTotalSumUpOTHoursWeekDays(masterEntity);
 				getTotalNoOfDaysWork(masterEntity);
-				getTotalNoOfProductionIncentiveHours(masterEntity);
-				persistSalary(masterEntity);
+				//getTotalNoOfProductionIncentiveHours(masterEntity);
+				persistSalaryForNonVariableOtType(masterEntity);
 
 			}
 
@@ -174,7 +174,7 @@ public class SalaryProcessController implements Serializable {
 	}
 
 	public void getCalculateVariableOTRate(MasterDataEntity masterEntity) {
-		logger.info("================ Step 1 : Calculate Variable OT Rate for Weekdays or Weekend================");
+		logger.info("================ Step 2 : Calculate Variable OT Rate for Weekdays or Weekend================");
 
 		getCountOfVariableWeekDays(masterEntity);
 		getCountOfVariableWeekend(masterEntity);
@@ -401,6 +401,63 @@ public class SalaryProcessController implements Serializable {
 
 		masterDataBussiness.addSalaryEntity(salaryEntity);
 	}
+	
+	
+	public void persistSalaryForNonVariableOtType(MasterDataEntity masterEntity) {
+		SalaryProcessEntity salaryEntity = new SalaryProcessEntity();
+		LocalDate Local = salaryMonth.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		BigDecimal diffInSalary= new BigDecimal("0");
+		BigDecimal amoutCredit=new BigDecimal("0");
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.getPrincipal();
+
+		salaryEntity.setEmployeeCode(masterEntity.getEmployeeCode());
+		salaryEntity.setNoOfDaysWork(masterEntity.salaryProcessEntity.getNoOfDaysWork());
+		salaryEntity.setTotalOTHours(masterEntity.salaryProcessEntity.getTotalOTHours());
+		salaryEntity.setProductionIncentives("0");
+		salaryEntity.setBasicSalary(masterEntity.getBasicSalary());
+		salaryEntity.setOverTimeWeekDays(masterEntity.salaryProcessEntity.getOverTimeWeekDays());
+		salaryEntity.setOverTimeWeekEnds(masterEntity.salaryProcessEntity.getOverTimeWeekEnds());
+		salaryEntity.setTotalFixedSalary(masterEntity.getTotalFixedSalary());
+		salaryEntity.setSalaryAsPerLabourContract(masterEntity.getSalaryAsPerLabourContract());
+		salaryEntity.setSalaryProcessDate(new Date());
+		salaryEntity.setSalaryProcessMonth(salaryMonth);
+		salaryEntity.setVariableOtRateWeekdays("0");
+		salaryEntity.setVariableOtRateWeekend("0");
+		salaryEntity.setCreatedBy(currentUser.getPrincipal().toString());
+		salaryEntity.setCreatedOn(new Date());
+		salaryEntity.setCurrentState("Approval Required");
+
+		BigDecimal totalSalary = new BigDecimal(masterEntity.getBasicSalary()).add(new BigDecimal(masterEntity.getAllowances()));
+		BigDecimal netSalary = new BigDecimal(masterEntity.getBasicSalary()).add(new BigDecimal(masterEntity.getAllowances()));
+		
+		if(!masterEntity.getLoan().equals(""))
+			netSalary = netSalary.subtract(new BigDecimal(masterEntity.getLoan()));
+		
+		if(!masterEntity.getSalaryAsPerLabourContract().equals("")) {
+			 diffInSalary = new BigDecimal(masterEntity.getSalaryAsPerLabourContract()).subtract(netSalary);
+			 
+			 if(netSalary.compareTo(new BigDecimal(masterEntity.getSalaryAsPerLabourContract())) > 0 ){
+				 amoutCredit = netSalary; 
+			 }
+			 else{
+				 amoutCredit = new BigDecimal(masterEntity.getSalaryAsPerLabourContract());
+			 }
+		}
+		else {
+			amoutCredit = netSalary;
+		}
+//		BigDecimal amoutCredit = netSalary > Double.valueOf(masterEntity.getSalaryAsPerLabourContract()) ? netSalary
+//				: Double.valueOf(masterEntity.getSalaryAsPerLabourContract());
+
+		salaryEntity.setTotalSalary(String.valueOf(totalSalary));
+		salaryEntity.setNetSalary(String.valueOf(netSalary));
+		salaryEntity.setDifferenceInSalary(String.valueOf(diffInSalary));
+		salaryEntity.setAmountToBeCredit(String.valueOf(amoutCredit));
+
+		masterDataBussiness.addSalaryEntity(salaryEntity);
+	}
+
 
 	public Date getSalaryMonth() {
 		return salaryMonth;

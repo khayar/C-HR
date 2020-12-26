@@ -331,6 +331,7 @@ public class AttandenceRegisterController implements Serializable {
 		}
 
 		isWeekendTrue(attandenceEntity);
+		calculateShortHours(attandenceEntity);
 	}
 
 	public void getProductionIncentiveCount(AttandenceRegisterEntity attandenceEntity) {
@@ -406,6 +407,18 @@ public class AttandenceRegisterController implements Serializable {
 		}
 		
 		return isHolidayWeekend;
+	}
+	
+	public void calculateShortHours(AttandenceRegisterEntity attandenceEntity){
+		String totalHours = attandenceEntity.getTotalhours();
+		String stHours = JsfUtil.getResourceInstance("STANDARD_HOURS");
+		
+		Integer res = Integer.valueOf(totalHours) - Integer.valueOf(stHours) ; 
+		if(res <= 0)
+			attandenceEntity.setShortHours("0");
+		else
+			attandenceEntity.setShortHours(String.valueOf(res));
+		
 	}
 	
 	public void isSecondFormRender() {

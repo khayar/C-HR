@@ -78,7 +78,9 @@ public class AttandenceRegisterEntity implements Serializable {
 	@Column(name = "IS_ABSENT")
 	private Boolean isAbsent;
 	
-	
+	@Column(name = "SHORT_HOURS")
+	private String shortHours;
+
 	public AttandenceRegisterEntity() {
 		super();
 	}
@@ -87,7 +89,7 @@ public class AttandenceRegisterEntity implements Serializable {
 			Date attandenceDate, Date attandenceTimeIn, Date attandenceTimeOut, Date attandenceTimeInAnother,
 			Date attandenceTimeOutAnother, String totalhours, String totalhoursDisplay, String totalMinutes,
 			String totalOThours, String productionIncentiveHours, Boolean isWeekend, Boolean isNextDay,
-			Boolean isNextDayAnother, Boolean isAbsent) {
+			Boolean isNextDayAnother, Boolean isAbsent, String shortHours) {
 		super();
 		this.attandenceRegisterId = attandenceRegisterId;
 		this.employeeCode = employeeCode;
@@ -106,7 +108,12 @@ public class AttandenceRegisterEntity implements Serializable {
 		this.isNextDay = isNextDay;
 		this.isNextDayAnother = isNextDayAnother;
 		this.isAbsent = isAbsent;
+		this.shortHours = shortHours;
 	}
+
+
+
+
 
 	public String getTotalMinutes() {
 		return totalMinutes;
@@ -242,6 +249,12 @@ public class AttandenceRegisterEntity implements Serializable {
 
 	public void setIsAbsent(Boolean isAbsent) {
 		this.isAbsent = isAbsent;
+	}
+	public String getShortHours() {
+		return shortHours;
+	}
+	public void setShortHours(String shortHours) {
+		this.shortHours = shortHours;
 	}
 
 	@Override
