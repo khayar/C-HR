@@ -400,12 +400,15 @@ public class AttandenceRegisterController implements Serializable {
 		LocalDate date = dateOfAttandence.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate beginningOfMonth = date.withDayOfMonth(1);
 		LocalDate endOfMonth = beginningOfMonth;
-
+		
+		isWeekendTrue(attandenceEntity);
 		List<SystemHolidays> systemHolidaysEntityList = masterDataBussiness.getTotalHolidaysOfMonth(date,date);
 		if(!systemHolidaysEntityList.isEmpty()){
 			isHolidayWeekend = true;
 		}
-		
+		else if(attandenceEntity.getIsWeekend()){
+			isHolidayWeekend = true;
+		}
 		return isHolidayWeekend;
 	}
 	
