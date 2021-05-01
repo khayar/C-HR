@@ -103,6 +103,8 @@ public class ReportController implements Serializable {
 			fillParams.put("empCode", empCode);
 			fillParams.put("fromDate", beginningOfMonth);
 			fillParams.put("toDate", endOfMonth);
+			fillParams.put("month", date.getMonth().toString());
+			fillParams.put("year", date.getYear());
 			format = 1;
 			break;
 		case "4":

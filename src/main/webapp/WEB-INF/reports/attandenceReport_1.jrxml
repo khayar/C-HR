@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="attandenceReport" pageWidth="2000" pageHeight="842" columnWidth="1960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="105021dd-dc76-401b-b0a4-3abc873261b4">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="fromDate" class="java.lang.String"/>
+	<parameter name="toDate" class="java.lang.String"/>
+	<parameter name="empCode" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select EMPLOYEE_NAME,ATTANDENCE_DATE,ATTANDENCE_TIME_IN,ATTANDENCE_TIME_OUT,ATTANDENCE_TIME_IN_ANOTHER,ATTANDENCE_TIME_OUT_ANOTHER,TOTAL_HOURS,TOTAL_OT_HOURS from ATTANDENCE_REGISTER  where ATTANDENCE_DATE between $P{fromDate} and $P{toDate} order by ATTANDENCE_DATE]]>
+	</queryString>
+	<field name="EMPLOYEE_NAME" class="java.lang.String"/>
+	<field name="ATTANDENCE_DATE" class="java.sql.Timestamp"/>
+	<field name="ATTANDENCE_TIME_IN" class="java.sql.Timestamp"/>
+	<field name="ATTANDENCE_TIME_OUT" class="java.sql.Timestamp"/>
+	<field name="ATTANDENCE_TIME_IN_ANOTHER" class="java.sql.Timestamp"/>
+	<field name="ATTANDENCE_TIME_OUT_ANOTHER" class="java.sql.Timestamp"/>
+	<field name="TOTAL_HOURS" class="java.lang.String"/>
+	<field name="TOTAL_OT_HOURS" class="java.lang.String"/>
+	<title>
+		<band height="50">
+			<textField>
+				<reportElement x="0" y="0" width="406" height="50" uuid="959bdc9b-2296-4bea-ba32-edf5afe1a15f"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Attandence Month " + $P{month} + "-" + $P{year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<summary>
+		<band height="114" splitType="Stretch">
+			<elementGroup>
+				<crosstab>
+					<reportElement x="0" y="0" width="2500" height="114" uuid="9508d97d-edb3-408e-a31d-251f8684da99"/>
+					<crosstabHeaderCell>
+						<cellContents>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="30" uuid="0976bdd0-7e3c-47ac-b618-7ffad22bf509"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Date]]></text>
+							</staticText>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="30" width="70" height="30" uuid="ed44f09d-87f3-475a-804c-c26949f8edf4"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Time In]]></text>
+							</staticText>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="60" width="70" height="30" uuid="70f9b553-00da-49fc-9872-fa85993fd43b"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Time Out]]></text>
+							</staticText>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="90" width="70" height="30" uuid="83dcd3ff-bed1-4fdf-9e1c-d540f6872425"/>
+								<box>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement>
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Hours]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabHeaderCell>
+					<rowGroup name="EMPLOYEE_NAME" width="70">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{EMPLOYEE_NAME}]]></bucketExpression>
+						</bucket>
+						<crosstabRowHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<box>
+									<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								</box>
+							</cellContents>
+						</crosstabRowHeader>
+						<crosstabTotalRowHeader>
+							<cellContents/>
+						</crosstabTotalRowHeader>
+					</rowGroup>
+					<columnGroup name="ATTANDENCE_DATE" height="30">
+						<bucket class="java.sql.Timestamp">
+							<bucketExpression><![CDATA[$F{ATTANDENCE_DATE}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<textField>
+									<reportElement style="Crosstab Data Text" x="0" y="0" width="67" height="30" uuid="e0a1669c-9904-4e9f-b84f-1d709859fbb5"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("dd-MM-yyyy").format($V{ATTANDENCE_DATE})]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="ATTANDENCE_TIME_IN" height="30">
+						<bucket class="java.sql.Timestamp">
+							<bucketExpression><![CDATA[$F{ATTANDENCE_TIME_IN}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<textField>
+									<reportElement style="Crosstab Data Text" x="0" y="0" width="67" height="30" uuid="33c0b295-dfd3-409b-be2e-108f97d49a2a"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("hh:mm:ss").format($V{ATTANDENCE_TIME_IN})]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="ATTANDENCE_TIME_OUT" height="30">
+						<bucket class="java.sql.Timestamp">
+							<bucketExpression><![CDATA[$F{ATTANDENCE_TIME_OUT}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<textField>
+									<reportElement style="Crosstab Data Text" x="0" y="0" width="67" height="30" uuid="ffd52dbd-e0db-4e8f-80d7-9bebf076b32c"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("hh:mm:ss").format($V{ATTANDENCE_TIME_OUT})]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="TOTAL_HOURS" height="30">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{TOTAL_HOURS}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents backcolor="#F0F8FF" mode="Opaque">
+								<textField>
+									<reportElement style="Crosstab Data Text" x="0" y="0" width="67" height="30" uuid="2bc61e23-b5bc-4bf7-997b-d0661fb916da"/>
+									<box>
+										<pen lineWidth="0.5"/>
+										<topPen lineWidth="0.5"/>
+										<leftPen lineWidth="0.5"/>
+										<bottomPen lineWidth="0.5"/>
+										<rightPen lineWidth="0.5"/>
+									</box>
+									<textFieldExpression><![CDATA[$V{TOTAL_HOURS}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<columnGroup name="group1" height="30">
+						<bucket class="java.lang.String">
+							<bucketExpression><![CDATA[$F{EMPLOYEE_NAME}]]></bucketExpression>
+						</bucket>
+						<crosstabColumnHeader>
+							<cellContents>
+								<textField>
+									<reportElement style="Crosstab Data Text" x="0" y="0" width="68" height="30" uuid="3ac4f0ca-fecf-4e44-a729-44552264db66"/>
+									<textFieldExpression><![CDATA[$V{group1}]]></textFieldExpression>
+								</textField>
+							</cellContents>
+						</crosstabColumnHeader>
+						<crosstabTotalColumnHeader>
+							<cellContents/>
+						</crosstabTotalColumnHeader>
+					</columnGroup>
+					<measure name="EMPLOYEE_NAMEMeasure" class="java.lang.String">
+						<measureExpression><![CDATA[$F{EMPLOYEE_NAME}]]></measureExpression>
+					</measure>
+					<crosstabCell width="68" height="25">
+						<cellContents>
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								<topPen lineWidth="0.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+								<rightPen lineWidth="0.0"/>
+							</box>
+						</cellContents>
+					</crosstabCell>
+				</crosstab>
+			</elementGroup>
+		</band>
+	</summary>
+</jasperReport>

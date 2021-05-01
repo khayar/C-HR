@@ -19,6 +19,8 @@
 	<br />
 	<br />
 	<h:form id="form1" prependId="false">
+		<p:commandButton id="backBtn" value="Back" action="masterDatalist.xhtml?faces-redirect=true" immediate="true"></p:commandButton>
+		
 		<p:panel id="panel" header="New Data">
 
 			<p:messages id="msgs" />
@@ -110,6 +112,7 @@
 				<p:selectOneMenu id="ottype"
 					value="#{masterDataController.selectedMasterEntity.otType}">
 					<f:selectItem itemLabel="Select One" itemValue="" />
+					<f:selectItem itemLabel="None" itemValue="None" />
 					<f:selectItem itemLabel="Fixed" itemValue="Fixed" />
 					<f:selectItem itemLabel="Variable" itemValue="Variable" />
 				</p:selectOneMenu>		
